@@ -1,0 +1,128 @@
+alchemy-widgets,
+alchemy-widgets-row,
+alchemy-widgets-column {
+	display: flex;
+
+	&.editing {
+		position: relative;
+		min-height: 3rem;
+	}
+}
+
+alchemy-widgets-row,
+alchemy-widgets-column {
+
+	&.editing {
+		&:hover {
+			background: rgba(60, 60, 60, 0.1);
+		}
+	}
+}
+
+alchemy-widgets,
+alchemy-widgets-column {
+	flex-flow: column;
+
+	&.editing {
+		padding-bottom: 5rem;
+	}
+
+	> alchemy-widget-add-area {
+		position: absolute;
+		bottom: 1.5rem;
+		left: 50%;
+		transform: translateX(-50%);
+	}
+}
+
+alchemy-widgets {
+	min-width: 10rem;
+	min-height: 10rem;
+
+	&.editing {
+		outline: 2px dashed rgba(0, 0, 0, 0.3);
+		outline-offset: -2px;
+	}
+}
+
+alchemy-widgets-row {
+	flex-flow: row;
+	flex: 1 1 auto;
+
+	&.editing {
+		padding-right: 5rem;
+	}
+
+	> alchemy-widget-add-area {
+		position: absolute;
+		right: 0.5rem;
+		top: 50%;
+		transform: translateY(-50%);
+	}
+}
+
+alchemy-widgets-row,
+alchemy-widgets > alchemy-widgets-column,
+alchemy-widgets-column > alchemy-widgets-column {
+	&.editing {
+
+		&::after {
+			content: "";
+			position: absolute;
+			height: 1px;
+			left: 15px;
+			right: 15px;
+			bottom: 0;
+			border-bottom: 2px dashed rgba(0, 0, 0, 0.3);
+
+			// Reset some things (in case of a nested column)
+			width: initial;
+			border-right: initial;
+			top: initial;
+		}
+	}
+}
+
+alchemy-widgets-column {
+	flex: 1 1 auto;
+}
+
+alchemy-widgets-column,
+alchemy-widgets-row > alchemy-widgets-row {
+	&.editing {
+		&::after {
+			content: "";
+			position: absolute;
+			width: 1px;
+			top: 10px;
+			bottom: 10px;
+			right: 0;
+			border-right: 2px dashed rgba(0, 0, 0, 0.3);
+
+			// Reset some things (in case of a nested row)
+			left: initial;
+			border-bottom: initial;
+			height: initial;
+		}
+	}
+}
+
+alchemy-widget-add-area {
+	display: flex;
+	justify-content: center;
+	align-items: center;
+
+	.widget-types {
+		display: none;
+	}
+
+	&.show-types {
+		.main-button {
+			display: none;
+		}
+
+		.widget-types {
+			display: initial;
+		}
+	}
+}
