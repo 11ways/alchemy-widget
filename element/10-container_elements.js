@@ -1,11 +1,18 @@
 /**
- * The alchemy-widgets element
+ * The alchemy-widgets element is the base "container" for all other widgets.
+ * It should never be nested, though
  *
  * @author   Jelle De Loecker   <jelle@elevenways.be>
  * @since    0.1.0
  * @version  0.1.0
  */
-let AlchemyWidgets = Function.inherits('Alchemy.Element.Widget.Base', 'AlchemyWidgets');
+let AlchemyWidgets = Function.inherits('Alchemy.Element.Widget', function AlchemyWidgets() {
+	AlchemyWidgets.super.call(this);
+
+	// Always create this dummy instance just in case?
+	this.instance = new Classes.Alchemy.Widget.Container();
+	this.instance.widget = this;
+});
 
 /**
  * Set the custom element prefix
@@ -15,6 +22,15 @@ let AlchemyWidgets = Function.inherits('Alchemy.Element.Widget.Base', 'AlchemyWi
  * @version  0.1.0
  */
 AlchemyWidgets.setStatic('custom_element_prefix', 'alchemy-widgets');
+
+/**
+ * Don't add the edit event listeners
+ *
+ * @author   Jelle De Loecker   <jelle@elevenways.be>
+ * @since    0.1.0
+ * @version  0.1.0
+ */
+AlchemyWidgets.setProperty('add_edit_event_listeners', false);
 
 /**
  * Get/set the value
@@ -47,7 +63,7 @@ AlchemyWidgets.setProperty(function value() {
 		result = widgets;
 	} else {
 		result = {
-			type   : this.widget.constructor.type_name,
+			type   : this.instance.constructor.type_name,
 			config : {
 				widgets : widgets
 			}
@@ -126,18 +142,22 @@ AlchemyWidgets.setMethod(function addWidget(type, config) {
 		throw new Error('Unable to find widget "' + type + '"');
 	}
 
-	let add_area = this.querySelector(':scope > alchemy-widget-add-area');
-
 	let widget = new constructor(config);
 
-	let element = widget.getWidgetElement();
+	let element = widget.widget;
 
-	if (add_area && element.enableEditor) {
-		element.enableEditor();
+	if (this.editing) {
+		element.startEditor();
 	}
 
 	if (config) {
 		element.value = config;
+	}
+
+	let add_area;
+
+	if (this.editing) {
+		add_area = this.querySelector(':scope > alchemy-widget-add-area');
 	}
 
 	if (add_area) {
@@ -148,19 +168,13 @@ AlchemyWidgets.setMethod(function addWidget(type, config) {
 });
 
 /**
- * Enable the editor
+ * Don't add any event listeners here
  *
  * @author   Jelle De Loecker   <jelle@elevenways.be>
  * @since    0.1.0
  * @version  0.1.0
  */
-AlchemyWidgets.setMethod(function enableEditor() {
-
-	let add_area = this.createElement('alchemy-widget-add-area');
-
-	this.classList.add('editing');
-	this.append(add_area);
-});
+AlchemyWidgets.setMethod(function initEventListeners() {});
 
 /**
  * The alchemy-widgets-column element

@@ -1,18 +1,24 @@
+@import "alchemy-widget-symbols.scss";
+
 alchemy-widgets,
 alchemy-widgets-row,
 alchemy-widgets-column {
 	display: flex;
 
-	&.editing {
+	&.aw-editing {
 		position: relative;
 		min-height: 3rem;
+	}
+
+	> * {
+		flex: 1 auto;
 	}
 }
 
 alchemy-widgets-row,
 alchemy-widgets-column {
 
-	&.editing {
+	&.aw-editing {
 		&:hover {
 			background: rgba(60, 60, 60, 0.1);
 		}
@@ -23,7 +29,7 @@ alchemy-widgets,
 alchemy-widgets-column {
 	flex-flow: column;
 
-	&.editing {
+	&.aw-editing {
 		padding-bottom: 5rem;
 	}
 
@@ -39,7 +45,7 @@ alchemy-widgets {
 	min-width: 10rem;
 	min-height: 10rem;
 
-	&.editing {
+	&.aw-editing {
 		outline: 2px dashed rgba(0, 0, 0, 0.3);
 		outline-offset: -2px;
 	}
@@ -49,7 +55,7 @@ alchemy-widgets-row {
 	flex-flow: row;
 	flex: 1 1 auto;
 
-	&.editing {
+	&.aw-editing {
 		padding-right: 5rem;
 	}
 
@@ -64,7 +70,7 @@ alchemy-widgets-row {
 alchemy-widgets-row,
 alchemy-widgets > alchemy-widgets-column,
 alchemy-widgets-column > alchemy-widgets-column {
-	&.editing {
+	&.aw-editing {
 
 		&::after {
 			content: "";
@@ -89,7 +95,7 @@ alchemy-widgets-column {
 
 alchemy-widgets-column,
 alchemy-widgets-row > alchemy-widgets-row {
-	&.editing {
+	&.aw-editing {
 		&::after {
 			content: "";
 			position: absolute;
@@ -124,5 +130,77 @@ alchemy-widget-add-area {
 		.widget-types {
 			display: initial;
 		}
+	}
+
+	.main-button {
+		display: flex;
+	}
+}
+
+.aw-toolbar-button,
+.widget-button {
+	color: #707684;
+	cursor: pointer;
+	border: none;
+	background: none;
+
+	display: flex;
+	align-content: center;
+	min-height: 26px;
+	min-width: 26px;
+	align-items: center;
+
+	&:hover {
+		color: #388ae5;
+	}
+}
+
+alchemy-widget {
+	display: block;
+
+	&.aw-editing {
+		min-height: 2rem;
+
+		&:hover {
+			background: rgba(60, 60, 120, 0.1);
+		}
+	}
+
+	&.aw-selected {
+		background-color: #7979f347;
+		outline: 1px dashed #7979f399;
+	}
+}
+
+alchemy-widget-context,
+alchemy-widget-toolbar {
+	display: block;
+	padding: 0.4rem;
+	background-color: white;
+	border-radius: 4px;
+	border: 1px solid #dadada;
+
+	&[hidden] {
+		display: none;
+	}
+}
+
+alchemy-widget-context {
+	position: fixed;
+
+	alchemy-widget-toolbar {
+		position: absolute;
+		top: calc(100% + 5px);
+		right: 0;
+	}
+}
+
+alchemy-widget-toolbar {
+	min-height: 2rem;
+	min-width: 2rem;
+	display: flex;
+
+	> * {
+		margin-right: 5px;
 	}
 }

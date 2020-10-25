@@ -10,7 +10,8 @@ let AddArea = Function.inherits('Alchemy.Element.Widget.Base', function AlchemyW
 
 	this.innerHTML = `
 <div class="main-button">
-	<button class="add-button">+</button>
+	<button class="add-button widget-button" title="Add"><i class="gg-math-plus"></i></button>
+	<button class="menu-button widget-button" title="Menu"><i class="gg-menu-grid-o"></i></button>
 </div>
 <div class="widget-types">
 	TYPES
@@ -30,6 +31,12 @@ AddArea.setMethod(function showTypes() {
 	let that = this,
 	    types_element = this.querySelector('.widget-types'),
 	    widgets = alchemy.getClassGroup('widgets');
+
+	let context_button = document.querySelector('alchemy-widget-context');
+
+	if (context_button && context_button.active_widget) {
+		context_button.unselectedWidget();
+	}
 
 	this.classList.add('show-types');
 

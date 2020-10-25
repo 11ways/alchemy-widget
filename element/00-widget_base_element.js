@@ -35,4 +35,4 @@ Base.setStatic('is_abstract_class', true, false);
  *
  * @type     {Alchemy.Widget.Widget}
  */
-Base.setAssignedProperty('widget');
+Base.setAssignedProperty('instance');
