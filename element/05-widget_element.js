@@ -42,7 +42,37 @@ Widget.setProperty('is_alchemy_widget', true);
  * @version  0.1.0
  */
 Widget.setProperty(function editing() {
-	return this.instance.editing;
+
+	if (this.instance) {
+		return this.instance.editing;
+	} else {
+		return false;
+	}
+});
+
+/**
+ * Get/set the value
+ *
+ * @author   Jelle De Loecker   <jelle@elevenways.be>
+ * @since    0.1.0
+ * @version  0.1.0
+ */
+Widget.setProperty(function value() {
+	return {
+		type     : this.type,
+		config   : this.instance.syncConfig(),
+	}
+});
+
+/**
+ * Sync the config
+ *
+ * @author   Jelle De Loecker   <jelle@elevenways.be>
+ * @since    0.1.0
+ * @version  0.1.0
+ */
+Widget.setMethod(function syncConfig() {
+	return this.config;
 });
 
 /**

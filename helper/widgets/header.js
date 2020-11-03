@@ -29,11 +29,84 @@ Header.constitute(function prepareSchema() {
 });
 
 /**
+ * Add header actions
+ *
+ * @author   Jelle De Loecker   <jelle@elevenways.be>
+ * @since    0.1.0
+ * @version  0.1.0
+ */
+Header.constitute(function addActions() {
+
+	let levels = [1, 2, 3, 4, 5, 6],
+	    query = 'h1, h2, h3, h4, h5, h6';
+
+	for (let level of levels) {
+		let level_action = this.createAction('make-level-' + level, 'Level ' + level);
+
+		level_action.setHandler(function setLevelAction(widget, toolbar) {
+
+			let content = widget.querySelector(query);
+
+			if (content) {
+				widget.instance.config.content = content.innerHTML;
+			}
+
+			widget.instance.config.level = level;
+			widget.instance.rerender();
+
+			// Rerender the toolbar
+			toolbar.showWidgetActions(widget);
+		});
+
+		level_action.setIcon({html: '<span class="aw-header-h">H</span><span class="aw-header-level">' + level + '</span>'});
+
+		level_action.setSelectedTester(function testSelected(widget) {
+
+			let content = widget.querySelector(query);
+
+			if (!content) {
+				return;
+			}
+
+			return content.tagName == 'H' + level;
+		});
+	}
+});
+
+/**
+ * Get the config of this widget
+ *
+ * @author   Jelle De Loecker   <jelle@elevenways.be>
+ * @since    0.1.0
+ * @version  0.1.0
+ *
+ * @return   {Object}
+ */
+Header.setMethod(function syncConfig() {
+
+	let header = this.widget.children[0],
+	    content = '',
+	    level = 1;
+
+	if (header) {
+		content = header.innerHTML;
+		level = parseInt(header.tagName[1]);
+	}
+
+	this.config.level = level;
+	this.config.content = content;
+
+	return this.config;
+});
+
+/**
  * Populate the widget
  *
  * @author   Jelle De Loecker   <jelle@elevenways.be>
  * @since    0.1.0
  * @version  0.1.0
+ *
+ * @param    {HTMLElement}   widget
  */
 Header.setMethod(function populateWidget(widget) {
 
@@ -42,7 +115,7 @@ Header.setMethod(function populateWidget(widget) {
 	let header = this.createElement('h' + level);
 	header.innerHTML = this.config.content || 'header level ' + level;
 
-	this.widget.append(header);
+	widget.append(header);
 });
 
 /**

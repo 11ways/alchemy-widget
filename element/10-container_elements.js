@@ -9,6 +9,8 @@
 let AlchemyWidgets = Function.inherits('Alchemy.Element.Widget', function AlchemyWidgets() {
 	AlchemyWidgets.super.call(this);
 
+	console.log('--» Alchemy Widgets Constructor «--', this.hawkejs_renderer, this.nodeName, this);
+
 	// Always create this dummy instance just in case?
 	this.instance = new Classes.Alchemy.Widget.Container();
 	this.instance.widget = this;
@@ -41,23 +43,8 @@ AlchemyWidgets.setProperty('add_edit_event_listeners', false);
  */
 AlchemyWidgets.setProperty(function value() {
 
-	let widgets = [],
-	    result,
-	    child,
-	    temp,
-	    i;
-
-	for (i = 0; i < this.children.length; i++) {
-		child = this.children[i];
-
-		if (child instanceof Classes.Alchemy.Element.Widget.Base) {
-			temp = child.value;
-
-			if (temp) {
-				widgets.push(temp);
-			}
-		}
-	}
+	let widgets = this.getWidgetsConfig(),
+	    result;
 
 	if (this.nodeName == 'ALCHEMY-WIDGETS') {
 		result = widgets;
@@ -94,10 +81,42 @@ AlchemyWidgets.setProperty(function value() {
 
 	let widget;
 
+	console.log('    -- Setting value', value, 'on', this, this.hawkejs_renderer);
+
 	for (widget of widgets) {
 		this.addWidget(widget.type, widget.config);
 	}
+});
 
+/**
+ * Get the widgets config
+ *
+ * @author   Jelle De Loecker   <jelle@elevenways.be>
+ * @since    0.1.0
+ * @version  0.1.0
+ *
+ * @return   {Array}
+ */
+AlchemyWidgets.setMethod(function getWidgetsConfig() {
+
+	let widgets = [],
+	    child,
+	    temp,
+	    i;
+
+	for (i = 0; i < this.children.length; i++) {
+		child = this.children[i];
+
+		if (child instanceof Classes.Alchemy.Element.Widget.Base) {
+			temp = child.value;
+
+			if (temp) {
+				widgets.push(temp);
+			}
+		}
+	}
+
+	return widgets;
 });
 
 /**
@@ -144,7 +163,11 @@ AlchemyWidgets.setMethod(function addWidget(type, config) {
 
 	let widget = new constructor(config);
 
+	widget.hawkejs_renderer = this.hawkejs_renderer;
+
 	let element = widget.widget;
+
+	console.log('Widget:', element)
 
 	if (this.editing) {
 		element.startEditor();

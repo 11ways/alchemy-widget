@@ -17,11 +17,8 @@ const Widget = Function.inherits('Alchemy.Base', 'Alchemy.Widget', function Widg
 	// Are we currently editing?
 	this.editing = false;
 
-	// The widget element will go here
-	this.widget = null;
-
-	// Create the actual widget element now
-	this._createPopulatedWidgetElement();
+	// Optional renderer
+	this.hawkejs_renderer = null;
 });
 
 /**
@@ -41,10 +38,29 @@ Widget.startNewGroup('widgets');
  * @since    0.1.0
  * @version  0.1.0
  *
- * @type   {Schema}
+ * @type     {Schema}
  */
 Widget.setProperty(function schema() {
 	return this.constructor.schema;
+});
+
+/**
+ * Get an array of toolbar actions
+ *
+ * @author   Jelle De Loecker   <jelle@elevenways.be>
+ * @since    0.1.0
+ * @version  0.1.0
+ *
+ * @type     {Schema}
+ */
+Widget.enforceProperty(function widget(new_value, old_value) {
+
+	if (!new_value) {
+		// Create the actual widget element now
+		new_value = this._createPopulatedWidgetElement();
+	}
+
+	return new_value;
 });
 
 /**
@@ -99,7 +115,14 @@ Widget.constitute(function prepareSchema() {
 	});
 
 	move_right.setTester(function moveRightTest(widget) {
-		return !!widget.nextElementSibling;
+
+		let next = widget.nextElementSibling;
+
+		if (!next || next.tagName == 'ALCHEMY-WIDGET-ADD-AREA') {
+			return false;
+		}
+
+		return true;
 	});
 
 	move_right.setIcon('gg-arrow-right');
@@ -143,6 +166,43 @@ Widget.setStatic(function createAction(name) {
 });
 
 /**
+ * unDry an object
+ *
+ * @author   Jelle De Loecker   <jelle@elevenways.be>
+ * @since    0.1.0
+ * @version  0.1.0
+ *
+ * @param    {Object}   obj
+ *
+ * @return   {Alchemy.Widget.Widget}
+ */
+Widget.setStatic(function unDry(obj, custom_method, whenDone) {
+	let widget = new this(obj.config);
+
+	whenDone(() => widget.widget = obj.element);
+
+	return widget;
+});
+
+/**
+ * Return an object for json-drying this widget
+ *
+ * @author   Jelle De Loecker   <jelle@elevenways.be>
+ * @since    0.1.0
+ * @version  0.1.0
+ *
+ * @return   {Object}
+ */
+Widget.setMethod(function toDry() {
+	return {
+		value: {
+			config    : this.config,
+			element   : this.widget,
+		}
+	};
+});
+
+/**
  * Get an array of toolbar actions
  *
  * @author   Jelle De Loecker   <jelle@elevenways.be>
@@ -178,7 +238,20 @@ Widget.setMethod(function getToolbarActions() {
  * @return   {HTMLElement}
  */
 Widget.setMethod(function createElement(tag_name) {
-	return Blast.Classes.Hawkejs.Hawkejs.createElement(tag_name);
+
+	console.log('  »» Creating', tag_name, 'from withing widget', this)
+
+	if (this.widget) {
+		// Use the widget to create an element,
+		// it might contain a hawkejs_renderer
+		return this.widget.createElement(tag_name);
+	}
+
+	if (this.hawkejs_renderer) {
+		return this.hawkejs_renderer.createElement(tag_name);
+	}
+
+	return Classes.Hawkejs.Hawkejs.createElement(tag_name);
 });
 
 /**
@@ -221,7 +294,7 @@ Widget.setMethod(function _createPopulatedWidgetElement() {
 
 	// See if it can be populated
 	if (typeof this.populateWidget == 'function') {
-		this.populateWidget();
+		this.populateWidget(element);
 	}
 
 	return element;
@@ -265,4 +338,35 @@ Widget.setMethod(function stopEditor() {
 	if (typeof this._stopEditor == 'function') {
 		this._stopEditor();
 	}
+});
+
+/**
+ * Rerender this widget
+ *
+ * @author   Jelle De Loecker   <jelle@elevenways.be>
+ * @since    0.1.0
+ * @version  0.1.0
+ */
+Widget.setMethod(function rerender() {
+
+	Hawkejs.removeChildren(this.widget);
+
+	this.populateWidget(this.widget);
+
+	if (this.editing) {
+		this.startEditor();
+	}
+});
+
+/**
+ * Get the config of this widget
+ *
+ * @author   Jelle De Loecker   <jelle@elevenways.be>
+ * @since    0.1.0
+ * @version  0.1.0
+ *
+ * @return   {Object}
+ */
+Widget.setMethod(function syncConfig() {
+	return this.config;
 });

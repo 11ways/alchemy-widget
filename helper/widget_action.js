@@ -23,6 +23,9 @@ const Action = Function.inherits('Alchemy.Base', 'Alchemy.Widget', function Acti
 	// The test function
 	this.tester = null;
 
+	// The function to test if this button is already active
+	this.selected_tester = null;
+
 	// The icon to use for this action
 	this.icon = null;
 
@@ -54,6 +57,19 @@ Action.setMethod(function setHandler(fnc) {
  */
 Action.setMethod(function setTester(fnc) {
 	this.tester = fnc;
+});
+
+/**
+ * Set the selected test function
+ *
+ * @author   Jelle De Loecker   <jelle@elevenways.be>
+ * @since    0.1.0
+ * @version  0.1.0
+ *
+ * @param    {Function}   fnc
+ */
+Action.setMethod(function setSelectedTester(fnc) {
+	this.selected_tester = fnc;
 });
 
 /**
@@ -99,6 +115,8 @@ Action.setMethod(function applyOnWidget(widget, toolbar) {
  * @version  0.1.0
  *
  * @param    {HTMLElement}   widget
+ *
+ * @return   {Boolean}
  */
 Action.setMethod(function test(widget) {
 
@@ -113,4 +131,55 @@ Action.setMethod(function test(widget) {
 	}
 
 	return result;
+});
+
+/**
+ * Get the icon HTML
+ *
+ * @author   Jelle De Loecker   <jelle@elevenways.be>
+ * @since    0.1.0
+ * @version  0.1.0
+ *
+ * @return   {String}
+ */
+Action.setMethod(function getButtonHTML() {
+
+	let html;
+
+	if (this.icon) {
+
+		let icon = this.icon;
+
+		if (typeof icon == 'string') {
+			html = '<i class="' + icon + '"></i>';
+		} else if (icon.html) {
+			html = icon.html;
+		}
+	}
+
+	if (!html) {
+		html = this.name;
+	}
+
+	return html;
+});
+
+/**
+ * Is this action already selected?
+ *
+ * @author   Jelle De Loecker   <jelle@elevenways.be>
+ * @since    0.1.0
+ * @version  0.1.0
+ *
+ * @param    {HTMLElement}   widget
+ *
+ * @return   {Boolean}
+ */
+Action.setMethod(function isAlreadySelected(widget) {
+
+	if (!this.selected_tester) {
+		return false;
+	}
+
+	return this.selected_tester(widget);
 });

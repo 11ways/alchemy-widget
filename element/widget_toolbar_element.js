@@ -37,10 +37,12 @@ Toolbar.setMethod(function showWidgetActions(widget) {
 		let button = this.createElement('button');
 		button.classList.add('aw-toolbar-button');
 
-		if (action.icon) {
-			button.innerHTML = '<i class="' + action.icon + '"></i>';
-		} else {
-			button.textContent = action.name;
+		button.innerHTML = action.getButtonHTML();
+
+		let is_selected = action.isAlreadySelected(widget);
+
+		if (is_selected) {
+			button.classList.add('aw-button-selected');
 		}
 
 		button.addEventListener('click', function onClick(e) {

@@ -69,7 +69,8 @@ alchemy-widgets-row {
 
 alchemy-widgets-row,
 alchemy-widgets > alchemy-widgets-column,
-alchemy-widgets-column > alchemy-widgets-column {
+alchemy-widgets-column > alchemy-widgets-column,
+.alchemy-widgets-container > alchemy-widgets-column {
 	&.aw-editing {
 
 		&::after {
@@ -94,7 +95,8 @@ alchemy-widgets-column {
 }
 
 alchemy-widgets-column,
-alchemy-widgets-row > alchemy-widgets-row {
+alchemy-widgets-row > alchemy-widgets-row,
+.alchemy-widgets-container > alchemy-widgets-row {
 	&.aw-editing {
 		&::after {
 			content: "";
@@ -202,5 +204,49 @@ alchemy-widget-toolbar {
 
 	> * {
 		margin-right: 5px;
+	}
+
+	.aw-toolbar-button {
+		border-radius: 4px;
+
+		&:hover {
+			color: rgb(112, 118, 132);
+			background-color: #f0f0f0;
+		}
+
+		&.aw-button-selected {
+			color: #388ae5;
+		}
+	}
+}
+
+alchemy-widget[type="header"] {
+
+	h1, h2, h3, h4, h5, h6 {
+		padding: 1em 0;
+		margin: 0;
+		line-height: 1.5em;
+		outline: none;
+	}
+
+	h1 {
+		font-size: 2em;
+	}
+
+	h2 {
+		font-size: 1.5em;
+	}
+}
+
+.aw-toolbar-button {
+
+	.aw-header-h {
+		font-weight: bold;
+		font-size: 1.2em;
+	}
+
+	.aw-header-level {
+		font-weight: bold;
+		height: 1.3em;
 	}
 }
