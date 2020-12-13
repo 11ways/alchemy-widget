@@ -98,6 +98,8 @@ Awc.setMethod(function toggleToolbar() {
  */
 Awc.setMethod(function introduced() {
 
+	introduced.super.call(this);
+
 	const that = this;
 
 	let button = this.querySelector('.menu-button');

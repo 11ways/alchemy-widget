@@ -74,6 +74,8 @@ AddArea.setMethod(function showTypes() {
  */
 AddArea.setMethod(function introduced() {
 
+	introduced.super.call(this);
+
 	const that = this;
 
 	let add_button = this.querySelector('.add-button');

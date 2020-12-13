@@ -29,6 +29,17 @@ Container.constitute(function prepareSchema() {
 });
 
 /**
+ * Initialize the container
+ *
+ * @author   Jelle De Loecker   <jelle@elevenways.be>
+ * @since    0.1.0
+ * @version  0.1.0
+ *
+ * @return   {HTMLElement}
+ */
+Container.setMethod(function initContainer() {});
+
+/**
  * Create an instance of the HTML element representing this widget
  *
  * @author   Jelle De Loecker   <jelle@elevenways.be>
@@ -42,6 +53,9 @@ Container.setMethod(function _createWidgetElement() {
 	let tag_name = 'alchemy-widgets-' + this.constructor.type_name;
 
 	let element = this.createElement(tag_name);
+
+	// Attach this instance
+	element.instance = this;
 
 	return element;
 });

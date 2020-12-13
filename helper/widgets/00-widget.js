@@ -19,6 +19,9 @@ const Widget = Function.inherits('Alchemy.Base', 'Alchemy.Widget', function Widg
 
 	// Optional renderer
 	this.hawkejs_renderer = null;
+
+	// The parent instance
+	this.parent_instance = null;
 });
 
 /**
@@ -45,26 +48,40 @@ Widget.setProperty(function schema() {
 });
 
 /**
- * Get an array of toolbar actions
+ * Get the actual widget
  *
  * @author   Jelle De Loecker   <jelle@elevenways.be>
  * @since    0.1.0
  * @version  0.1.0
  *
- * @type     {Schema}
+ * @type     {HTMLElement}
  */
 Widget.enforceProperty(function widget(new_value, old_value) {
 
 	if (!new_value) {
-		// Create the actual widget element now
-		new_value = this._createPopulatedWidgetElement();
+		console.log('»»» WARNING! widget is missing');
 	}
 
 	return new_value;
 });
 
 /**
- * Prepare the schema
+ * A reference to the element
+ *
+ * @author   Jelle De Loecker   <jelle@elevenways.be>
+ * @since    0.1.0
+ * @version  0.1.0
+ *
+ * @type     {HTMLElement}
+ */
+Widget.setProperty(function element() {
+	return this.widget;
+}, function setElement(element) {
+	return this.widget = element;
+});
+
+/**
+ * Prepare the schema & actions
  *
  * @author   Jelle De Loecker   <jelle@elevenways.be>
  * @since    0.1.0
@@ -83,8 +100,8 @@ Widget.constitute(function prepareSchema() {
 
 	remove.close_toolbar = true;
 
-	remove.setHandler(function removeAction(widget) {
-		widget.remove();
+	remove.setHandler(function removeAction(widget_el, handle) {
+		handle.remove();
 	});
 
 	remove.setIcon('gg-trash');
@@ -94,13 +111,13 @@ Widget.constitute(function prepareSchema() {
 
 	move_left.close_toolbar = true;
 
-	move_left.setHandler(function moveLeftAction(widget) {
+	move_left.setHandler(function moveLeftAction(widget_el, handle) {
 		// Hawkejs custom element method!
-		widget.moveBeforeElement(widget.previousElementSibling);
+		handle.moveBeforeElement(handle.previousElementSibling);
 	});
 
-	move_left.setTester(function moveLeftTest(widget) {
-		return !!widget.previousElementSibling;
+	move_left.setTester(function moveLeftTest(widget_el, handle) {
+		return !!handle.previousElementSibling;
 	});
 
 	move_left.setIcon('gg-arrow-left');
@@ -109,14 +126,14 @@ Widget.constitute(function prepareSchema() {
 
 	move_right.close_toolbar = true;
 
-	move_right.setHandler(function moveRightAction(widget) {
+	move_right.setHandler(function moveRightAction(widget_el, handle) {
 		// Hawkejs custom element method!
-		widget.moveAfterElement(widget.nextElementSibling);
+		handle.moveAfterElement(handle.nextElementSibling);
 	});
 
-	move_right.setTester(function moveRightTest(widget) {
+	move_right.setTester(function moveRightTest(widget_el, handle) {
 
-		let next = widget.nextElementSibling;
+		let next = handle.nextElementSibling;
 
 		if (!next || next.tagName == 'ALCHEMY-WIDGET-ADD-AREA') {
 			return false;
@@ -179,9 +196,53 @@ Widget.setStatic(function createAction(name) {
 Widget.setStatic(function unDry(obj, custom_method, whenDone) {
 	let widget = new this(obj.config);
 
-	whenDone(() => widget.widget = obj.element);
+	whenDone(() => {
+		widget.widget = obj.element;
+		widget.parent_instance = obj.parent;
+	});
 
 	return widget;
+});
+
+/**
+ * Create a child widget instance
+ *
+ * @author   Jelle De Loecker   <jelle@elevenways.be>
+ * @since    0.1.0
+ * @version  0.1.0
+ *
+ * @param    {String}   type     The typeof widget to create
+ * @param    {Object}   config   The optional config object
+ *
+ * @return   {Widget}
+ */
+Widget.setMethod(function createChildWidget(type, config) {
+
+	console.log('Getting widget of type:', type);
+
+	let WidgetClass = Widget.getMember(type);
+
+	console.log('... got:', WidgetClass);
+
+	if (!WidgetClass) {
+		throw new Error('Unable to find Widget of type "' + type + '"');
+	}
+
+	// Create the instance
+	let instance = new WidgetClass(config);
+
+	// Set the parent instance!
+	instance.parent_instance = this;
+
+	// Create the actual element
+	let el = instance._createWidgetElement();
+
+	console.log('»»', type, 'EL', el.instance.constructor.name, instance.constructor.name)
+
+	// And attach it
+	instance.element = el;
+
+	return instance;
 });
 
 /**
@@ -198,6 +259,7 @@ Widget.setMethod(function toDry() {
 		value: {
 			config    : this.config,
 			element   : this.widget,
+			parent    : this.parent_instance,
 		}
 	};
 });
@@ -239,19 +301,21 @@ Widget.setMethod(function getToolbarActions() {
  */
 Widget.setMethod(function createElement(tag_name) {
 
-	console.log('  »» Creating', tag_name, 'from withing widget', this)
+	let element;
 
 	if (this.widget) {
 		// Use the widget to create an element,
 		// it might contain a hawkejs_renderer
-		return this.widget.createElement(tag_name);
+		element = this.widget.createElement(tag_name);
+	} else if (this.hawkejs_renderer) {
+		element = this.hawkejs_renderer.createElement(tag_name);
+	} else if (this.parent_instance) {
+		return this.parent_instance.createElement(tag_name);
+	} else {
+		element = Classes.Hawkejs.Hawkejs.createElement(tag_name);
 	}
 
-	if (this.hawkejs_renderer) {
-		return this.hawkejs_renderer.createElement(tag_name);
-	}
-
-	return Classes.Hawkejs.Hawkejs.createElement(tag_name);
+	return element;
 });
 
 /**
@@ -268,7 +332,11 @@ Widget.setMethod(function _createWidgetElement() {
 
 	let element = this.createElement('alchemy-widget');
 
+	// Set the type of the widget to our type
 	element.type = this.constructor.type_name;
+
+	// Attach this instance
+	element.instance = this;
 
 	return element;
 });
@@ -283,6 +351,8 @@ Widget.setMethod(function _createWidgetElement() {
  * @return   {HTMLElement}
  */
 Widget.setMethod(function _createPopulatedWidgetElement() {
+
+	console.warn('»» _createPopulatedWidgetElement() is deprecated and dangerous! ««');
 
 	// Create the wrapper widget elemend
 	let element = this._createWidgetElement();
@@ -299,6 +369,15 @@ Widget.setMethod(function _createPopulatedWidgetElement() {
 
 	return element;
 });
+
+/**
+ * Dummy populate method
+ *
+ * @author   Jelle De Loecker   <jelle@elevenways.be>
+ * @since    0.1.0
+ * @version  0.1.0
+ */
+Widget.setMethod(function populateWidget() {});
 
 /**
  * Start the editor
@@ -335,6 +414,8 @@ Widget.setMethod(function stopEditor() {
 	// Remove the editing class
 	this.widget.classList.remove('aw-editing');
 
+	this.syncConfig();
+
 	if (typeof this._stopEditor == 'function') {
 		this._stopEditor();
 	}
@@ -351,7 +432,7 @@ Widget.setMethod(function rerender() {
 
 	Hawkejs.removeChildren(this.widget);
 
-	this.populateWidget(this.widget);
+	this.populateWidget();
 
 	if (this.editing) {
 		this.startEditor();
@@ -369,4 +450,25 @@ Widget.setMethod(function rerender() {
  */
 Widget.setMethod(function syncConfig() {
 	return this.config;
+});
+
+/**
+ * Get the handle element of this widget
+ * (which is the widget itself by default)
+ *
+ * @author   Jelle De Loecker   <jelle@elevenways.be>
+ * @since    0.1.0
+ * @version  0.1.0
+ *
+ * @return   {HTMLElement}
+ */
+Widget.setMethod(function getHandle() {
+
+	let element = this.widget;
+
+	if (element.parent_container && typeof element.parent_container.getWidgetHandle == 'function') {
+		element = element.parent_container.getWidgetHandle(element);
+	}
+
+	return element;
 });

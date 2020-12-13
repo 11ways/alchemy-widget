@@ -9,8 +9,6 @@
 let AlchemyWidgets = Function.inherits('Alchemy.Element.Widget', function AlchemyWidgets() {
 	AlchemyWidgets.super.call(this);
 
-	console.log('--» Alchemy Widgets Constructor «--', this.hawkejs_renderer, this.nodeName, this);
-
 	// Always create this dummy instance just in case?
 	this.instance = new Classes.Alchemy.Widget.Container();
 	this.instance.widget = this;
@@ -35,6 +33,22 @@ AlchemyWidgets.setStatic('custom_element_prefix', 'alchemy-widgets');
 AlchemyWidgets.setProperty('add_edit_event_listeners', false);
 
 /**
+ * Context variables
+ *
+ * @author   Jelle De Loecker   <jelle@elevenways.be>
+ * @since    0.1.0
+ * @version  0.1.0
+ */
+AlchemyWidgets.setAssignedProperty('context_variables', function getContextData(value) {
+
+	if (!value) {
+		value = {};
+	}
+
+	return value;
+});
+
+/**
  * Get/set the value
  *
  * @author   Jelle De Loecker   <jelle@elevenways.be>
@@ -47,7 +61,7 @@ AlchemyWidgets.setProperty(function value() {
 	    result;
 
 	if (this.nodeName == 'ALCHEMY-WIDGETS') {
-		result = widgets;
+		result = {widgets};
 	} else {
 		result = {
 			type   : this.instance.constructor.type_name,
@@ -61,19 +75,34 @@ AlchemyWidgets.setProperty(function value() {
 
 }, function setValue(value) {
 
-	let widgets;
+	let widgets,
+	    config;
 
 	this.clear();
 
 	if (Array.isArray(value)) {
 		widgets = value;
 	} else if (value) {
-		if (value.config && value.config.widgets) {
+		if (Array.isArray(value.widgets)) {
+			config = value;
+			widgets = value.widgets;
+		} else if (value.config && value.config.widgets) {
+			config = value.config;
 			widgets = value.config.widgets;
 		} else if (value.widgets) {
+			config = value;
 			widgets = value.widgets;
 		}
 	}
+
+	if (config) {
+		if (config.class_names) {
+			Hawkejs.addClasses(this, config.class_names);
+		}
+	}
+
+	this.instance.config = config;
+	this.instance.initContainer();
 
 	if (!widgets || !widgets.length) {
 		return;
@@ -155,27 +184,37 @@ AlchemyWidgets.setMethod(function clear() {
  */
 AlchemyWidgets.setMethod(function addWidget(type, config) {
 
-	let constructor = Blast.Classes.Alchemy.Widget.Widget.getMember(type);
+	// Create the instance of the widget
+	let instance = this.instance.createChildWidget(type, config);
 
-	if (!type) {
-		throw new Error('Unable to find widget "' + type + '"');
-	}
+	// Attach the renderer
+	instance.hawkejs_renderer = this.hawkejs_renderer;
 
-	let widget = new constructor(config);
+	// Get the actual widget HTML element
+	let element = instance.element;
 
-	widget.hawkejs_renderer = this.hawkejs_renderer;
+	// Make the element know what its parent container is
+	element.parent_container = this;
 
-	let element = widget.widget;
+	this._appendWidgetElement(element);
 
-	console.log('Widget:', element)
+	element.value = config;
 
 	if (this.editing) {
 		element.startEditor();
 	}
+});
 
-	if (config) {
-		element.value = config;
-	}
+/**
+ * Append a widget element
+ *
+ * @author   Jelle De Loecker   <jelle@elevenways.be>
+ * @since    0.1.0
+ * @version  0.1.0
+ *
+ * @param    {Element}   element
+ */
+AlchemyWidgets.setMethod(function _appendWidgetElement(element) {
 
 	let add_area;
 
@@ -188,6 +227,7 @@ AlchemyWidgets.setMethod(function addWidget(type, config) {
 	} else {
 		this.append(element);
 	}
+
 });
 
 /**

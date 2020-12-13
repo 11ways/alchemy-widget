@@ -108,14 +108,14 @@ Header.setMethod(function syncConfig() {
  *
  * @param    {HTMLElement}   widget
  */
-Header.setMethod(function populateWidget(widget) {
+Header.setMethod(function populateWidget() {
 
 	let level = this.config.level || 1;
 
 	let header = this.createElement('h' + level);
 	header.innerHTML = this.config.content || 'header level ' + level;
 
-	widget.append(header);
+	this.widget.append(header);
 });
 
 /**

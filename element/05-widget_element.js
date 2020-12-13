@@ -62,6 +62,45 @@ Widget.setProperty(function value() {
 		type     : this.type,
 		config   : this.instance.syncConfig(),
 	}
+}, function setValue(value) {
+
+	let config,
+	    type;
+
+	if (value) {
+		if (value.type) {
+			type = value.type;
+		}
+
+		if (value.config) {
+			config = value.config;
+		}
+	}
+
+	if (type) {
+		this.type = type;
+	}
+
+	if (!config && !type) {
+		config = value;
+	}
+
+	if (!config) {
+		config = {};
+	}
+
+	if (!this.instance && this.type) {
+		let WidgetClass = Classes.Alchemy.Widget.Widget.getMember(this.type);
+		this.instance = new WidgetClass();
+		this.instance.element = this;
+	}
+
+	if (!this.instance) {
+		throw new Error('Failed to set Widget value: type of widget is not defined');
+	}
+
+	this.instance.config = config;
+	this.instance.populateWidget();
 });
 
 /**
@@ -117,6 +156,11 @@ Widget.setMethod(function stopEditor() {
  * @version  0.1.0
  */
 Widget.setMethod(function onEditClick(e) {
+
+	// Widgets can be nested, propagation needs to be stopped
+	// or else only the top widget can be selected
+	e.stopPropagation();
+
 	this.selectWidget();
 });
 

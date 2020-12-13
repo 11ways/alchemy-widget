@@ -1,0 +1,5 @@
+<alchemy-widgets
+	#value={% value %}
+	class="alchemy-field-value"
+	editing
+></alchemy-widgets>

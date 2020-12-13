@@ -1,5 +1,5 @@
 /**
- * The Widget Text class
+ * The Markdown HTML class
  *
  * @constructor
  *
@@ -9,7 +9,7 @@
  *
  * @param    {Object}   data
  */
-const Text = Function.inherits('Alchemy.Widget', 'Text');
+const Markdown = Function.inherits('Alchemy.Widget', 'Markdown');
 
 /**
  * Prepare the schema
@@ -18,9 +18,9 @@ const Text = Function.inherits('Alchemy.Widget', 'Text');
  * @since    0.1.0
  * @version  0.1.0
  */
-Text.constitute(function prepareSchema() {
-	// The actual text contents
-	this.schema.addField('content', 'Text');
+Markdown.constitute(function prepareSchema() {
+	// The actual markdown contents
+	this.schema.addField('markdown', 'Text');
 });
 
 /**
@@ -32,12 +32,19 @@ Text.constitute(function prepareSchema() {
  *
  * @param    {HTMLElement}   widget
  */
-Text.setMethod(function populateWidget() {
+Markdown.setMethod(function populateWidget() {
 
-	let paragraph = this.createElement('p');
-	paragraph.textContent = this.config.content || '';
+	let source = this.config.markdown || '';
 
-	this.widget.append(paragraph);
+	if (!source) {
+		return;
+	}
+
+	let markdown = new Classes.Hawkejs.Markdown(source);
+
+	let html = markdown.start();
+
+	this.widget.innerHTML = html;
 });
 
 /**
@@ -47,13 +54,14 @@ Text.setMethod(function populateWidget() {
  * @since    0.1.0
  * @version  0.1.0
  */
-Text.setMethod(function _startEditor() {
+Markdown.setMethod(function _startEditor() {
 
-	let child = this.widget.children[0];
+	Hawkejs.removeChildren(this.widget);
 
-	if (child) {
-		child.setAttribute('contenteditable', true);
-	}
+	let area = this.createElement('textarea');
+	area.value = this.config.markdown || '';
+
+	this.widget.append(area);
 });
 
 /**
@@ -63,13 +71,11 @@ Text.setMethod(function _startEditor() {
  * @since    0.1.0
  * @version  0.1.0
  */
-Text.setMethod(function _stopEditor() {
+Markdown.setMethod(function _stopEditor() {
 
-	let child = this.widget.children[0];
+	Hawkejs.removeChildren(this.widget);
 
-	if (child) {
-		child.removeAttribute('contenteditable');
-	}
+	this.populateWidget();
 });
 
 /**
@@ -81,12 +87,12 @@ Text.setMethod(function _stopEditor() {
  *
  * @return   {Object}
  */
-Text.setMethod(function syncConfig() {
+Markdown.setMethod(function syncConfig() {
 
-	let child = this.widget.children[0];
+	let area = this.widget.querySelector('textarea');
 
-	if (child) {
-		this.config.content = child.textContent;
+	if (area) {
+		this.config.markdown = area.value;
 	}
 
 	return this.config;

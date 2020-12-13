@@ -100,7 +100,10 @@ Action.setMethod(function applyOnWidget(widget, toolbar) {
 		throw new Error('Failed to apply action "' + this.name + '" on widget, no handler found');
 	}
 
-	this.handler(widget, toolbar);
+	let instance = widget.instance,
+	    handle = instance.getHandle();
+
+	this.handler(widget, handle, toolbar);
 
 	if (this.close_toolbar) {
 		toolbar.close();
@@ -123,7 +126,7 @@ Action.setMethod(function test(widget) {
 	let result;
 
 	if (this.tester) {
-		result = this.tester(widget);
+		result = this.tester(widget, widget.instance.getHandle());
 	}
 
 	if (result == null) {
@@ -181,5 +184,5 @@ Action.setMethod(function isAlreadySelected(widget) {
 		return false;
 	}
 
-	return this.selected_tester(widget);
+	return this.selected_tester(widget, widget.instance.getHandle());
 });
