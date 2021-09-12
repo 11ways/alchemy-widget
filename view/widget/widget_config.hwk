@@ -7,7 +7,7 @@
 		#schema={% schema %}
 		class="main-form"
 	>
-		{% each schema as field %}
+		{% each fields as field %}
 			<alchemy-field
 				field-name={% field.name %}
 			></alchemy-field>

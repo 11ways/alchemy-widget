@@ -8,6 +8,24 @@
 const List = Function.inherits('Alchemy.Element.Widget.AlchemyWidgets', 'List');
 
 /**
+ * Get the list element
+ *
+ * @author   Jelle De Loecker   <jelle@elevenways.be>
+ * @since    0.1.0
+ * @version  0.1.0
+ *
+ * @param    {Element}   element
+ */
+List.enforceProperty(function list_element(new_value) {
+
+	if (!new_value) {
+		new_value = this.querySelector('ul');
+	}
+
+	return new_value;
+});
+
+/**
  * Append a widget element
  *
  * @author   Jelle De Loecker   <jelle@elevenways.be>
@@ -34,6 +52,5 @@ List.setMethod(function _appendWidgetElement(element) {
  * @param    {Element}   element
  */
 List.setMethod(function getWidgetHandle(element) {
-	console.log('Getting handle of', element);
 	return element.parentElement;
 });

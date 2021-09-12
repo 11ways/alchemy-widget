@@ -17,10 +17,16 @@ const WidgetField = Function.inherits('Alchemy.Field.Schema', function Widget(sc
 		options.type = 'text';
 	}
 
-	let WidgetClass = Classes.Alchemy.Widget.Widget.getMember(options.type),
-	    sub_schema = WidgetClass.schema.clone();
+	// A custom schema should NOT be passed to this class, this class uses
+	// a fixed schema that should not be altered.
+	// But because that's exactly what happens when cloning (like preparing
+	// the data to be sent to Hawkejs) we have to allow it anyway
+	if (!options.schema) {
+		let WidgetClass = Classes.Alchemy.Widget.Widget.getMember(options.type),
+		    sub_schema = WidgetClass.schema.clone();
 
-	options.schema = sub_schema;
+		options.schema = sub_schema;
+	}
 
 	Widget.super.call(this, schema, name, options);
 });

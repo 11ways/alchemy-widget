@@ -20,12 +20,11 @@ const List = Function.inherits('Alchemy.Widget.Container', 'List');
  */
 List.setMethod(function initContainer() {
 
-	console.log('Initing container', this);
-
 	let ul = this.createElement('ul');
 
 	Classes.Alchemy.Element.Widget.AlchemyWidgets.prototype._appendWidgetElement.call(this.widget, ul);
 
 	this.widget.list_element = ul;
 
+	initContainer.super.call(this);
 });

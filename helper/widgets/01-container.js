@@ -37,7 +37,9 @@ Container.constitute(function prepareSchema() {
  *
  * @return   {HTMLElement}
  */
-Container.setMethod(function initContainer() {});
+Container.setMethod(function initContainer() {
+	this.populateWidget();
+});
 
 /**
  * Create an instance of the HTML element representing this widget
@@ -116,6 +118,24 @@ Container.setMethod(function _stopEditor() {
 });
 
 /**
+ * Rerender this widget
+ *
+ * @author   Jelle De Loecker   <jelle@elevenways.be>
+ * @since    0.1.0
+ * @version  0.1.0
+ */
+Container.setMethod(function rerender() {
+
+	Hawkejs.removeChildren(this.widget);
+
+	this.initContainer();
+
+	if (this.editing) {
+		this.startEditor();
+	}
+});
+
+/**
  * Get the config of this widget
  *
  * @author   Jelle De Loecker   <jelle@elevenways.be>
@@ -126,9 +146,9 @@ Container.setMethod(function _stopEditor() {
  */
 Container.setMethod(function syncConfig() {
 
-	let config = this.widget.getWidgetsConfig();
+	let widgets = this.widget.getWidgetsConfig();
 
-	this.config = config;
+	this.config = Object.assign(this.config || {}, {widgets});
 
-	return config;
+	return this.config;
 });

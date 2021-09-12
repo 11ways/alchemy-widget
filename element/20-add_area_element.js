@@ -66,6 +66,31 @@ AddArea.setMethod(function showTypes() {
 });
 
 /**
+ * Show the toolbar
+ *
+ * @author   Jelle De Loecker   <jelle@elevenways.be>
+ * @since    0.1.0
+ * @version  0.1.0
+ */
+AddArea.setMethod(function showToolbar() {
+
+	if (!this.toolbar) {
+		this.toolbar = document.createElement('alchemy-widget-toolbar');
+		this.append(this.toolbar);
+	}
+
+	if (this.toolbar.context_element == this && !this.toolbar.hidden) {
+		this.toolbar.close();
+		return;
+	}
+
+	this.toolbar.hidden = false;
+	this.toolbar.context_element = this;
+	this.toolbar.showWidgetActions(this.parentElement);
+
+});
+
+/**
  * Enable the editor
  *
  * @author   Jelle De Loecker   <jelle@elevenways.be>
@@ -83,5 +108,12 @@ AddArea.setMethod(function introduced() {
 	add_button.addEventListener('click', function onClick(e) {
 		e.preventDefault();
 		that.showTypes();
+	});
+
+	let context_button = this.querySelector('.menu-button');
+
+	context_button.addEventListener('click', function onClick(e) {
+		e.preventDefault();
+		that.showToolbar();
 	});
 });

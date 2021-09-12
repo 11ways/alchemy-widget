@@ -34,6 +34,8 @@ Html.constitute(function prepareSchema() {
  */
 Html.setMethod(function populateWidget() {
 	this.widget.innerHTML = this.config.html;
+
+	populateWidget.super.call(this);
 });
 
 /**

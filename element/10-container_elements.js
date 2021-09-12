@@ -101,6 +101,10 @@ AlchemyWidgets.setProperty(function value() {
 		}
 	}
 
+	if (!this.instance) {
+		return;
+	}
+
 	this.instance.config = config;
 	this.instance.initContainer();
 
@@ -109,8 +113,6 @@ AlchemyWidgets.setProperty(function value() {
 	}
 
 	let widget;
-
-	console.log('    -- Setting value', value, 'on', this, this.hawkejs_renderer);
 
 	for (widget of widgets) {
 		this.addWidget(widget.type, widget.config);

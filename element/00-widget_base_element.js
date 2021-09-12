@@ -104,6 +104,19 @@ Base.setMethod(function getContextVariable(name) {
 });
 
 /**
+ * Rerender the contents
+ *
+ * @author   Jelle De Loecker   <jelle@elevenways.be>
+ * @since    0.1.0
+ * @version  0.1.0
+ */
+Base.setMethod(function rerender() {
+	if (this.instance) {
+		return this.instance.rerender();
+	}
+});
+
+/**
  * Added to the DOM for the first time
  *
  * @author   Jelle De Loecker   <jelle@elevenways.be>

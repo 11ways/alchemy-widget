@@ -1,5 +1,5 @@
 /**
- * The Markdown HTML class
+ * The Sourcecode Widget class
  *
  * @constructor
  *
@@ -9,7 +9,7 @@
  *
  * @param    {Object}   data
  */
-const Markdown = Function.inherits('Alchemy.Widget', 'Markdown');
+const Sourcecode = Function.inherits('Alchemy.Widget', 'Sourcecode');
 
 /**
  * Prepare the schema
@@ -18,10 +18,19 @@ const Markdown = Function.inherits('Alchemy.Widget', 'Markdown');
  * @since    0.1.0
  * @version  0.1.0
  */
-Markdown.constitute(function prepareSchema() {
-	// The actual markdown contents
-	this.schema.addField('markdown', 'Text');
+Sourcecode.constitute(function prepareSchema() {
+	// The actual sourcecode contents
+	this.schema.addField('sourcecode', 'Text');
 });
+
+/**
+ * The name of the source field
+ *
+ * @author   Jelle De Loecker   <jelle@elevenways.be>
+ * @since    0.1.0
+ * @version  0.1.0
+ */
+Sourcecode.setProperty('sourcecode_field', 'sourcecode');
 
 /**
  * Populate the widget
@@ -32,21 +41,23 @@ Markdown.constitute(function prepareSchema() {
  *
  * @param    {HTMLElement}   widget
  */
-Markdown.setMethod(function populateWidget() {
+Sourcecode.setMethod(function populateWidget() {
 
 	populateWidget.super.call(this);
 
-	let source = this.config.markdown || '';
+	let source = this.config[this.sourcecode_field] || '';
 
 	if (!source) {
 		return;
 	}
 
-	let markdown = new Classes.Hawkejs.Markdown(source);
+	let code = this.createElement('code'),
+	    pre = this.createElement('pre');
 
-	let html = markdown.start();
+	pre.append(code);
+	code.innerText = source;
 
-	this.widget.innerHTML = html;
+	this.widget.append(pre);
 });
 
 /**
@@ -56,13 +67,12 @@ Markdown.setMethod(function populateWidget() {
  * @since    0.1.0
  * @version  0.1.0
  */
-Markdown.setMethod(function _startEditor() {
+Sourcecode.setMethod(function _startEditor() {
 
 	Hawkejs.removeChildren(this.widget);
 
 	let input = this.createElement('alchemy-code-input');
-	input.textContent = this.config.markdown || '';
-	//area.value = this.config.markdown || '';
+	input.textContent = this.config[this.sourcecode_field] || '';
 
 	this.widget.append(input);
 });
@@ -74,7 +84,7 @@ Markdown.setMethod(function _startEditor() {
  * @since    0.1.0
  * @version  0.1.0
  */
-Markdown.setMethod(function _stopEditor() {
+Sourcecode.setMethod(function _stopEditor() {
 
 	Hawkejs.removeChildren(this.widget);
 
@@ -90,12 +100,12 @@ Markdown.setMethod(function _stopEditor() {
  *
  * @return   {Object}
  */
-Markdown.setMethod(function syncConfig() {
+Sourcecode.setMethod(function syncConfig() {
 
 	let input = this.widget.querySelector('alchemy-code-input, textarea');
 
 	if (input) {
-		this.config.markdown = input.value;
+		this.config[this.sourcecode_field] = input.value;
 	}
 
 	return this.config;

@@ -34,6 +34,8 @@ Text.constitute(function prepareSchema() {
  */
 Text.setMethod(function populateWidget() {
 
+	populateWidget.super.call(this);
+
 	let paragraph = this.createElement('p');
 	paragraph.textContent = this.config.content || '';
 
