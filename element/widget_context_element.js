@@ -131,4 +131,24 @@ Awc.setMethod(function introduced() {
 
 		return this.unselectedWidget();
 	});
+
+	let update_scroll = () => {
+		animation_request = null;
+		this.moveToWidget(this.active_widget);
+	}
+
+	let animation_request;
+
+	document.addEventListener('scroll', e => {
+
+		if (!this.active_widget) {
+			return;
+		}
+
+		if (animation_request != null) {
+			cancelAnimationFrame(animation_request);
+		}
+
+		animation_request = requestAnimationFrame(update_scroll);
+	}, {passive: true});
 });
