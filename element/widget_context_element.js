@@ -112,4 +112,23 @@ Awc.setMethod(function introduced() {
 
 		that.toggleToolbar();
 	});
+
+	document.addEventListener('click', e => {
+
+		if (!this.active_widget) {
+			return;
+		}
+
+		// Ignore clicks on the context element button itself!
+		if (e.target == this || this.contains(e.target)) {
+			return;
+		}
+
+		// Ignore clicks in the active widget
+		if (e.target == this.active_widget || this.active_widget.contains(e.target)) {
+			return;
+		}
+
+		return this.unselectedWidget();
+	});
 });
