@@ -1,7 +1,7 @@
 {
 	"name": "alchemy-widget",
 	"description": "The widget plugin for the AlchemyMVC",
-	"version": "0.1.1-alpha",
+	"version": "0.1.1",
 	"author": "Jelle De Loecker <jelle@elevenways.be>",
 	"keywords": [
 		"alchemy",
@@ -15,6 +15,6 @@
 	"repository": "11ways/alchemy-widget",
 	"license": "MIT",
 	"engines": {
-		"node" : ">=10.0.0"
+		"node" : ">=12.0.0"
 	}
 }
