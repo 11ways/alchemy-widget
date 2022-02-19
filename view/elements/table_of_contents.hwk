@@ -1,0 +1,9 @@
+<ol>
+	{% each self.entries as entry %}
+		<li>
+			<a href="#{% entry.id %}">
+				{{ entry.title }}
+			</a>
+		</li>
+	{% /each %}
+</ol>

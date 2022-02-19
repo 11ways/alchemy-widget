@@ -408,7 +408,7 @@ Widget.setMethod(function _createPopulatedWidgetElement() {
  *
  * @author   Jelle De Loecker   <jelle@elevenways.be>
  * @since    0.1.0
- * @version  0.1.0
+ * @version  0.1.2
  */
 Widget.setMethod(function populateWidget() {
 
@@ -416,8 +416,10 @@ Widget.setMethod(function populateWidget() {
 		let name,
 		    i;
 
-		for (i = 0; i < this.config.wrapper_class_names.length; i++) {
-			name = this.config.wrapper_class_names[i];
+		let class_names = Array.cast(this.config.wrapper_class_names);
+
+		for (i = 0; i < class_names.length; i++) {
+			name = class_names[i];
 			this.widget.classList.add(name);
 		}
 	}
