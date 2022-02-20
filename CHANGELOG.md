@@ -1,4 +1,4 @@
-## 0.1.2 (WIP)
+## 0.1.2 (2022-02-20)
 
 * Add `table-of-contents` element and widget
 
