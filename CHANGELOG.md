@@ -1,4 +1,4 @@
-## 0.1.3 (WIP)
+## 0.1.3 (2022-03-21)
 
 * Catch and print errors when appending a widget to a container
 
