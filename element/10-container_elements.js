@@ -179,15 +179,26 @@ AlchemyWidgets.setMethod(function clear() {
  *
  * @author   Jelle De Loecker   <jelle@elevenways.be>
  * @since    0.1.0
- * @version  0.1.0
+ * @version  0.1.3
  *
  * @param    {String}   type
  * @param    {Object}   config
  */
 AlchemyWidgets.setMethod(function addWidget(type, config) {
 
+	let instance;
+
 	// Create the instance of the widget
-	let instance = this.instance.createChildWidget(type, config);
+	try {
+		instance = this.instance.createChildWidget(type, config);
+	} catch (err) {
+		config = {
+			original_config : config,
+			html            : '<pre>' + err.message + '\n' + err.stack + '</pre>',
+		};
+
+		instance = this.instance.createChildWidget('html', config);
+	}
 
 	// Attach the renderer
 	instance.hawkejs_renderer = this.hawkejs_renderer;

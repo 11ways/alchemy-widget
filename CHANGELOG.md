@@ -1,3 +1,7 @@
+## 0.1.3 (WIP)
+
+* Catch and print errors when appending a widget to a container
+
 ## 0.1.2 (2022-02-20)
 
 * Add `table-of-contents` element and widget
