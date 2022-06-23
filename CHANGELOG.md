@@ -1,4 +1,4 @@
-## 0.1.4 (WIP)
+## 0.1.4 (2022-06-23)
 
 * Use `he-context-menu` element to show widgets to add
 * Add widget actions to move across container boundaries
