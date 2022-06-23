@@ -11,7 +11,7 @@ alchemy-widgets-column {
 	}
 
 	> * {
-		flex: 1;
+		flex: 10;
 	}
 }
 
@@ -53,7 +53,7 @@ alchemy-widgets {
 
 alchemy-widgets-row {
 	flex-flow: row;
-	flex: 1 1 auto;
+	flex: 10 10 auto;
 
 	&.aw-editing {
 		padding-right: 5rem;
@@ -91,7 +91,7 @@ alchemy-widgets-column > alchemy-widgets-column,
 }
 
 alchemy-widgets-column {
-	flex: 1 1 auto;
+	flex: 10 10 auto;
 }
 
 alchemy-widgets-column,
@@ -149,7 +149,6 @@ alchemy-widget-add-area {
 	display: flex;
 	align-content: center;
 	min-height: 26px;
-	min-width: 26px;
 	align-items: center;
 
 	&:hover {

@@ -26,11 +26,9 @@ let AddArea = Function.inherits('Alchemy.Element.Widget.Base', function AlchemyW
  * @since    0.1.0
  * @version  0.1.0
  */
-AddArea.setMethod(function showTypes() {
+AddArea.setMethod(function showTypes(event) {
 
-	let that = this,
-	    types_element = this.querySelector('.widget-types'),
-	    widgets = alchemy.getClassGroup('widgets');
+	let that = this;
 
 	let context_button = document.querySelector('alchemy-widget-context');
 
@@ -38,31 +36,25 @@ AddArea.setMethod(function showTypes() {
 		context_button.unselectedWidget();
 	}
 
-	this.classList.add('show-types');
+	let context = this.createElement('he-context-menu');
 
-	Hawkejs.removeChildren(types_element);
+	let widgets = Object.values(alchemy.getClassGroup('widgets')).sortByPath(1, 'title');
 
-	for (let key in widgets) {
+	for (let widget of widgets) {
 
-		if (key == 'container') {
+		if (widget.type_name == 'container') {
 			continue;
 		}
 
-		let widget = widgets[key];
-
-		let button = this.createElement('button');
-		button.setAttribute('data-type', key);
-		button.textContent = widget.title;
-
-		button.addEventListener('click', function onClick(e) {
-			e.preventDefault();
-			that.classList.remove('show-types');
-
-			that.parentElement.addWidget(key);
+		context.addEntry({
+			title : widget.title,
+			icon  : null,
+		}, e => {
+			that.parentElement.addWidget(widget.type_name);
 		});
-
-		types_element.append(button);
 	}
+
+	context.show(event);
 });
 
 /**
@@ -107,7 +99,7 @@ AddArea.setMethod(function introduced() {
 
 	add_button.addEventListener('click', function onClick(e) {
 		e.preventDefault();
-		that.showTypes();
+		that.showTypes(e);
 	});
 
 	let context_button = this.querySelector('.menu-button');
