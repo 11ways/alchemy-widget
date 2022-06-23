@@ -33,6 +33,15 @@ AlchemyWidgets.setStatic('custom_element_prefix', 'alchemy-widgets');
 AlchemyWidgets.setProperty('add_edit_event_listeners', false);
 
 /**
+ * Indicate this is a container
+ *
+ * @author   Jelle De Loecker   <jelle@elevenways.be>
+ * @since    0.1.4
+ * @version  0.1.4
+ */
+AlchemyWidgets.setProperty('is_container', true);
+
+/**
  * Context variables
  *
  * @author   Jelle De Loecker   <jelle@elevenways.be>
@@ -205,9 +214,6 @@ AlchemyWidgets.setMethod(function addWidget(type, config) {
 
 	// Get the actual widget HTML element
 	let element = instance.element;
-
-	// Make the element know what its parent container is
-	element.parent_container = this;
 
 	this._appendWidgetElement(element);
 

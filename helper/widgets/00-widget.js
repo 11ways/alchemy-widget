@@ -107,12 +107,16 @@ Widget.constitute(function prepareSchema() {
 
 	// Extra classnames for the wrapper
 	this.schema.addField('wrapper_class_names', 'String', {
+		title       : 'Wrapper CSS classes',
+		description : 'Configure extra CSS classes to the wrapper `alchemy-widget` element', 
 		array: true,
 		widget_config_editable: true,
 	});
 
 	// Classnames for the inserted element (if any)
 	this.schema.addField('main_class_names', 'String', {
+		title       : 'Main CSS classes',
+		description : 'Configure extra CSS classes for the main inserted element', 
 		array: true,
 	});
 
@@ -179,6 +183,47 @@ Widget.constitute(function prepareSchema() {
 
 	move_right.setIcon('gg-arrow-right');
 
+	// The move-in-left action
+	let move_in_left = this.createAction('move-in-left', 'Move in left');
+
+	move_in_left.close_toolbar = true;
+
+	move_in_left.setHandler(function moveLeftAction(widget_el, handle) {
+		// Hawkejs custom element method!
+		let container = handle.previous_container;
+
+		if (container) {
+			container.append(handle);
+		}
+	});
+
+	move_in_left.setTester(function moveLeftTest(widget_el, handle) {
+		return !!handle.previous_container;
+	});
+
+	move_in_left.setIcon('gg-arrow-left');
+
+	// The move-in-right action
+	let move_in_right = this.createAction('move-in-right', 'Move in right');
+
+	move_in_right.close_toolbar = true;
+
+	move_in_right.setHandler(function moveRightAction(widget_el, handle) {
+		// Hawkejs custom element method!
+		let container = handle.next_container;
+
+		if (container) {
+			container.prepend(handle);
+		}
+	});
+
+	move_in_right.setTester(function moveRightTest(widget_el, handle) {
+		console.log('Right test of:', handle)
+		return !!handle.next_container;
+	});
+
+	move_in_right.setIcon('gg-arrow-right');
+
 	let css_class = this.createAction('css-class', 'CSS Class');
 
 	css_class.setHandler(function setCssClass(widget_el, handle) {
@@ -212,11 +257,11 @@ Widget.setStatic(function createSchema() {
  *
  * @author   Jelle De Loecker   <jelle@elevenways.be>
  * @since    0.1.0
- * @version  0.1.0
+ * @version  0.1.4
  */
-Widget.setStatic(function createAction(name) {
+Widget.setStatic(function createAction(name, title) {
 
-	let action = new Classes.Alchemy.Widget.Action(name);
+	let action = new Classes.Alchemy.Widget.Action(name, title || name.titleize());
 
 	this.actions.set(name, action);
 

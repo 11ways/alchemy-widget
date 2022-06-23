@@ -38,6 +38,7 @@ Toolbar.setMethod(function showWidgetActions(widget) {
 		button.classList.add('aw-toolbar-button');
 
 		button.innerHTML = action.getButtonHTML();
+		button.setAttribute('title', action.title);
 
 		let is_selected = action.isAlreadySelected(widget);
 

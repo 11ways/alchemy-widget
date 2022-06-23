@@ -42,9 +42,89 @@ Base.setAssignedProperty('instance');
  *
  * @author   Jelle De Loecker <jelle@elevenways.be>
  * @since    0.1.0
- * @version  0.1.0
+ * @version  0.1.4
  */
-Base.setProperty('parent_container');
+Base.setProperty(function parent_container() {
+
+	let container,
+	    current = this.parentElement;
+	
+	while (current) {
+		if (current.is_container) {
+			container = current;
+			break;
+		}
+
+		current = current.parentElement;
+	}
+
+	return container;
+});
+
+/**
+ * The next container across container boundaries
+ *
+ * @author   Jelle De Loecker <jelle@elevenways.be>
+ * @since    0.1.4
+ * @version  0.1.4
+ */
+Base.setProperty(function next_container() {
+	return this.getSiblingContainer('next');
+});
+
+/**
+ * The previous container across container boundaries
+ *
+ * @author   Jelle De Loecker <jelle@elevenways.be>
+ * @since    0.1.4
+ * @version  0.1.4
+ */
+Base.setProperty(function previous_container() {
+	return this.getSiblingContainer('previous');
+});
+
+/**
+ * Get a sibling container
+ *
+ * @author   Jelle De Loecker   <jelle@elevenways.be>
+ * @since    0.1.4
+ * @version  0.1.4
+ */
+Base.setMethod(function getSiblingContainer(type) {
+	let property;
+
+	if (type == 'next') {
+		property = 'nextElementSibling';
+	} else if (type == 'previous') {
+		property = 'previousElementSibling';
+	} else {
+		return false;
+	}
+
+	if (!this[property] && !this.parent_container) {
+		return;
+	}
+
+	let next = this[property];
+
+	if (next) {
+		if (next.is_container) {
+			return next;
+		}
+
+		if (next.tagName != 'ALCHEMY-WIDGET-ADD-AREA') {
+			return false;
+		}
+	}
+
+	next = this.parent_container[property];
+
+	if (next && next.is_container) {
+		return next;
+	}
+
+	return false;
+});
 
 /**
  * Look for a context variable
