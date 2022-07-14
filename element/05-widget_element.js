@@ -35,6 +35,24 @@ Widget.setAttribute('type');
 Widget.setProperty('is_alchemy_widget', true);
 
 /**
+ * The database record to work with
+ *
+ * @author   Jelle De Loecker   <jelle@elevenways.be>
+ * @since    0.1.5
+ * @version  0.1.5
+ */
+Widget.setAssignedProperty('record');
+
+/**
+ * The fieldname in the record to work with
+ *
+ * @author   Jelle De Loecker   <jelle@elevenways.be>
+ * @since    0.1.5
+ * @version  0.1.5
+ */
+Widget.setAssignedProperty('field');
+
+/**
  * Is this widget being edited?
  *
  * @author   Jelle De Loecker   <jelle@elevenways.be>
@@ -55,7 +73,7 @@ Widget.setProperty(function editing() {
  *
  * @author   Jelle De Loecker   <jelle@elevenways.be>
  * @since    0.1.0
- * @version  0.1.0
+ * @version  0.1.5
  */
 Widget.setProperty(function value() {
 	return {
@@ -63,6 +81,45 @@ Widget.setProperty(function value() {
 		config   : this.instance.syncConfig(),
 	}
 }, function setValue(value) {
+	this.applyValue(value);
+});
+
+/**
+ * Received a new record
+ *
+ * @author   Jelle De Loecker   <jelle@elevenways.be>
+ * @since    0.1.5
+ * @version  0.1.5
+ */
+Widget.setMethod(function onRecordAssignment(new_record, old_val) {
+	if (new_record && this.field) {
+		let value = new_record[this.field];
+		this.applyValue(value);
+	}
+});
+
+/**
+ * Received a new field name
+ *
+ * @author   Jelle De Loecker   <jelle@elevenways.be>
+ * @since    0.1.5
+ * @version  0.1.5
+ */
+Widget.setMethod(function onFieldAssignment(new_field, old_val) {
+	if (new_field && this.record) {
+		let value = this.record[new_field];
+		this.applyValue(value);
+	}
+});
+
+/**
+ * Apply the given value
+ *
+ * @author   Jelle De Loecker   <jelle@elevenways.be>
+ * @since    0.1.5
+ * @version  0.1.5
+ */
+Widget.setMethod(function applyValue(value) {
 
 	let config,
 	    type;

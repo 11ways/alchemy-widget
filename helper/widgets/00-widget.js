@@ -95,7 +95,7 @@ Widget.enforceProperty(function hawkejs_renderer(new_value) {
  *
  * @author   Jelle De Loecker   <jelle@elevenways.be>
  * @since    0.1.0
- * @version  0.1.0
+ * @version  0.1.5
  */
 Widget.constitute(function prepareSchema() {
 
@@ -118,6 +118,17 @@ Widget.constitute(function prepareSchema() {
 		title       : 'Main CSS classes',
 		description : 'Configure extra CSS classes for the main inserted element', 
 		array: true,
+	});
+
+	// Add the "save" action
+	let save = this.createAction('save', 'Save');
+
+	save.setHandler(function removeAction(widget_el, handle) {
+		return widget_el.save();
+	});
+
+	save.setTester(function saveAction(widget_el, handle) {
+		return widget_el.can_be_saved;
 	});
 
 	// Add the remove action

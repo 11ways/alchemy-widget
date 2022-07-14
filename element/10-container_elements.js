@@ -83,6 +83,17 @@ AlchemyWidgets.setProperty(function value() {
 	return result;
 
 }, function setValue(value) {
+	this.applyValue(value);
+});
+
+/**
+ * Apply the given value
+ *
+ * @author   Jelle De Loecker   <jelle@elevenways.be>
+ * @since    0.1.5
+ * @version  0.1.5
+ */
+AlchemyWidgets.setMethod(function applyValue(value) {
 
 	let widgets,
 	    config;

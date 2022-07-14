@@ -84,6 +84,37 @@ Base.setProperty(function previous_container() {
 });
 
 /**
+ * Is this the root element?
+ *
+ * @author   Jelle De Loecker <jelle@elevenways.be>
+ * @since    0.1.5
+ * @version  0.1.5
+ */
+Base.setProperty(function is_root_widget() {
+	return !this.parent_container;
+});
+
+/**
+ * Can this widget be saved?
+ *
+ * @author   Jelle De Loecker <jelle@elevenways.be>
+ * @since    0.1.5
+ * @version  0.1.5
+ */
+Base.setProperty(function can_be_saved() {
+
+	if (!this.is_root_widget) {
+		return false;
+	}
+
+	if (!this.record || !this.field) {
+		return false;
+	}
+
+	return true;
+});
+
+/**
  * Get a sibling container
  *
  * @author   Jelle De Loecker   <jelle@elevenways.be>
@@ -208,5 +239,57 @@ Base.setMethod(function introduced() {
 	if (this.hasAttribute('editing')) {
 		this.startEditor();
 	}
+});
 
+/**
+ * Get the configuration used to save data
+ *
+ * @author   Jelle De Loecker   <jelle@elevenways.be>
+ * @since    0.1.5
+ * @version  0.1.5
+ */
+Base.setMethod(function gatherSaveData() {
+
+	if (!this.is_root_widget) {
+		return;
+	}
+
+	if (!this.record || !this.field) {
+		return;
+	}
+
+	let result = {
+		model : this.record.$model_name,
+		pk    : this.record.$pk,
+		field : this.field,
+		value : this.value,
+		field_languages : this.record.$hold.translated_fields,
+	};
+
+	return result;
+});
+
+/**
+ * Save the current configuration
+ *
+ * @author   Jelle De Loecker   <jelle@elevenways.be>
+ * @since    0.1.5
+ * @version  0.1.5
+ */
+Base.setMethod(async function save() {
+
+	let data = this.gatherSaveData();
+	
+	if (!data) {
+		return;
+	}
+
+	let config = {
+		href : alchemy.routeUrl('AlchemyWidgets#save'),
+		post : {
+			widgets: [data]
+		}
+	};
+
+	let result = await alchemy.fetch(config);
 });
