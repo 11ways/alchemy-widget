@@ -1,4 +1,4 @@
-## 0.1.5 (WIP)
+## 0.1.5 (2022-07-14)
 
 * Unselect widgets when stopping the editor
 * Add front-end save ability to widgets
