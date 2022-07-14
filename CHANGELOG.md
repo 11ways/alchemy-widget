@@ -1,3 +1,8 @@
+## 0.1.5 (WIP)
+
+* Unselect widgets when stopping the editor
+
+
 ## 0.1.4 (2022-06-23)
 
 * Use `he-context-menu` element to show widgets to add

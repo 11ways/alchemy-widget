@@ -136,7 +136,7 @@ Widget.setMethod(function startEditor() {
  *
  * @author   Jelle De Loecker   <jelle@elevenways.be>
  * @since    0.1.0
- * @version  0.1.0
+ * @version  0.1.5
  */
 Widget.setMethod(function stopEditor() {
 
@@ -144,6 +144,7 @@ Widget.setMethod(function stopEditor() {
 		throw new Error('Unable to stop the editor: this widget element has no accompanying instance');
 	}
 
+	this.unselectWidget();
 	this.instance.stopEditor();
 	this.removeEditEventListeners();
 });
