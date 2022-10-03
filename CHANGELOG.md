@@ -6,6 +6,7 @@
 * Fix getting the `hawkejs_renderer` instance in a widget
 * Use `alchemy-chimera` style for the widget configuration dialog
 * Make renders wait for widgets that have to render their content asynchronously
+* Allow setting the element to use in a Text widget
 
 ## 0.1.5 (2022-07-14)
 
