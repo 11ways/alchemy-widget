@@ -533,12 +533,17 @@ Widget.setMethod(function populateWidget() {
  *
  * @author   Jelle De Loecker   <jelle@elevenways.be>
  * @since    0.1.0
- * @version  0.1.0
+ * @version  0.1.6
  */
 Widget.setMethod(function startEditor() {
 
 	// Show this is being edited
 	this.editing = true;
+
+	// Make sure the icon font is loaded
+	if (this.hawkejs_renderer?.helpers?.Media) {
+		this.hawkejs_renderer.helpers.Media.loadIconFont();
+	}
 
 	// Add the appropriate class to the current widget wrapper
 	this.widget.classList.add('aw-editing');

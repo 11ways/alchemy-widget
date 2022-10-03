@@ -8,6 +8,7 @@
 * Make renders wait for widgets that have to render their content asynchronously
 * Allow setting the element to use in a Text widget
 * Fix Header-widget level actions
+* Load the icon fonts as soon as the editor starts
 
 ## 0.1.5 (2022-07-14)
 
