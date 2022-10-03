@@ -2,6 +2,13 @@
 
 alchemy-widgets,
 alchemy-widgets-row,
+alchemy-widgets-column,
+alchemy-widget {
+	
+}
+
+alchemy-widgets,
+alchemy-widgets-row,
 alchemy-widgets-column {
 	display: flex;
 
@@ -11,7 +18,14 @@ alchemy-widgets-column {
 	}
 
 	> * {
-		flex: 10;
+		flex: 10 10 auto;
+	}
+}
+
+alchemy-widget {
+	&.aw-editing {
+		outline: 2px dashed rgba(0, 0, 0, 0.3);
+		outline-offset: -2px;
 	}
 }
 
@@ -35,7 +49,7 @@ alchemy-widgets-column {
 
 	> alchemy-widget-add-area {
 		position: absolute;
-		bottom: 1.5rem;
+		bottom: 0.2rem;
 		left: 50%;
 		transform: translateX(-50%);
 	}
@@ -64,6 +78,18 @@ alchemy-widgets-row {
 		right: 0.5rem;
 		top: 50%;
 		transform: translateY(-50%);
+	}
+}
+
+alchemy-widget-add-area {
+	background: rgba(255,255,255,0.5);
+	padding: 0.5rem 2rem;
+	border-radius: 2rem;
+	z-index: 99999999;
+
+	.widget-button {
+		min-height: 2rem;
+		padding: 1rem;
 	}
 }
 
@@ -164,7 +190,10 @@ alchemy-widget {
 		min-height: 2rem;
 
 		&:hover {
-			background: rgba(60, 60, 120, 0.1);
+			background: rgba(60, 60, 120, 0.2);
+
+			// This actually causes some glitches on Firefox :/
+			backdrop-filter: blur(4px);
 		}
 	}
 
@@ -181,6 +210,7 @@ alchemy-widget-toolbar {
 	background-color: white;
 	border-radius: 4px;
 	border: 1px solid #dadada;
+	font-size: 2rem;
 
 	&[hidden] {
 		display: none;
@@ -210,6 +240,7 @@ alchemy-widget-toolbar {
 
 	.aw-toolbar-button {
 		border-radius: 4px;
+		padding: 1rem 1rem;
 
 		&:hover {
 			color: rgb(112, 118, 132);
@@ -240,6 +271,22 @@ alchemy-widget[type="header"] {
 	}
 }
 
+alchemy-widget[type="text"] {
+
+	&.aw-editing {
+		&,
+		& > * {
+			min-width: 5rem;
+			min-height: 3rem;
+		}
+
+		& > * {
+			display: inline-block;
+			width: 100%;
+		}
+	}
+}
+
 .aw-toolbar-button {
 
 	.aw-header-h {
@@ -255,4 +302,14 @@ alchemy-widget[type="header"] {
 
 table-of-contents {
 	display: block;
+}
+
+[data-he-template="widget/widget_config"] {
+	alchemy-label {
+		padding: 0.5rem;
+
+		[data-he-name="field-title"] {
+			display: block;
+		}
+	}
 }
