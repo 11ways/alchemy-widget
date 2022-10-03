@@ -141,30 +141,31 @@ Action.setMethod(function test(widget) {
  *
  * @author   Jelle De Loecker   <jelle@elevenways.be>
  * @since    0.1.0
- * @version  0.1.0
+ * @version  0.1.6
  *
- * @return   {String}
+ * @return   {HTMLElement|String}
  */
-Action.setMethod(function getButtonHTML() {
+Action.setMethod(function getButtonContent() {
 
-	let html;
+	let result;
 
 	if (this.icon) {
 
 		let icon = this.icon;
 
 		if (typeof icon == 'string') {
-			html = '<i class="' + icon + '"></i>';
+			result = Blast.Classes.Hawkejs.Hawkejs.createElement('al-ico');
+			result.setIcon(icon);
 		} else if (icon.html) {
-			html = icon.html;
+			result = Blast.Classes.Hawkejs.parseHTML(icon.html);
 		}
 	}
 
-	if (!html) {
-		html = this.name;
+	if (!result) {
+		result = this.name;
 	}
 
-	return html;
+	return result;
 });
 
 /**

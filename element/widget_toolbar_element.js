@@ -15,7 +15,7 @@ let Toolbar = Function.inherits('Alchemy.Element.Widget.Base', function AlchemyW
  *
  * @author   Jelle De Loecker   <jelle@elevenways.be>
  * @since    0.1.0
- * @version  0.1.0
+ * @version  0.1.6
  *
  * @param    {HTMLElement}   widget
  */
@@ -37,7 +37,24 @@ Toolbar.setMethod(function showWidgetActions(widget) {
 		let button = this.createElement('button');
 		button.classList.add('aw-toolbar-button');
 
-		button.innerHTML = action.getButtonHTML();
+		let content = action.getButtonContent();
+
+		if (!content) {
+			content = action.title;
+		}
+
+		if (typeof content == 'string') {
+			button.innerText = content;
+		} else if (content) {
+			if (Array.isArray(content)) {
+				for (let entry of content) {
+					button.append(entry);
+				}
+			} else {
+				button.append(content);
+			}
+		}
+
 		button.setAttribute('title', action.title);
 
 		let is_selected = action.isAlreadySelected(widget);
