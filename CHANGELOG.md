@@ -10,6 +10,7 @@
 * Fix Header-widget level actions
 * Load the icon fonts as soon as the editor starts
 * Make the `rerender` method async
+* Use `child_class` property in the populate method
 
 ## 0.1.5 (2022-07-14)
 

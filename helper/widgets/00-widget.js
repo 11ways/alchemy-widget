@@ -506,11 +506,11 @@ Widget.setMethod(function _createPopulatedWidgetElement() {
 });
 
 /**
- * Dummy populate method
+ * Populate the contents of the widget
  *
  * @author   Jelle De Loecker   <jelle@elevenways.be>
  * @since    0.1.0
- * @version  0.1.2
+ * @version  0.1.6
  */
 Widget.setMethod(function populateWidget() {
 
@@ -523,6 +523,17 @@ Widget.setMethod(function populateWidget() {
 		for (i = 0; i < class_names.length; i++) {
 			name = class_names[i];
 			this.widget.classList.add(name);
+		}
+	}
+
+	let child_classes = this.widget.child_class;
+
+	if (child_classes) {
+		let children = this.widget.children,
+		    i;
+		
+		for (i = 0; i < children.length; i++) {
+			Hawkejs.addClasses(children[i], child_classes);
 		}
 	}
 
