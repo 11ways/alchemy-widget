@@ -117,7 +117,7 @@ Widget.setMethod(function onFieldAssignment(new_field, old_val) {
  *
  * @author   Jelle De Loecker   <jelle@elevenways.be>
  * @since    0.1.5
- * @version  0.1.5
+ * @version  0.1.6
  */
 Widget.setMethod(function applyValue(value) {
 
@@ -157,7 +157,11 @@ Widget.setMethod(function applyValue(value) {
 	}
 
 	this.instance.config = config;
-	this.instance.populateWidget();
+	let promise = this.instance.populateWidget();
+
+	if (promise) {
+		this.delayAssemble(promise);
+	}
 });
 
 /**

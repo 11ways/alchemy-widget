@@ -5,6 +5,7 @@
 * Cancel clicks on widgets when editing them
 * Fix getting the `hawkejs_renderer` instance in a widget
 * Use `alchemy-chimera` style for the widget configuration dialog
+* Make renders wait for widgets that have to render their content asynchronously
 
 ## 0.1.5 (2022-07-14)
 
