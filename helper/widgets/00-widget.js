@@ -101,7 +101,7 @@ Widget.enforceProperty(function hawkejs_renderer(new_value) {
  *
  * @author   Jelle De Loecker   <jelle@elevenways.be>
  * @since    0.1.0
- * @version  0.1.5
+ * @version  0.1.6
  */
 Widget.constitute(function prepareSchema() {
 
@@ -151,12 +151,13 @@ Widget.constitute(function prepareSchema() {
 		return widget_el.tagName !== 'ALCHEMY-WIDGETS';
 	});
 
-	remove.setIcon('gg-trash');
+	remove.setIcon('trash');
 
 	// Add the config action
 	let config = this.createAction('config', 'Config');
 
 	config.close_toolbar = true;
+	config.setIcon('gears');
 
 	config.setHandler(function configAction(widget_el, handle) {
 		widget_el.instance.showConfig();
@@ -176,7 +177,7 @@ Widget.constitute(function prepareSchema() {
 		return !!handle.previousElementSibling;
 	});
 
-	move_left.setIcon('gg-arrow-left');
+	move_left.setIcon('arrow-left');
 
 	let move_right = this.createAction('move-right', 'Move right');
 
@@ -198,7 +199,7 @@ Widget.constitute(function prepareSchema() {
 		return true;
 	});
 
-	move_right.setIcon('gg-arrow-right');
+	move_right.setIcon('arrow-right');
 
 	// The move-in-left action
 	let move_in_left = this.createAction('move-in-left', 'Move in left');
@@ -218,7 +219,7 @@ Widget.constitute(function prepareSchema() {
 		return !!handle.previous_container;
 	});
 
-	move_in_left.setIcon('gg-arrow-left');
+	move_in_left.setIcon('arrow-left');
 
 	// The move-in-right action
 	let move_in_right = this.createAction('move-in-right', 'Move in right');
@@ -239,13 +240,15 @@ Widget.constitute(function prepareSchema() {
 		return !!handle.next_container;
 	});
 
-	move_in_right.setIcon('gg-arrow-right');
+	move_in_right.setIcon('arrow-right');
 
 	let css_class = this.createAction('css-class', 'CSS Class');
 
 	css_class.setHandler(function setCssClass(widget_el, handle) {
 		widget_el.instance.showConfig(['main_class_names']);
 	});
+
+	css_class.setIcon('tags');
 });
 
 /**
