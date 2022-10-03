@@ -77,14 +77,20 @@ Widget.setProperty(function element() {
  *
  * @author   Jelle De Loecker   <jelle@elevenways.be>
  * @since    0.1.0
- * @version  0.1.0
+ * @version  0.1.6
  *
  * @type     {Hawkejs.Renderer}
  */
 Widget.enforceProperty(function hawkejs_renderer(new_value) {
 
-	if (!new_value && Blast.isBrowser) {
-		new_value = hawkejs.scene.general_renderer;
+	if (!new_value) {
+		if (this.parent_instance && this.parent_instance.hawkejs_renderer) {
+			new_value = this.parent_instance.hawkejs_renderer;
+		} else if (this.widget && this.widget.hawkejs_renderer) {
+			new_value = this.widget.hawkejs_renderer;
+		} else if (Blast.isBrowser) {
+			new_value = hawkejs.scene.general_renderer;
+		}
 	}
 
 	return new_value;
