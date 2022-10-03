@@ -9,6 +9,7 @@
 * Allow setting the element to use in a Text widget
 * Fix Header-widget level actions
 * Load the icon fonts as soon as the editor starts
+* Make the `rerender` method async
 
 ## 0.1.5 (2022-07-14)
 

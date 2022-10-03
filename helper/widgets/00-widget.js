@@ -580,13 +580,13 @@ Widget.setMethod(function stopEditor() {
  *
  * @author   Jelle De Loecker   <jelle@elevenways.be>
  * @since    0.1.0
- * @version  0.1.0
+ * @version  0.1.6
  */
-Widget.setMethod(function rerender() {
+Widget.setMethod(async function rerender() {
 
 	Hawkejs.removeChildren(this.widget);
 
-	this.populateWidget();
+	await this.populateWidget();
 
 	if (this.editing) {
 		this.startEditor();
