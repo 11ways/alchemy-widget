@@ -12,6 +12,7 @@
 * Make the `rerender` method async
 * Use `child_class` property in the populate method
 * Add filter logic to widgets for getting specific values
+* Add abstract `Partial` widget class, to easily create a new widget with a pre-defined layout
 
 ## 0.1.5 (2022-07-14)
 
