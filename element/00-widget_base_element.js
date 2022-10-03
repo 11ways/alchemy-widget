@@ -232,13 +232,26 @@ Base.setMethod(function rerender() {
  *
  * @author   Jelle De Loecker   <jelle@elevenways.be>
  * @since    0.1.0
- * @version  0.1.0
+ * @version  0.1.6
  */
 Base.setMethod(function introduced() {
 
 	if (this.hasAttribute('editing')) {
 		this.startEditor();
 	}
+
+	this.addEventListener('click', e => {
+
+		let is_editing = this.instance?.editing;
+
+		if (is_editing) {
+			let anchor = e.target.closest('a');
+
+			if (anchor) {
+				e.preventDefault();
+			}
+		}
+	});
 });
 
 /**

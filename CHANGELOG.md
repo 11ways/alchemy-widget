@@ -2,6 +2,7 @@
 
 * Allow hiding widgets from the add-menu
 * Let actions return their button contents as elements instead of only html
+* Cancel clicks on widgets when editing them
 
 ## 0.1.5 (2022-07-14)
 
