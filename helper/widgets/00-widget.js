@@ -606,7 +606,7 @@ Widget.setMethod(function syncConfig() {
  *
  * @author   Jelle De Loecker   <jelle@elevenways.be>
  * @since    0.1.0
- * @version  0.1.0
+ * @version  0.1.6
  */
 Widget.setMethod(async function showConfig(fields) {
 
@@ -652,6 +652,9 @@ Widget.setMethod(async function showConfig(fields) {
 
 	let dialog = dialog_contents.queryParents('he-dialog'),
 	    button = dialog_contents.querySelector('.btn-apply');
+
+	dialog_contents.classList.add('default-form-editor');
+	hawkejs.scene.enableStyle('chimera/chimera');
 
 	button.addEventListener('click', e => {
 		e.preventDefault();

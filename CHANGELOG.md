@@ -4,6 +4,7 @@
 * Let actions return their button contents as elements instead of only html
 * Cancel clicks on widgets when editing them
 * Fix getting the `hawkejs_renderer` instance in a widget
+* Use `alchemy-chimera` style for the widget configuration dialog
 
 ## 0.1.5 (2022-07-14)
 
