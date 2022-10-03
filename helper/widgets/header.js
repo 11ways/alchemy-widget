@@ -33,7 +33,7 @@ Header.constitute(function prepareSchema() {
  *
  * @author   Jelle De Loecker   <jelle@elevenways.be>
  * @since    0.1.0
- * @version  0.1.0
+ * @version  0.1.6
  */
 Header.constitute(function addActions() {
 
@@ -43,7 +43,7 @@ Header.constitute(function addActions() {
 	for (let level of levels) {
 		let level_action = this.createAction('make-level-' + level, 'Level ' + level);
 
-		level_action.setHandler(function setLevelAction(widget, toolbar) {
+		level_action.setHandler(function setLevelAction(widget, handle, toolbar) {
 
 			let content = widget.querySelector(query);
 
