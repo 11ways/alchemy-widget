@@ -24,7 +24,7 @@ let AddArea = Function.inherits('Alchemy.Element.Widget.Base', function AlchemyW
  *
  * @author   Jelle De Loecker   <jelle@elevenways.be>
  * @since    0.1.0
- * @version  0.1.0
+ * @version  0.1.6
  */
 AddArea.setMethod(function showTypes(event) {
 
@@ -42,7 +42,7 @@ AddArea.setMethod(function showTypes(event) {
 
 	for (let widget of widgets) {
 
-		if (widget.type_name == 'container') {
+		if (!widget.canBeAdded(that.parentElement)) {
 			continue;
 		}
 

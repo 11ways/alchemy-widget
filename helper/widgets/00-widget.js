@@ -280,6 +280,43 @@ Widget.setStatic(function createAction(name, title) {
 });
 
 /**
+ * Add a check to see if the widget can be added to the current location
+ *
+ * @author   Jelle De Loecker   <jelle@elevenways.be>
+ * @since    0.1.6
+ * @version  0.1.6
+ *
+ * @param    {Boolean|Function}   checker
+ */
+Widget.setStatic(function setAddChecker(checker) {
+	this.add_checker = checker;
+});
+
+/**
+ * Actually perform the add-check
+ *
+ * @author   Jelle De Loecker   <jelle@elevenways.be>
+ * @since    0.1.6
+ * @version  0.1.6
+ *
+ * @param    {Alchemy.Element.Widget.Base}   widget_element
+ */
+Widget.setStatic(function canBeAdded(widget_element) {
+
+	if (this.add_checker != null) {
+		const type = typeof this.add_checker;
+
+		if (type == 'function') {
+			return this.add_checker(widget_element);
+		} else if (type == 'boolean') {
+			return this.add_checker;
+		}
+	}
+
+	return true;
+});
+
+/**
  * unDry an object
  *
  * @author   Jelle De Loecker   <jelle@elevenways.be>

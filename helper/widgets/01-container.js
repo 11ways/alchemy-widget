@@ -12,6 +12,11 @@
 const Container = Function.inherits('Alchemy.Widget', 'Container');
 
 /**
+ * Make this an abstract class
+ */
+Container.makeAbstractClass();
+
+/**
  * Prepare the schema
  *
  * @author   Jelle De Loecker   <jelle@elevenways.be>
