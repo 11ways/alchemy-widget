@@ -12,7 +12,7 @@ const AlchemyWidgets = Function.inherits('Alchemy.Controller', 'AlchemyWidgets')
  *
  * @author   Jelle De Loecker   <jelle@elevenways.be>
  * @since    0.1.5
- * @version  0.1.5
+ * @version  0.1.6
  *
  * @param    {Object[]}   fields
  *
@@ -59,18 +59,94 @@ AlchemyWidgets.setMethod(async function aggregate(widgets) {
 				result[model.name] = record;
 			}
 		}
-	
-		let field_language = widget.field_languages?.[widget.field];
-	
-		if (field_language) {
-			if (!record[widget.field]) {
-				record[widget.field] = {};
-			}
-	
-			record[widget.field][field_language] = widget.value;
+
+		let field_definition;
+
+		if (widget.value_path) {
+			field_definition = model.getField(widget.field + '.' + widget.value_path);
 		} else {
-			record[widget.field] = widget.value;
+			field_definition = model.getField(widget.field);
 		}
+
+		if (!field_definition) {
+			continue;
+		}
+
+		// The optional translation key
+		let field_language = widget.field_languages?.[widget.field];
+		let target_field_value = record[widget.field];
+		let target_container;
+		let target_key;
+		let path_for_language;
+
+		// Do incredibly complicated filter stuff
+		if (widget.filter_value) {
+
+			if (!widget.filter_target || !widget.value_path) {
+				continue;
+			}
+
+			// Create the root field if needed
+			if (!target_field_value) {
+				target_field_value = [];
+				record[widget.field] = target_field_value;
+			}
+
+			if (target_field_value && Array.isArray(target_field_value)) {
+				target_key = widget.value_path;
+
+				for (let index = 0; index < target_field_value.length; index++) {
+					let entry = target_field_value[index];
+
+					if (entry[widget.filter_target] == widget.filter_value) {
+						target_container = entry;
+						path_for_language = widget.field + '.' + index + '.' + target_key;
+						break;
+					}
+				}
+
+				if (!target_container) {
+					target_container = {
+						[widget.filter_target] : widget.filter_value,
+						[target_key]           : {},
+					};
+
+					let new_index = target_field_value.push(target_container) - 1;
+					path_for_language = widget.field + '.' + new_index + '.' + target_key;
+				}
+			}
+		} else {
+			target_container = record;
+			target_key = widget.field;
+		}
+
+		if (!field_language && path_for_language) {
+			field_language = widget.field_languages?.[path_for_language];
+		}
+
+		if (!field_language && field_definition.is_translatable) {
+			field_language = this.conduit.active_prefix;
+
+			if (!field_language) {
+				continue;
+			}
+		}
+
+		if (field_language) {
+			if (!target_container) {
+				target_container = record[widget.field] = {};
+			}
+
+
+			if (!target_container[target_key]) {
+				target_container[target_key] = {};
+			}
+
+			target_container = target_container[target_key];
+			target_key = field_language;
+		}
+
+		target_container[target_key] = widget.value;
 	}
 
 	return Object.values(result);

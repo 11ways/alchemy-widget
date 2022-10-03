@@ -52,6 +52,32 @@ Widget.setAssignedProperty('record');
  */
 Widget.setAssignedProperty('field');
 
+/**
+ * The path to the value inside the field
+ *
+ * @author   Jelle De Loecker   <jelle@elevenways.be>
+ * @since    0.1.6
+ * @version  0.1.6
+ */
+Widget.setAssignedProperty('value_path');
+
+/**
+ * The path to the field to filter on
+ *
+ * @author   Jelle De Loecker   <jelle@elevenways.be>
+ * @since    0.1.6
+ * @version  0.1.6
+ */
+Widget.setAssignedProperty('filter_target');
+
+/**
+ * The filter value
+ *
+ * @author   Jelle De Loecker   <jelle@elevenways.be>
+ * @since    0.1.6
+ * @version  0.1.6
+ */
+Widget.setAssignedProperty('filter_value');
 
 /**
  * CSS classes to put on the direct children
@@ -99,11 +125,11 @@ Widget.setProperty(function value() {
  *
  * @author   Jelle De Loecker   <jelle@elevenways.be>
  * @since    0.1.5
- * @version  0.1.5
+ * @version  0.1.6
  */
 Widget.setMethod(function onRecordAssignment(new_record, old_val) {
 	if (new_record && this.field) {
-		let value = new_record[this.field];
+		let value = this.getValueFromRecord(new_record);
 		this.applyValue(value);
 	}
 });
@@ -113,13 +139,75 @@ Widget.setMethod(function onRecordAssignment(new_record, old_val) {
  *
  * @author   Jelle De Loecker   <jelle@elevenways.be>
  * @since    0.1.5
- * @version  0.1.5
+ * @version  0.1.6
  */
 Widget.setMethod(function onFieldAssignment(new_field, old_val) {
 	if (new_field && this.record) {
-		let value = this.record[new_field];
+		let value = this.getValueFromRecord(this.record);
 		this.applyValue(value);
 	}
+});
+
+/**
+ * Get the values to work with from the given record
+ *
+ * @author   Jelle De Loecker   <jelle@elevenways.be>
+ * @since    0.1.6
+ * @version  0.1.6
+ */
+Widget.setMethod(function getValueFromRecord(record) {
+
+	if (!record) {
+		return;
+	}
+
+	let value;
+
+	if (this.field) {
+		value = record[this.field];
+	} else {
+		value = record;
+	}
+
+	if (!value) {
+		return;
+	}
+
+	if (this.filter_value) {
+		if (!Array.isArray(value) || !this.filter_target) {
+			return;
+		}
+
+		let inputs = value;
+		value = [];
+
+		for (let input of inputs) {
+			if (input[this.filter_target] == this.filter_value) {
+				value.push(input);
+			}
+		}
+	}
+
+	if (this.value_path) {
+		if (!Array.isArray(value)) {
+			return;
+		}
+
+		let inputs = value;
+		value = [];
+
+		for (let input of inputs) {
+			if (input[this.value_path]) {
+				value.push(input[this.value_path]);
+			}
+		}
+	}
+
+	if (Array.isArray(value)) {
+		value = value[0];
+	}
+
+	return value;
 });
 
 /**

@@ -259,7 +259,7 @@ Base.setMethod(function introduced() {
  *
  * @author   Jelle De Loecker   <jelle@elevenways.be>
  * @since    0.1.5
- * @version  0.1.5
+ * @version  0.1.6
  */
 Base.setMethod(function gatherSaveData() {
 
@@ -276,6 +276,9 @@ Base.setMethod(function gatherSaveData() {
 		pk    : this.record.$pk,
 		field : this.field,
 		value : this.value,
+		filter_target   : this.filter_target,
+		filter_value    : this.filter_value,
+		value_path      : this.value_path,
 		field_languages : this.record.$hold.translated_fields,
 	};
 
