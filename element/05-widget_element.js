@@ -52,6 +52,16 @@ Widget.setAssignedProperty('record');
  */
 Widget.setAssignedProperty('field');
 
+
+/**
+ * CSS classes to put on the direct children
+ *
+ * @author   Jelle De Loecker   <jelle@elevenways.be>
+ * @since    0.1.6
+ * @version  0.1.6
+ */
+Widget.setAttribute('child-class');
+
 /**
  * Is this widget being edited?
  *
