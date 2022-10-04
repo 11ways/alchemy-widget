@@ -536,7 +536,6 @@ Widget.setMethod(function populateWidget() {
 			Hawkejs.addClasses(children[i], child_classes);
 		}
 	}
-
 });
 
 /**
@@ -546,7 +545,7 @@ Widget.setMethod(function populateWidget() {
  * @since    0.1.0
  * @version  0.1.6
  */
-Widget.setMethod(function startEditor() {
+Widget.setMethod(async function startEditor() {
 
 	// Show this is being edited
 	this.editing = true;
@@ -558,6 +557,8 @@ Widget.setMethod(function startEditor() {
 
 	// Add the appropriate class to the current widget wrapper
 	this.widget.classList.add('aw-editing');
+
+	await this.widget.waitForTasks();
 
 	if (typeof this._startEditor == 'function') {
 		this._startEditor();
