@@ -137,6 +137,8 @@ Widget.constitute(function prepareSchema() {
 		return widget_el.can_be_saved;
 	});
 
+	save.setIcon('floppy-disk');
+
 	// Add the remove action
 	let remove = this.createAction('remove', 'Remove');
 

@@ -88,7 +88,7 @@ alchemy-widget-add-area {
 	z-index: 99999999;
 
 	.widget-button {
-		min-height: 2rem;
+		min-height: 2.5rem;
 		padding: 1rem;
 	}
 }
@@ -230,8 +230,8 @@ alchemy-widget-context {
 }
 
 alchemy-widget-toolbar {
-	min-height: 2rem;
-	min-width: 2rem;
+	min-height: 2.5rem;
+	min-width: 2.5rem;
 	display: flex;
 
 	> * {
@@ -239,8 +239,9 @@ alchemy-widget-toolbar {
 	}
 
 	.aw-toolbar-button {
+		font-size: 2.5rem;
 		border-radius: 4px;
-		padding: 1rem 1rem;
+		padding: 0.6rem;
 
 		&:hover {
 			color: rgb(112, 118, 132);
