@@ -147,8 +147,7 @@ Widget.constitute(function prepareSchema() {
 	});
 
 	remove.setTester(function removeTester(widget_el, handle) {
-		// The root alchemy-widgets element should not be removed
-		return widget_el.tagName !== 'ALCHEMY-WIDGETS';
+		return widget_el.can_be_removed;
 	});
 
 	remove.setIcon('trash');
@@ -623,7 +622,7 @@ Widget.setMethod(function syncConfig() {
  *
  * @author   Jelle De Loecker   <jelle@elevenways.be>
  * @since    0.1.0
- * @version  0.1.6
+ * @version  0.1.12
  */
 Widget.setMethod(async function showConfig(fields) {
 
@@ -653,9 +652,11 @@ Widget.setMethod(async function showConfig(fields) {
 		}
 	}
 
+	let widget_settings = Object.assign({}, this.syncConfig());
+
 	let variables = {
 		schema           : this.schema,
-		widget_settings  : this.syncConfig(),
+		widget_settings,
 		fields           : fields
 	};
 

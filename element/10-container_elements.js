@@ -87,6 +87,20 @@ AlchemyWidgets.setProperty(function value() {
 });
 
 /**
+ * Can this widget be removed?
+ * (Alchemy-Widgets elements can't be removed, they're mostly the hardcoded basis)
+ *
+ * @author   Jelle De Loecker   <jelle@elevenways.be>
+ * @since    0.1.6
+ * @version  0.1.6
+ *
+ * @type     {Boolean}
+ */
+AlchemyWidgets.setProperty(function can_be_removed() {
+	return false;
+});
+
+/**
  * Apply the given value
  *
  * @author   Jelle De Loecker   <jelle@elevenways.be>

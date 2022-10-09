@@ -115,6 +115,26 @@ Base.setProperty(function can_be_saved() {
 });
 
 /**
+ * Can this widget be removed?
+ *
+ * @author   Jelle De Loecker   <jelle@elevenways.be>
+ * @since    0.1.6
+ * @version  0.1.6
+ *
+ * @type    {Boolean}
+ */
+Base.setProperty(function can_be_removed() {
+
+	// Widgets without a "parent_instance" are mostly
+	// hardcoded in some template (like in a Partial widget)
+	if (!this.instance?.parent_instance) {
+		return false;
+	}
+
+	return true;
+});
+
+/**
  * Get a sibling container
  *
  * @author   Jelle De Loecker   <jelle@elevenways.be>
