@@ -15,6 +15,7 @@
 * Add abstract `Partial` widget class, to easily create a new widget with a pre-defined layout
 * Wait for widgets to render their contents before starting editor
 * Add `can_be_removed` property to widget elements
+* Add `can_be_moved` property to widget elements
 
 ## 0.1.5 (2022-07-14)
 

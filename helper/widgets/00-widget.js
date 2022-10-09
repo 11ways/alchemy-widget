@@ -173,6 +173,11 @@ Widget.constitute(function prepareSchema() {
 	});
 
 	move_left.setTester(function moveLeftTest(widget_el, handle) {
+
+		if (!widget_el.can_be_moved) {
+			return false;
+		}
+
 		return !!handle.previousElementSibling;
 	});
 
@@ -188,6 +193,10 @@ Widget.constitute(function prepareSchema() {
 	});
 
 	move_right.setTester(function moveRightTest(widget_el, handle) {
+
+		if (!widget_el.can_be_moved) {
+			return false;
+		}
 
 		let next = handle.nextElementSibling;
 
@@ -215,6 +224,11 @@ Widget.constitute(function prepareSchema() {
 	});
 
 	move_in_left.setTester(function moveLeftTest(widget_el, handle) {
+
+		if (!widget_el.can_be_moved) {
+			return false;
+		}
+
 		return !!handle.previous_container;
 	});
 
@@ -235,7 +249,11 @@ Widget.constitute(function prepareSchema() {
 	});
 
 	move_in_right.setTester(function moveRightTest(widget_el, handle) {
-		console.log('Right test of:', handle)
+
+		if (!widget_el.can_be_moved) {
+			return false;
+		}
+
 		return !!handle.next_container;
 	});
 
