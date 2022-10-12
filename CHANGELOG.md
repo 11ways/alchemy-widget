@@ -1,4 +1,4 @@
-## 0.1.6 (WIP)
+## 0.1.6 (2022-10-12)
 
 * Allow hiding widgets from the add-menu
 * Let actions return their button contents as elements instead of only html
