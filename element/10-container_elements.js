@@ -1,13 +1,13 @@
 /**
- * The alchemy-widgets element is the base "container" for all other widgets.
+ * The al-widgets element is the base "container" for all other widgets.
  * It should never be nested, though
  *
  * @author   Jelle De Loecker   <jelle@elevenways.be>
  * @since    0.1.0
  * @version  0.1.0
  */
-let AlchemyWidgets = Function.inherits('Alchemy.Element.Widget', function AlchemyWidgets() {
-	AlchemyWidgets.super.call(this);
+let AlchemyWidgets = Function.inherits('Alchemy.Element.Widget', function AlWidgets() {
+	AlWidgets.super.call(this);
 
 	// Always create this dummy instance just in case?
 	this.instance = new Classes.Alchemy.Widget.Container();
@@ -19,9 +19,9 @@ let AlchemyWidgets = Function.inherits('Alchemy.Element.Widget', function Alchem
  *
  * @author   Jelle De Loecker   <jelle@elevenways.be>
  * @since    0.1.0
- * @version  0.1.0
+ * @version  0.2.0
  */
-AlchemyWidgets.setStatic('custom_element_prefix', 'alchemy-widgets');
+AlchemyWidgets.setStatic('custom_element_prefix', 'al-widgets');
 
 /**
  * Don't add the edit event listeners
@@ -69,7 +69,7 @@ AlchemyWidgets.setProperty(function value() {
 	let widgets = this.getWidgetsConfig(),
 	    result;
 
-	if (this.nodeName == 'ALCHEMY-WIDGETS') {
+	if (this.nodeName == 'AL-WIDGETS') {
 		result = {widgets};
 	} else {
 		result = {
@@ -186,7 +186,7 @@ AlchemyWidgets.setMethod(function clear() {
 	for (i = 0; i < children.length; i++) {
 		child = children[i];
 
-		if (child.nodeName == 'ALCHEMY-WIDGET-ADD-AREA') {
+		if (child.nodeName == 'AL-WIDGET-ADD-AREA') {
 			continue;
 		}
 
@@ -240,7 +240,7 @@ AlchemyWidgets.setMethod(function addWidget(type, config) {
  *
  * @author   Jelle De Loecker   <jelle@elevenways.be>
  * @since    0.1.0
- * @version  0.1.0
+ * @version  0.2.0
  *
  * @param    {Element}   element
  */
@@ -249,7 +249,7 @@ AlchemyWidgets.setMethod(function _appendWidgetElement(element) {
 	let add_area;
 
 	if (this.editing) {
-		add_area = this.querySelector(':scope > alchemy-widget-add-area');
+		add_area = this.querySelector(':scope > al-widget-add-area');
 	}
 
 	if (add_area) {
@@ -270,19 +270,19 @@ AlchemyWidgets.setMethod(function _appendWidgetElement(element) {
 AlchemyWidgets.setMethod(function initEventListeners() {});
 
 /**
- * The alchemy-widgets-column element
+ * The al-widgets-column element
  *
  * @author   Jelle De Loecker   <jelle@elevenways.be>
  * @since    0.1.0
- * @version  0.1.0
+ * @version  0.2.0
  */
-Function.inherits('Alchemy.Element.Widget.AlchemyWidgets', 'Column');
+Function.inherits('Alchemy.Element.Widget.AlWidgets', 'Column');
 
 /**
- * The alchemy-widgets-row element
+ * The al-widgets-row element
  *
  * @author   Jelle De Loecker   <jelle@elevenways.be>
  * @since    0.1.0
- * @version  0.1.0
+ * @version  0.2.0
  */
-Function.inherits('Alchemy.Element.Widget.AlchemyWidgets', 'Row');
+Function.inherits('Alchemy.Element.Widget.AlWidgets', 'Row');

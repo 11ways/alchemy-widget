@@ -14,7 +14,16 @@ let Base = Function.inherits('Alchemy.Element', 'Alchemy.Element.Widget', 'Base'
  * @since    0.1.0
  * @version  0.1.0
  */
-Base.setStylesheetFile('alchemy-widgets');
+Base.setStylesheetFile('alchemy_widgets');
+
+/**
+ * Set the custom element prefix
+ *
+ * @author   Jelle De Loecker   <jelle@elevenways.be>
+ * @since    0.1.0
+ * @version  0.2.0
+ */
+Base.setStatic('custom_element_prefix', 'al');
 
 /**
  * Don't register this as a custom element
@@ -22,9 +31,9 @@ Base.setStylesheetFile('alchemy-widgets');
  *
  * @author   Jelle De Loecker   <jelle@elevenways.be>
  * @since    0.1.0
- * @version  0.1.0
+ * @version  0.2.0
  */
-Base.setStatic('is_abstract_class', true, false);
+Base.makeAbstractClass();
 
 /**
  * The Widget class instance belonging to this element
@@ -183,7 +192,7 @@ Base.setMethod(function getSiblingContainer(type) {
 			return next;
 		}
 
-		if (next.tagName != 'ALCHEMY-WIDGET-ADD-AREA') {
+		if (next.tagName != 'AL-WIDGET-ADD-AREA') {
 			return false;
 		}
 	}

@@ -51,13 +51,13 @@ Container.setMethod(function initContainer() {
  *
  * @author   Jelle De Loecker   <jelle@elevenways.be>
  * @since    0.1.0
- * @version  0.1.0
+ * @version  0.2.0
  *
  * @return   {HTMLElement}
  */
 Container.setMethod(function _createWidgetElement() {
 
-	let tag_name = 'alchemy-widgets-' + this.constructor.type_name;
+	let tag_name = 'al-widgets-' + this.constructor.type_name;
 
 	let element = this.createElement(tag_name);
 
@@ -72,14 +72,14 @@ Container.setMethod(function _createWidgetElement() {
  *
  * @author   Jelle De Loecker   <jelle@elevenways.be>
  * @since    0.1.0
- * @version  0.1.0
+ * @version  0.2.0
  */
 Container.setMethod(function _startEditor() {
 
-	let add_area = this.widget.querySelector(':scope > alchemy-widget-add-area');
+	let add_area = this.widget.querySelector(':scope > al-widget-add-area');
 
 	if (!add_area) {
-		add_area = this.createElement('alchemy-widget-add-area');
+		add_area = this.createElement('al-widget-add-area');
 		this.widget.append(add_area);
 	}
 
@@ -100,11 +100,11 @@ Container.setMethod(function _startEditor() {
  *
  * @author   Jelle De Loecker   <jelle@elevenways.be>
  * @since    0.1.0
- * @version  0.1.0
+ * @version  0.2.0
  */
 Container.setMethod(function _stopEditor() {
 
-	let add_area = this.widget.querySelector(':scope > alchemy-widget-add-area');
+	let add_area = this.widget.querySelector(':scope > al-widget-add-area');
 
 	if (add_area) {
 		add_area.remove();

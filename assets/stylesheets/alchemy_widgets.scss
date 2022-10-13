@@ -1,15 +1,13 @@
-@import "alchemy-widget-symbols.scss";
-
-alchemy-widgets,
-alchemy-widgets-row,
-alchemy-widgets-column,
-alchemy-widget {
+al-widgets,
+al-widgets-row,
+al-widgets-column,
+al-widget {
 	
 }
 
-alchemy-widgets,
-alchemy-widgets-row,
-alchemy-widgets-column {
+al-widgets,
+al-widgets-row,
+al-widgets-column {
 	display: flex;
 
 	&.aw-editing {
@@ -22,15 +20,15 @@ alchemy-widgets-column {
 	}
 }
 
-alchemy-widget {
+al-widget {
 	&.aw-editing {
 		outline: 2px dashed rgba(0, 0, 0, 0.3);
 		outline-offset: -2px;
 	}
 }
 
-alchemy-widgets-row,
-alchemy-widgets-column {
+al-widgets-row,
+al-widgets-column {
 
 	&.aw-editing {
 		&:hover {
@@ -39,15 +37,15 @@ alchemy-widgets-column {
 	}
 }
 
-alchemy-widgets,
-alchemy-widgets-column {
+al-widgets,
+al-widgets-column {
 	flex-flow: column;
 
 	&.aw-editing {
 		padding-bottom: 5rem;
 	}
 
-	> alchemy-widget-add-area {
+	> al-widget-add-area {
 		position: absolute;
 		bottom: 0.2rem;
 		left: 50%;
@@ -55,7 +53,7 @@ alchemy-widgets-column {
 	}
 }
 
-alchemy-widgets {
+al-widgets {
 	min-width: 10rem;
 	min-height: 10rem;
 
@@ -65,7 +63,7 @@ alchemy-widgets {
 	}
 }
 
-alchemy-widgets-row {
+al-widgets-row {
 	flex-flow: row;
 	flex: 10 10 auto;
 
@@ -73,7 +71,7 @@ alchemy-widgets-row {
 		padding-right: 5rem;
 	}
 
-	> alchemy-widget-add-area {
+	> al-widget-add-area {
 		position: absolute;
 		right: 0.5rem;
 		top: 50%;
@@ -81,7 +79,7 @@ alchemy-widgets-row {
 	}
 }
 
-alchemy-widget-add-area {
+al-widget-add-area {
 	background: rgba(255,255,255,0.5);
 	padding: 0.5rem 2rem;
 	border-radius: 2rem;
@@ -93,10 +91,10 @@ alchemy-widget-add-area {
 	}
 }
 
-alchemy-widgets-row,
-alchemy-widgets > alchemy-widgets-column,
-alchemy-widgets-column > alchemy-widgets-column,
-.alchemy-widgets-container > alchemy-widgets-column {
+al-widgets-row,
+al-widgets > al-widgets-column,
+al-widgets-column > al-widgets-column,
+.alchemy-widgets-container > al-widgets-column {
 	&.aw-editing {
 
 		&::after {
@@ -116,13 +114,13 @@ alchemy-widgets-column > alchemy-widgets-column,
 	}
 }
 
-alchemy-widgets-column {
+al-widgets-column {
 	flex: 10 10 auto;
 }
 
-alchemy-widgets-column,
-alchemy-widgets-row > alchemy-widgets-row,
-.alchemy-widgets-container > alchemy-widgets-row {
+al-widgets-column,
+al-widgets-row > al-widgets-row,
+.alchemy-widgets-container > al-widgets-row {
 	&.aw-editing {
 		&::after {
 			content: "";
@@ -141,7 +139,7 @@ alchemy-widgets-row > alchemy-widgets-row,
 	}
 }
 
-alchemy-widget-add-area {
+al-widget-add-area {
 	display: flex;
 	justify-content: center;
 	align-items: center;
@@ -183,7 +181,7 @@ alchemy-widget-add-area {
 	}
 }
 
-alchemy-widget {
+al-widget {
 	display: block;
 
 	&.aw-editing {
@@ -203,8 +201,8 @@ alchemy-widget {
 	}
 }
 
-alchemy-widget-context,
-alchemy-widget-toolbar {
+al-widget-context,
+al-widget-toolbar {
 	display: block;
 	padding: 0.4rem;
 	background-color: white;
@@ -217,11 +215,11 @@ alchemy-widget-toolbar {
 	}
 }
 
-alchemy-widget-context {
+al-widget-context {
 	position: fixed;
 	z-index: 99999;
 
-	alchemy-widget-toolbar {
+	al-widget-toolbar {
 		position: absolute;
 		top: calc(100% + 5px);
 		right: 0;
@@ -229,7 +227,7 @@ alchemy-widget-context {
 	}
 }
 
-alchemy-widget-toolbar {
+al-widget-toolbar {
 	min-height: 2.5rem;
 	min-width: 2.5rem;
 	display: flex;
@@ -254,7 +252,7 @@ alchemy-widget-toolbar {
 	}
 }
 
-alchemy-widget[type="header"] {
+al-widget[type="header"] {
 
 	h1, h2, h3, h4, h5, h6 {
 		padding: 1em 0;
@@ -272,7 +270,7 @@ alchemy-widget[type="header"] {
 	}
 }
 
-alchemy-widget[type="text"] {
+al-widget[type="text"] {
 
 	&.aw-editing {
 		&,
@@ -301,12 +299,12 @@ alchemy-widget[type="text"] {
 	}
 }
 
-table-of-contents {
+al-toc {
 	display: block;
 }
 
 [data-he-template="widget/widget_config"] {
-	alchemy-label {
+	al-label {
 		padding: 0.5rem;
 
 		[data-he-name="field-title"] {

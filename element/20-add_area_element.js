@@ -1,12 +1,12 @@
 /**
- * The alchemy-widgets element
+ * The al-widgets element
  *
  * @author   Jelle De Loecker   <jelle@elevenways.be>
  * @since    0.1.0
  * @version  0.1.0
  */
-let AddArea = Function.inherits('Alchemy.Element.Widget.Base', function AlchemyWidgetAddArea() {
-	AlchemyWidgetAddArea.super.call(this);
+let AddArea = Function.inherits('Alchemy.Element.Widget.Base', function AlWidgetAddArea() {
+	AlWidgetAddArea.super.call(this);
 
 	this.innerHTML = `
 <div class="main-button">
@@ -24,13 +24,13 @@ let AddArea = Function.inherits('Alchemy.Element.Widget.Base', function AlchemyW
  *
  * @author   Jelle De Loecker   <jelle@elevenways.be>
  * @since    0.1.0
- * @version  0.1.6
+ * @version  0.2.0
  */
 AddArea.setMethod(function showTypes(event) {
 
 	let that = this;
 
-	let context_button = document.querySelector('alchemy-widget-context');
+	let context_button = document.querySelector('al-widget-context');
 
 	if (context_button && context_button.active_widget) {
 		context_button.unselectedWidget();
@@ -62,12 +62,12 @@ AddArea.setMethod(function showTypes(event) {
  *
  * @author   Jelle De Loecker   <jelle@elevenways.be>
  * @since    0.1.0
- * @version  0.1.0
+ * @version  0.2.0
  */
 AddArea.setMethod(function showToolbar() {
 
 	if (!this.toolbar) {
-		this.toolbar = document.createElement('alchemy-widget-toolbar');
+		this.toolbar = document.createElement('al-widget-toolbar');
 		this.append(this.toolbar);
 	}
 

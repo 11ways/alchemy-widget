@@ -22,7 +22,7 @@ List.setMethod(function initContainer() {
 
 	let ul = this.createElement('ul');
 
-	Classes.Alchemy.Element.Widget.AlchemyWidgets.prototype._appendWidgetElement.call(this.widget, ul);
+	Classes.Alchemy.Element.Widget.AlWidgets.prototype._appendWidgetElement.call(this.widget, ul);
 
 	this.widget.list_element = ul;
 

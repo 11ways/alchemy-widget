@@ -1,6 +1,6 @@
-<alchemy-widget
+<al-widget
 	type={% alchemy_field.config.options.type %}
 	#value={% value %}
 	class="alchemy-field-value"
 	editing
-></alchemy-widget>
+></al-widget>

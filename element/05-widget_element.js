@@ -1,20 +1,11 @@
 /**
- * The alchemy-widget element
+ * The al-widget element
  *
  * @author   Jelle De Loecker   <jelle@elevenways.be>
  * @since    0.1.0
  * @version  0.1.0
  */
 let Widget = Function.inherits('Alchemy.Element.Widget.Base', 'Widget');
-
-/**
- * Set the custom element prefix
- *
- * @author   Jelle De Loecker   <jelle@elevenways.be>
- * @since    0.1.0
- * @version  0.1.0
- */
-Widget.setStatic('custom_element_prefix', 'alchemy');
 
 /**
  * The type of widget
@@ -363,14 +354,14 @@ Widget.setMethod(function removeEditEventListeners() {
  *
  * @author   Jelle De Loecker   <jelle@elevenways.be>
  * @since    0.1.0
- * @version  0.1.0
+ * @version  0.2.0
  */
 Widget.setMethod(function getContextButton() {
 
-	let button = document.querySelector('alchemy-widget-context');
+	let button = document.querySelector('al-widget-context');
 
 	if (!button) {
-		button = this.createElement('alchemy-widget-context');
+		button = this.createElement('al-widget-context');
 		document.body.append(button);
 	}
 

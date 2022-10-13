@@ -65,13 +65,13 @@ Sourcecode.setMethod(function populateWidget() {
  *
  * @author   Jelle De Loecker   <jelle@elevenways.be>
  * @since    0.1.0
- * @version  0.1.0
+ * @version  0.2.0
  */
 Sourcecode.setMethod(function _startEditor() {
 
 	Hawkejs.removeChildren(this.widget);
 
-	let input = this.createElement('alchemy-code-input');
+	let input = this.createElement('al-code-input');
 	input.textContent = this.config[this.sourcecode_field] || '';
 
 	this.widget.append(input);
@@ -96,13 +96,13 @@ Sourcecode.setMethod(function _stopEditor() {
  *
  * @author   Jelle De Loecker   <jelle@elevenways.be>
  * @since    0.1.0
- * @version  0.1.0
+ * @version  0.2.0
  *
  * @return   {Object}
  */
 Sourcecode.setMethod(function syncConfig() {
 
-	let input = this.widget.querySelector('alchemy-code-input, textarea');
+	let input = this.widget.querySelector('al-code-input, textarea');
 
 	if (input) {
 		this.config[this.sourcecode_field] = input.value;

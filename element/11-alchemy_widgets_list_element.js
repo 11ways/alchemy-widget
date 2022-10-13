@@ -1,11 +1,11 @@
 /**
- * The alchemy-widgets-list element
+ * The al-widgets-list element
  *
  * @author   Jelle De Loecker   <jelle@elevenways.be>
  * @since    0.1.0
  * @version  0.1.0
  */
-const List = Function.inherits('Alchemy.Element.Widget.AlchemyWidgets', 'List');
+const List = Function.inherits('Alchemy.Element.Widget.AlWidgets', 'List');
 
 /**
  * Get the list element

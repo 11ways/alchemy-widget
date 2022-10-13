@@ -17,6 +17,15 @@ const TableOfContents = Function.inherits('Alchemy.Element.App', 'TableOfContent
 TableOfContents.setTemplateFile('elements/table_of_contents');
 
 /**
+ * Set the actual tag name
+ *
+ * @author   Jelle De Loecker   <jelle@elevenways.be>
+ * @since    0.2.0
+ * @version  0.2.0
+ */
+TableOfContents.setTagName('AL-TOC');
+
+/**
  * Set the content
  *
  * @author   Jelle De Loecker   <jelle@elevenways.be>

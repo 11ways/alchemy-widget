@@ -2,17 +2,17 @@
 <% addClass('widget-config-dialog') %>
 
 <div class="widget-config-wrapper js-he-ready-wcd">
-	<alchemy-form
+	<al-form
 		#document={% widget_settings %}
 		#schema={% schema %}
 		class="main-form"
 	>
 		{% each fields as field %}
-			<alchemy-field
+			<al-field
 				field-name={% field.name %}
-			></alchemy-field>
+			></al-field>
 		{% /each %}
-	</alchemy-form>
+	</al-form>
 
 	<button class="btn btn-apply">
 		Apply

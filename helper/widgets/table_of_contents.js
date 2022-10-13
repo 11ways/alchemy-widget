@@ -16,13 +16,13 @@ const Toc = Function.inherits('Alchemy.Widget', 'TableOfContents');
  *
  * @author   Jelle De Loecker   <jelle@elevenways.be>
  * @since    0.1.2
- * @version  0.1.2
+ * @version  0.2.0
  */
 Toc.setMethod(function populateWidget() {
 
 	populateWidget.super.call(this);
 
-	let toc = this.createElement('table-of-contents');
+	let toc = this.createElement('al-toc');
 
 	if (this.config.parent_selector) {
 		toc.parent_selector = this.config.parent_selector;

@@ -114,7 +114,7 @@ Widget.constitute(function prepareSchema() {
 	// Extra classnames for the wrapper
 	this.schema.addField('wrapper_class_names', 'String', {
 		title       : 'Wrapper CSS classes',
-		description : 'Configure extra CSS classes to the wrapper `alchemy-widget` element', 
+		description : 'Configure extra CSS classes to the wrapper `al-widget` element', 
 		array: true,
 		widget_config_editable: true,
 	});
@@ -202,7 +202,7 @@ Widget.constitute(function prepareSchema() {
 
 		let next = handle.nextElementSibling;
 
-		if (!next || next.tagName == 'ALCHEMY-WIDGET-ADD-AREA') {
+		if (!next || next.tagName == 'AL-WIDGET-ADD-AREA') {
 			return false;
 		}
 
@@ -476,17 +476,17 @@ Widget.setMethod(function createElement(tag_name) {
 
 /**
  * Create an instance of the HTML element representing this widget
- * This will probably be just <alchemy-widget>
+ * This will probably be just <al-widget>
  *
  * @author   Jelle De Loecker   <jelle@elevenways.be>
  * @since    0.1.0
- * @version  0.1.0
+ * @version  0.2.0
  *
  * @return   {HTMLElement}
  */
 Widget.setMethod(function _createWidgetElement() {
 
-	let element = this.createElement('alchemy-widget');
+	let element = this.createElement('al-widget');
 
 	// Set the type of the widget to our type
 	element.type = this.constructor.type_name;
@@ -642,7 +642,7 @@ Widget.setMethod(function syncConfig() {
  *
  * @author   Jelle De Loecker   <jelle@elevenways.be>
  * @since    0.1.0
- * @version  0.1.12
+ * @version  0.2.0
  */
 Widget.setMethod(async function showConfig(fields) {
 
@@ -697,7 +697,7 @@ Widget.setMethod(async function showConfig(fields) {
 	button.addEventListener('click', e => {
 		e.preventDefault();
 
-		let form = dialog.querySelector('alchemy-form');
+		let form = dialog.querySelector('al-form');
 
 		Object.assign(this.config, form.value);
 
