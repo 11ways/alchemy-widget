@@ -154,7 +154,7 @@ Action.setMethod(function getButtonContent() {
 		let icon = this.icon;
 
 		if (typeof icon == 'string') {
-			result = Blast.Classes.Hawkejs.Hawkejs.createElement('al-ico');
+			result = Blast.Classes.Hawkejs.Hawkejs.createElement('al-icon');
 			result.setIcon(icon);
 		} else if (icon.html) {
 			result = Blast.Classes.Hawkejs.parseHTML(icon.html);
