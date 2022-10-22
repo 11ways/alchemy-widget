@@ -5,8 +5,8 @@
  * @since    0.1.0
  * @version  0.2.0
  */
-let Awc = Function.inherits('Alchemy.Element.Widget.Base', function AlWidgetContext() {
-	AlWidgetContext.super.call(this);
+let Awc = Function.inherits('Alchemy.Element.Widget.Base', function WidgetContext() {
+	WidgetContext.super.call(this);
 
 	this.innerHTML = `<button class="menu-button widget-button" title="Menu"><i class="gg-menu-grid-o"></i></button>`;
 	this.hidden = true;

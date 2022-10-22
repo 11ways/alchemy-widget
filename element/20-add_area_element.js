@@ -3,15 +3,15 @@
  *
  * @author   Jelle De Loecker   <jelle@elevenways.be>
  * @since    0.1.0
- * @version  0.1.0
+ * @version  0.2.0
  */
-let AddArea = Function.inherits('Alchemy.Element.Widget.Base', function AlWidgetAddArea() {
-	AlWidgetAddArea.super.call(this);
+let AddArea = Function.inherits('Alchemy.Element.Widget.Base', function WidgetAddArea() {
+	WidgetAddArea.super.call(this);
 
 	this.innerHTML = `
 <div class="main-button">
-	<button class="add-button widget-button" title="Add"><i class="gg-math-plus"></i></button>
-	<button class="menu-button widget-button" title="Menu"><i class="gg-menu-grid-o"></i></button>
+	<button class="add-button widget-button" title="Add"><al-icon icon-name="plus"></al-icon></button>
+	<button class="menu-button widget-button" title="Menu"><al-icon icon-name="grid"></al-icon></button>
 </div>
 <div class="widget-types">
 	TYPES

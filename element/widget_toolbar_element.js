@@ -5,8 +5,8 @@
  * @since    0.1.0
  * @version  0.2.0
  */
-let Toolbar = Function.inherits('Alchemy.Element.Widget.Base', function AlWidgetToolbar() {
-	AlWidgetToolbar.super.call(this);
+let Toolbar = Function.inherits('Alchemy.Element.Widget.Base', function WidgetToolbar() {
+	WidgetToolbar.super.call(this);
 	this.hidden = true;
 });
 
