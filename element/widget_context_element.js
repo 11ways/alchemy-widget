@@ -8,7 +8,7 @@
 let Awc = Function.inherits('Alchemy.Element.Widget.Base', function WidgetContext() {
 	WidgetContext.super.call(this);
 
-	this.innerHTML = `<button class="menu-button widget-button" title="Menu"><i class="gg-menu-grid-o"></i></button>`;
+	this.innerHTML = `<button class="menu-button widget-button" title="Menu"><al-icon icon-name="grid"></al-icon></button>`;
 	this.hidden = true;
 });
 
