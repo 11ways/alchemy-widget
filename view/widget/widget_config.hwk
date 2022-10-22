@@ -2,6 +2,9 @@
 <% addClass('widget-config-dialog') %>
 
 <div class="widget-config-wrapper js-he-ready-wcd">
+
+	<h2 class="widget-config-title">Editing "{{ title }}" widget</h2>
+
 	<al-form
 		#document={% widget_settings %}
 		#schema={% schema %}

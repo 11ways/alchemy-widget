@@ -675,6 +675,7 @@ Widget.setMethod(async function showConfig(fields) {
 	let widget_settings = Object.assign({}, this.syncConfig());
 
 	let variables = {
+		title            : this.constructor.title,
 		schema           : this.schema,
 		widget_settings,
 		fields           : fields

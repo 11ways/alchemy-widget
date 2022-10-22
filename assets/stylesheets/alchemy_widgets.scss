@@ -304,6 +304,11 @@ al-toc {
 }
 
 [data-he-template="widget/widget_config"] {
+
+	.widget-config-title {
+		margin-bottom: 1rem;
+	}
+
 	al-label {
 		padding: 0.5rem;
 
