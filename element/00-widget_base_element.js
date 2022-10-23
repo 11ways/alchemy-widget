@@ -375,6 +375,7 @@ Base.setMethod(async function copyConfigToClipboard() {
 	}
 
 	value._altype = 'widget';
+	value.type = this.type;
 
 	try {
 		await navigator.clipboard.writeText(JSON.dry(value, null, '\t'));
@@ -415,6 +416,10 @@ Base.setMethod(async function getConfigFromClipboard() {
 	}
 
 	if (result._altype != 'widget') {
+		return false;
+	}
+
+	if (result.type != this.type && !this.can_be_removed) {
 		return false;
 	}
 

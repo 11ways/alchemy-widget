@@ -138,9 +138,10 @@ Widget.constitute(function prepareSchema() {
 	});
 
 	copy.setIcon('clipboard');
+	copy.close_toolbar = true;
 
 	// Add the "paste from clipboard" action
-	let paste = this.createAction('paste', 'Paste from clipboard');
+	let paste = this.createAction('paste', 'Replace from clipboard');
 
 	paste.setHandler(function pasteAction(widget_el, handle) {
 		return widget_el.pasteConfigFromClipboard();
@@ -151,6 +152,7 @@ Widget.constitute(function prepareSchema() {
 	});
 
 	paste.setIcon('paste');
+	paste.close_toolbar = true;
 
 	// Add the "save" action
 	let save = this.createAction('save', 'Save');
