@@ -2,6 +2,7 @@
 
 * Use `al-` prefix for all custom elements
 * Update to `alchemy-form` v0.2.0
+* Add copy & paste actions
 
 ## 0.1.6 (2022-10-12)
 

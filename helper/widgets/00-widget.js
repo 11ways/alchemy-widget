@@ -101,7 +101,7 @@ Widget.enforceProperty(function hawkejs_renderer(new_value) {
  *
  * @author   Jelle De Loecker   <jelle@elevenways.be>
  * @since    0.1.0
- * @version  0.1.6
+ * @version  0.2.0
  */
 Widget.constitute(function prepareSchema() {
 
@@ -125,6 +125,32 @@ Widget.constitute(function prepareSchema() {
 		description : 'Configure extra CSS classes for the main inserted element', 
 		array: true,
 	});
+
+	// Add the "copy to clipboard" action
+	let copy = this.createAction('copy', 'Copy to clipboard');
+
+	copy.setHandler(function copyAction(widget_el, handle) {
+		return widget_el.copyConfigToClipboard();
+	});
+
+	copy.setTester(function copyAction(widget_el, handle) {
+		return true;
+	});
+
+	copy.setIcon('clipboard');
+
+	// Add the "paste from clipboard" action
+	let paste = this.createAction('paste', 'Paste from clipboard');
+
+	paste.setHandler(function pasteAction(widget_el, handle) {
+		return widget_el.pasteConfigFromClipboard();
+	});
+
+	paste.setTester(function pasteAction(widget_el, handle) {
+		return widget_el.getConfigFromClipboard();
+	});
+
+	paste.setIcon('paste');
 
 	// Add the "save" action
 	let save = this.createAction('save', 'Save');
@@ -425,18 +451,25 @@ Widget.setMethod(function toDry() {
  *
  * @author   Jelle De Loecker   <jelle@elevenways.be>
  * @since    0.1.0
- * @version  0.1.0
+ * @version  0.2.0
  *
  * @return   {Array}
  */
-Widget.setMethod(function getToolbarActions() {
+Widget.setMethod(async function getToolbarActions() {
 
 	let sorted = this.constructor.actions.getSorted(),
 	    result = [],
 	    action;
 
 	for (action of sorted) {
-		if (action.test(this.widget)) {
+
+		let tester = action.test(this.widget);
+
+		if (Pledge.isThenable(tester)) {
+			tester = await tester;
+		}
+
+		if (tester) {
 			result.push(action);
 		}
 	}

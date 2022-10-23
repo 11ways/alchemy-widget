@@ -119,7 +119,7 @@ Action.setMethod(function applyOnWidget(widget, toolbar) {
  *
  * @param    {HTMLElement}   widget
  *
- * @return   {Boolean}
+ * @return   {Boolean|Promise}
  */
 Action.setMethod(function test(widget) {
 

@@ -358,3 +358,81 @@ Base.setMethod(async function save() {
 
 	let result = await alchemy.fetch(config);
 });
+
+/**
+ * Copy this widget's configuration to the clipboard
+ *
+ * @author   Jelle De Loecker   <jelle@elevenways.be>
+ * @since    0.2.0
+ * @version  0.2.0
+ */
+Base.setMethod(async function copyConfigToClipboard() {
+
+	let value = this.value;
+	
+	if (!value) {
+		return;
+	}
+
+	value._altype = 'widget';
+
+	try {
+		await navigator.clipboard.writeText(JSON.dry(value, null, '\t'));
+	} catch (err) {
+		console.error('Failed to copy:', err);
+	}
+});
+
+/**
+ * Get configuration from the clipboard and return it if it's valid
+ *
+ * @author   Jelle De Loecker   <jelle@elevenways.be>
+ * @since    0.2.0
+ * @version  0.2.0
+ */
+Base.setMethod(async function getConfigFromClipboard() {
+
+	let result;
+
+	try {
+		result = await navigator.clipboard.readText();
+	} catch (err) {
+		return false;
+	}
+
+	if (result) {
+		result = result.trim();
+	}
+
+	if (!result || result[0] != '{') {
+		return false;
+	}
+
+	try {
+		result = JSON.undry(result);
+	} catch (err) {
+		return false;
+	}
+
+	if (result._altype != 'widget') {
+		return false;
+	}
+
+	return result;
+});
+
+/**
+ * Read the configuration from the clipboard & apply
+ *
+ * @author   Jelle De Loecker   <jelle@elevenways.be>
+ * @since    0.2.0
+ * @version  0.2.0
+ */
+Base.setMethod(async function pasteConfigFromClipboard() {
+
+	let result = await this.getConfigFromClipboard();
+
+	if (result) {
+		this.value = result;
+	}
+});

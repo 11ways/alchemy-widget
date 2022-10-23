@@ -15,11 +15,11 @@ let Toolbar = Function.inherits('Alchemy.Element.Widget.Base', function WidgetTo
  *
  * @author   Jelle De Loecker   <jelle@elevenways.be>
  * @since    0.1.0
- * @version  0.1.6
+ * @version  0.2.0
  *
  * @param    {HTMLElement}   widget
  */
-Toolbar.setMethod(function showWidgetActions(widget) {
+Toolbar.setMethod(async function showWidgetActions(widget) {
 
 	if (!widget || !widget.instance) {
 		return;
@@ -27,7 +27,7 @@ Toolbar.setMethod(function showWidgetActions(widget) {
 
 	const that = this;
 
-	let actions = widget.instance.getToolbarActions();
+	let actions = await widget.instance.getToolbarActions();
 
 	// Clear all the old buttons
 	Hawkejs.removeChildren(this);
