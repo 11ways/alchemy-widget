@@ -4,7 +4,9 @@
 			{% run printEntry entry=entry %}
 			
 			{% if entry.children %}
-				{% run printEntries entries=entry.children %}
+				<li>
+					{% run printEntries entries=entry.children %}
+				</li>
 			{% /if %}
 		{% /each %}
 	</ol>
