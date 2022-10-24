@@ -1,9 +1,21 @@
-<ol>
-	{% each self.entries as entry %}
-		<li>
-			<a href="#{% entry.id %}">
-				{{ entry.title }}
-			</a>
-		</li>
-	{% /each %}
-</ol>
+{% macro printEntries %}
+	<ol>
+		{% each entries as entry %}
+			{% run printEntry entry=entry %}
+			
+			{% if entry.children %}
+				{% run printEntries entries=entry.children %}
+			{% /if %}
+		{% /each %}
+	</ol>
+{% /macro %}
+
+{% macro printEntry %}
+	<li>
+		<a href="#{% entry.id %}">
+			{{ entry.title }}
+		</a>
+	</li>
+{% /macro %}
+
+{% run printEntries entries=self.entries}
