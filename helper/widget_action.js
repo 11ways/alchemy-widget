@@ -5,7 +5,7 @@
  *
  * @author   Jelle De Loecker <jelle@elevenways.be>
  * @since    0.1.0
- * @version  0.1.0
+ * @version  0.2.0
  *
  * @param    {String}   name
  */
@@ -29,8 +29,8 @@ const Action = Function.inherits('Alchemy.Base', 'Alchemy.Widget', function Acti
 	// The icon to use for this action
 	this.icon = null;
 
-	// Close the toolbar after clicking?
-	this.close_toolbar = false;
+	// Close the actionbar after clicking?
+	this.close_actionbar = false;
 });
 
 /**
@@ -90,11 +90,11 @@ Action.setMethod(function setIcon(icon) {
  *
  * @author   Jelle De Loecker   <jelle@elevenways.be>
  * @since    0.1.0
- * @version  0.1.0
+ * @version  0.2.0
  *
  * @param    {HTMLElement}   widget
  */
-Action.setMethod(function applyOnWidget(widget, toolbar) {
+Action.setMethod(function applyOnWidget(widget, actionbar) {
 
 	if (!this.handler) {
 		throw new Error('Failed to apply action "' + this.name + '" on widget, no handler found');
@@ -103,10 +103,10 @@ Action.setMethod(function applyOnWidget(widget, toolbar) {
 	let instance = widget.instance,
 	    handle = instance.getHandle();
 
-	this.handler(widget, handle, toolbar);
+	this.handler(widget, handle, actionbar);
 
-	if (this.close_toolbar) {
-		toolbar.close();
+	if (this.close_actionbar) {
+		actionbar.close();
 	}
 });
 

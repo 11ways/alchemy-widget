@@ -43,7 +43,7 @@ Header.constitute(function addActions() {
 	for (let level of levels) {
 		let level_action = this.createAction('make-level-' + level, 'Level ' + level);
 
-		level_action.setHandler(function setLevelAction(widget, handle, toolbar) {
+		level_action.setHandler(function setLevelAction(widget, handle, actionbar) {
 
 			let content = widget.querySelector(query);
 
@@ -54,8 +54,8 @@ Header.constitute(function addActions() {
 			widget.instance.config.level = level;
 			widget.instance.rerender();
 
-			// Rerender the toolbar
-			toolbar.showWidgetActions(widget);
+			// Rerender the actionbar
+			actionbar.showWidgetActions(widget);
 		});
 
 		level_action.setIcon({html: '<span class="aw-header-h">H</span><span class="aw-header-level">' + level + '</span>'});

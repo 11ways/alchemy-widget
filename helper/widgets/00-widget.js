@@ -138,7 +138,7 @@ Widget.constitute(function prepareSchema() {
 	});
 
 	copy.setIcon('clipboard');
-	copy.close_toolbar = true;
+	copy.close_actionbar = true;
 
 	// Add the "paste from clipboard" action
 	let paste = this.createAction('paste', 'Replace from clipboard');
@@ -152,7 +152,7 @@ Widget.constitute(function prepareSchema() {
 	});
 
 	paste.setIcon('paste');
-	paste.close_toolbar = true;
+	paste.close_actionbar = true;
 
 	// Add the "save" action
 	let save = this.createAction('save', 'Save');
@@ -170,7 +170,7 @@ Widget.constitute(function prepareSchema() {
 	// Add the remove action
 	let remove = this.createAction('remove', 'Remove');
 
-	remove.close_toolbar = true;
+	remove.close_actionbar = true;
 
 	remove.setHandler(function removeAction(widget_el, handle) {
 		handle.remove();
@@ -185,7 +185,7 @@ Widget.constitute(function prepareSchema() {
 	// Add the config action
 	let config = this.createAction('config', 'Config');
 
-	config.close_toolbar = true;
+	config.close_actionbar = true;
 	config.setIcon('gears');
 
 	config.setHandler(function configAction(widget_el, handle) {
@@ -195,7 +195,7 @@ Widget.constitute(function prepareSchema() {
 	// The move-left action
 	let move_left = this.createAction('move-left', 'Move left');
 
-	move_left.close_toolbar = true;
+	move_left.close_actionbar = true;
 
 	move_left.setHandler(function moveLeftAction(widget_el, handle) {
 		// Hawkejs custom element method!
@@ -215,7 +215,7 @@ Widget.constitute(function prepareSchema() {
 
 	let move_right = this.createAction('move-right', 'Move right');
 
-	move_right.close_toolbar = true;
+	move_right.close_actionbar = true;
 
 	move_right.setHandler(function moveRightAction(widget_el, handle) {
 		// Hawkejs custom element method!
@@ -242,7 +242,7 @@ Widget.constitute(function prepareSchema() {
 	// The move-in-left action
 	let move_in_left = this.createAction('move-in-left', 'Move in left');
 
-	move_in_left.close_toolbar = true;
+	move_in_left.close_actionbar = true;
 
 	move_in_left.setHandler(function moveLeftAction(widget_el, handle) {
 		// Hawkejs custom element method!
@@ -267,7 +267,7 @@ Widget.constitute(function prepareSchema() {
 	// The move-in-right action
 	let move_in_right = this.createAction('move-in-right', 'Move in right');
 
-	move_in_right.close_toolbar = true;
+	move_in_right.close_actionbar = true;
 
 	move_in_right.setHandler(function moveRightAction(widget_el, handle) {
 		// Hawkejs custom element method!
@@ -449,7 +449,7 @@ Widget.setMethod(function toDry() {
 });
 
 /**
- * Get an array of toolbar actions
+ * Get an array of actionbar actions
  *
  * @author   Jelle De Loecker   <jelle@elevenways.be>
  * @since    0.1.0
@@ -457,7 +457,7 @@ Widget.setMethod(function toDry() {
  *
  * @return   {Array}
  */
-Widget.setMethod(async function getToolbarActions() {
+Widget.setMethod(async function getActionbarActions() {
 
 	let sorted = this.constructor.actions.getSorted(),
 	    result = [],

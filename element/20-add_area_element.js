@@ -58,27 +58,27 @@ AddArea.setMethod(function showTypes(event) {
 });
 
 /**
- * Show the toolbar
+ * Show the actionbar
  *
  * @author   Jelle De Loecker   <jelle@elevenways.be>
  * @since    0.1.0
  * @version  0.2.0
  */
-AddArea.setMethod(function showToolbar() {
+AddArea.setMethod(function showActionbar() {
 
-	if (!this.toolbar) {
-		this.toolbar = document.createElement('al-widget-toolbar');
-		this.append(this.toolbar);
+	if (!this.actionbar) {
+		this.actionbar = document.createElement('al-widget-actionbar');
+		this.append(this.actionbar);
 	}
 
-	if (this.toolbar.context_element == this && !this.toolbar.hidden) {
-		this.toolbar.close();
+	if (this.actionbar.context_element == this && !this.actionbar.hidden) {
+		this.actionbar.close();
 		return;
 	}
 
-	this.toolbar.hidden = false;
-	this.toolbar.context_element = this;
-	this.toolbar.showWidgetActions(this.parentElement);
+	this.actionbar.hidden = false;
+	this.actionbar.context_element = this;
+	this.actionbar.showWidgetActions(this.parentElement);
 
 });
 
@@ -106,6 +106,6 @@ AddArea.setMethod(function introduced() {
 
 	context_button.addEventListener('click', function onClick(e) {
 		e.preventDefault();
-		that.showToolbar();
+		that.showActionbar();
 	});
 });

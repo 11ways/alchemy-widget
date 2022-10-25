@@ -49,44 +49,44 @@ Awc.setMethod(function moveToWidget(widget) {
  *
  * @author   Jelle De Loecker   <jelle@elevenways.be>
  * @since    0.1.0
- * @version  0.1.0
+ * @version  0.2.0
  */
 Awc.setMethod(function unselectedWidget(widget) {
 
 	this.hidden = true;
 	this.active_widget = null;
 
-	if (this.toolbar) {
-		this.toolbar.hidden = true;
+	if (this.actionbar) {
+		this.actionbar.hidden = true;
 	}
 });
 
 /**
- * Show the toolbar
+ * Show the actionbar
  *
  * @author   Jelle De Loecker   <jelle@elevenways.be>
  * @since    0.1.0
  * @version  0.2.0
  */
-Awc.setMethod(function toggleToolbar() {
+Awc.setMethod(function toggleActionbar() {
 
 	if (!this.active_widget) {
 		return;
 	}
 
-	if (!this.toolbar) {
-		this.toolbar = document.createElement('al-widget-toolbar');
-		this.append(this.toolbar);
+	if (!this.actionbar) {
+		this.actionbar = document.createElement('al-widget-actionbar');
+		this.append(this.actionbar);
 	}
 
-	if (this.toolbar.context_element == this && !this.toolbar.hidden) {
-		this.toolbar.close();
+	if (this.actionbar.context_element == this && !this.actionbar.hidden) {
+		this.actionbar.close();
 		return;
 	}
 
-	this.toolbar.hidden = false;
-	this.toolbar.context_element = this;
-	this.toolbar.showWidgetActions(this.active_widget);
+	this.actionbar.hidden = false;
+	this.actionbar.context_element = this;
+	this.actionbar.showWidgetActions(this.active_widget);
 });
 
 /**
@@ -94,7 +94,7 @@ Awc.setMethod(function toggleToolbar() {
  *
  * @author   Jelle De Loecker   <jelle@elevenways.be>
  * @since    0.1.0
- * @version  0.1.0
+ * @version  0.2.0
  */
 Awc.setMethod(function introduced() {
 
@@ -110,7 +110,7 @@ Awc.setMethod(function introduced() {
 			return that.exitingWidget();
 		}
 
-		that.toggleToolbar();
+		that.toggleActionbar();
 	});
 
 	document.addEventListener('click', e => {

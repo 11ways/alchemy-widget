@@ -163,7 +163,7 @@ al-widget-add-area {
 	}
 }
 
-.aw-toolbar-button,
+.aw-actionbar-button,
 .widget-button {
 	color: #707684;
 	cursor: pointer;
@@ -202,7 +202,7 @@ al-widget {
 }
 
 al-widget-context,
-al-widget-toolbar {
+al-widget-actionbar {
 	display: block;
 	padding: 0.4rem;
 	background-color: white;
@@ -219,7 +219,7 @@ al-widget-context {
 	position: fixed;
 	z-index: 99999;
 
-	al-widget-toolbar {
+	al-widget-actionbar {
 		position: absolute;
 		top: calc(100% + 5px);
 		right: 0;
@@ -227,7 +227,7 @@ al-widget-context {
 	}
 }
 
-al-widget-toolbar {
+al-widget-actionbar {
 	min-height: 2.5rem;
 	min-width: 2.5rem;
 	display: flex;
@@ -236,7 +236,7 @@ al-widget-toolbar {
 		margin-right: 5px;
 	}
 
-	.aw-toolbar-button {
+	.aw-actionbar-button {
 		font-size: 2.5rem;
 		border-radius: 4px;
 		padding: 0.6rem;
@@ -286,7 +286,7 @@ al-widget[type="text"] {
 	}
 }
 
-.aw-toolbar-button {
+.aw-actionbar-button {
 
 	.aw-header-h {
 		font-weight: bold;

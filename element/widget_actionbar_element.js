@@ -1,12 +1,12 @@
 /**
- * The al-widget-toolbar element
+ * The al-widget-actionbar element
  *
  * @author   Jelle De Loecker   <jelle@elevenways.be>
  * @since    0.1.0
  * @version  0.2.0
  */
-let Toolbar = Function.inherits('Alchemy.Element.Widget.Base', function WidgetToolbar() {
-	WidgetToolbar.super.call(this);
+let Actionbar = Function.inherits('Alchemy.Element.Widget.Base', function WidgetActionbar() {
+	WidgetActionbar.super.call(this);
 	this.hidden = true;
 });
 
@@ -19,7 +19,7 @@ let Toolbar = Function.inherits('Alchemy.Element.Widget.Base', function WidgetTo
  *
  * @param    {HTMLElement}   widget
  */
-Toolbar.setMethod(async function showWidgetActions(widget) {
+Actionbar.setMethod(async function showWidgetActions(widget) {
 
 	if (!widget || !widget.instance) {
 		return;
@@ -27,7 +27,7 @@ Toolbar.setMethod(async function showWidgetActions(widget) {
 
 	const that = this;
 
-	let actions = await widget.instance.getToolbarActions();
+	let actions = await widget.instance.getActionbarActions();
 
 	// Clear all the old buttons
 	Hawkejs.removeChildren(this);
@@ -35,7 +35,7 @@ Toolbar.setMethod(async function showWidgetActions(widget) {
 	for (let action of actions) {
 
 		let button = this.createElement('button');
-		button.classList.add('aw-toolbar-button');
+		button.classList.add('aw-actionbar-button');
 
 		let content = action.getButtonContent();
 
@@ -75,13 +75,13 @@ Toolbar.setMethod(async function showWidgetActions(widget) {
 });
 
 /**
- * Close the toolbar
+ * Close the actionbar
  *
  * @author   Jelle De Loecker   <jelle@elevenways.be>
  * @since    0.1.0
  * @version  0.1.0
  */
-Toolbar.setMethod(function close() {
+Actionbar.setMethod(function close() {
 	this.hidden = true;
 
 	if (this.context_element && this.context_element.active_widget) {
