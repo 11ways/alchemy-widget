@@ -1,5 +1,7 @@
-if (alchemy.plugins.form) {
-	throw new Error('The alchemy-form plugin has to be loaded AFTER alchemy-widget');
+alchemy.requirePlugin('form');
+
+if (!alchemy.plugins.form) {
+	throw new Error('The alchemy-form plugin has to be loaded BEFORE alchemy-widget');
 }
 
 Router.add({
