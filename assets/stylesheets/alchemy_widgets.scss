@@ -1,3 +1,100 @@
+:root {
+	al-widget-toolbar {
+		display: none;
+	}
+}
+
+html.logged-in {
+	al-widget-toolbar {
+		font-size: 15px;
+
+		display: flex;
+		z-index: 9999;
+		background: rgba(200, 200, 200, 0.5);
+		box-shadow: 0 5px 10px 0 rgba(0, 0, 0, 0.15);
+		bottom: 3em; left: 3em;
+		border-radius: 24px;
+		height: 5.25em;
+		padding: 1em;
+		border: 1px solid #aaa;
+		display: flex;
+		gap: 1em;
+		backdrop-filter: blur(10px);
+
+		position: fixed;
+		bottom: 16px;
+		left: 16px;
+		right: 16px;
+	}
+}
+
+al-widget-toolbar {
+
+	&[state="editing"] {
+		.start-edit {
+			display: none;
+		}
+	}
+
+	&[state="default"],
+	&[state="ready"] {
+		.stop-and-save,
+		.stop-edit,
+		.save-all {
+			display: none;
+		}
+	}
+
+	&[state="saving"],
+	&[state="saving-before-stop"] {
+		.start-edit,
+		.stop-edit {
+			display: none;
+		}
+	}
+
+	&[state="saving"] {
+		.stop-and-save {
+			display: none;
+		}
+	}
+
+	&[state="saving-before-stop"] {
+		.save-all {
+			display: none;
+		}
+	}
+
+	.stop-and-save,
+	.save-all {
+		--al-button-bg-color: green;
+		--al-button-bg-color-hover: rgb(55, 155, 55);
+	}
+
+	a,
+	al-button {
+		--al-button-font-size: 1.3em;
+		border-radius: 1em;
+	}
+
+	a {
+		background-color: black;
+		color: white;
+		padding: 0.5em 1em;
+		display: inline-flex;
+		align-items: center;
+		gap: 0.5em;
+
+		al-icon {
+			font-size: 2em;
+		}
+
+		&:hover {
+			background-color: rgb(53, 53, 53);
+		}
+	}
+}
+
 al-widgets,
 al-widgets-row,
 al-widgets-column,
@@ -197,7 +294,18 @@ al-widget {
 
 	&.aw-selected {
 		background-color: #7979f347;
-		outline: 1px dashed #7979f399;
+		position: relative;
+		outline: none;
+
+		&:before {
+			content: "";
+			outline: 3px dashed #7979f399;
+			outline-offset: -3px;
+			position: absolute;
+			inset: 0;
+			z-index: 5;
+			pointer-events: none;
+		}
 	}
 }
 

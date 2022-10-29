@@ -4,6 +4,7 @@
 * Update to `alchemy-form` v0.2.0
 * Add copy & paste actions
 * Add nesting levels to `al-toc`
+* Add `al-widget-toolbar` element
 
 ## 0.1.6 (2022-10-12)
 
