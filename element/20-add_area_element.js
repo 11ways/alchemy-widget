@@ -32,8 +32,8 @@ AddArea.setMethod(function showTypes(event) {
 
 	let context_button = document.querySelector('al-widget-context');
 
-	if (context_button && context_button.active_widget) {
-		context_button.unselectedWidget();
+	if (context_button) {
+		context_button.forceUnselection();
 	}
 
 	let context = this.createElement('he-context-menu');

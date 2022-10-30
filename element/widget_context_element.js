@@ -45,7 +45,7 @@ Awc.setMethod(function moveToWidget(widget) {
 });
 
 /**
- * Exiting the given widget
+ * The given widget has been unselected
  *
  * @author   Jelle De Loecker   <jelle@elevenways.be>
  * @since    0.1.0
@@ -58,6 +58,22 @@ Awc.setMethod(function unselectedWidget(widget) {
 
 	if (this.actionbar) {
 		this.actionbar.hidden = true;
+	}
+});
+
+/**
+ * Force unselecting any widget
+ *
+ * @author   Jelle De Loecker   <jelle@elevenways.be>
+ * @since    0.2.0
+ * @version  0.2.0
+ */
+Awc.setMethod(function forceUnselection() {
+
+	if (this.active_widget) {
+		this.active_widget.unselectWidget();
+	} else {
+		this.unselectedWidget();
 	}
 });
 
@@ -129,7 +145,7 @@ Awc.setMethod(function introduced() {
 			return;
 		}
 
-		return this.unselectedWidget();
+		return this.forceUnselection();
 	});
 
 	let update_scroll = () => {

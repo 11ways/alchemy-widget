@@ -117,10 +117,19 @@ al-widgets-column {
 	}
 }
 
+al-widgets,
 al-widget {
 	&.aw-editing {
-		outline: 2px dashed rgba(0, 0, 0, 0.3);
-		outline-offset: -2px;
+		&:before {
+			content: "";
+			position: absolute;
+			inset: -2px;
+			background: white;
+			border: 2px dashed rgba(0, 0, 0, 0.4);
+			pointer-events: none;
+			backdrop-filter: invert(80%);
+			clip-path: polygon(0% 0%, 0% 100%, 2px 100%, 2px 2px, calc(100% - 2px) 2px, calc(100% - 2px) calc(100% - 2px), 0 calc(100% - 2px), 0 100%, 100% 100%, 100% 0)
+		}
 	}
 }
 
@@ -153,11 +162,6 @@ al-widgets-column {
 al-widgets {
 	min-width: 10rem;
 	min-height: 10rem;
-
-	&.aw-editing {
-		outline: 2px dashed rgba(0, 0, 0, 0.3);
-		outline-offset: -2px;
-	}
 }
 
 al-widgets-row {
@@ -298,13 +302,7 @@ al-widget {
 		outline: none;
 
 		&:before {
-			content: "";
-			outline: 3px dashed #7979f399;
-			outline-offset: -3px;
-			position: absolute;
-			inset: 0;
-			z-index: 5;
-			pointer-events: none;
+			background-color: yellow;
 		}
 	}
 }
@@ -415,6 +413,7 @@ al-toc {
 
 	.widget-config-title {
 		margin-bottom: 1rem;
+		color: black;
 	}
 
 	al-label {
