@@ -266,6 +266,12 @@ Toolbar.setMethod(async function saveAllAndUpdateButtonStates(before_stop) {
 
 	restore_toolbar_state();
 	restore_button_state();
+
+	if (save_error) {
+		return false;
+	}
+
+	return true;
 });
 
 /**
@@ -290,8 +296,11 @@ Toolbar.setMethod(function introduced() {
 	});
 
 	this.button_stop_and_save.addEventListener('activate', async e => {
-		await this.saveAllAndUpdateButtonStates(true);
-		this.stopEditing();
+		let saved = await this.saveAllAndUpdateButtonStates(true);
+
+		if (saved) {
+			this.stopEditing();
+		}
 	});
 
 	hawkejs.scene.on('opening_url', e => {

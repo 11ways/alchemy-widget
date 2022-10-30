@@ -5,6 +5,7 @@
 * Add copy & paste actions
 * Add nesting levels to `al-toc`
 * Add `al-widget-toolbar` element
+* Use `easymde` markdown editor for markdown widgets
 
 ## 0.1.6 (2022-10-12)
 

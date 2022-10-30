@@ -56,15 +56,19 @@ Markdown.setMethod(function populateWidget() {
  * @since    0.1.0
  * @version  0.2.0
  */
-Markdown.setMethod(function _startEditor() {
+Markdown.setMethod(async function _startEditor() {
 
 	Hawkejs.removeChildren(this.widget);
 
-	let input = this.createElement('al-code-input');
-	input.textContent = this.config.markdown || '';
-	//area.value = this.config.markdown || '';
+	hawkejs.scene.enableStyle('https://unpkg.com/easymde/dist/easymde.min.css');
+	await hawkejs.require('https://unpkg.com/easymde/dist/easymde.min.js');
 
-	this.widget.append(input);
+	let element = this.createElement('textarea');
+	this.widget.append(element);
+	element.value = this.config.markdown || '';
+
+	const easyMDE = new EasyMDE({element});
+	this.easy_mde = easyMDE;
 });
 
 /**
@@ -77,6 +81,7 @@ Markdown.setMethod(function _startEditor() {
 Markdown.setMethod(function _stopEditor() {
 
 	Hawkejs.removeChildren(this.widget);
+	this.easy_mde = null;
 
 	this.populateWidget();
 });
@@ -92,11 +97,13 @@ Markdown.setMethod(function _stopEditor() {
  */
 Markdown.setMethod(function syncConfig() {
 
-	let input = this.widget.querySelector('al-code-input, textarea');
+	let value = '';
 
-	if (input) {
-		this.config.markdown = input.value;
+	if (this.easy_mde) {
+		value = this.easy_mde.value();
 	}
+
+	this.config.markdown = value;
 
 	return this.config;
 });
