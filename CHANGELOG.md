@@ -1,4 +1,4 @@
-## 0.2.0 (WIP)
+## 0.2.0 (2022-11-02)
 
 * Use `al-` prefix for all custom elements
 * Update to `alchemy-form` v0.2.0
