@@ -155,6 +155,10 @@ Toolbar.setMethod(function startEditing() {
  */
 Toolbar.setMethod(function stopEditing() {
 
+	if (!Blast.editing) {
+		return;
+	}
+
 	let i;
 
 	Blast.editing = false;
