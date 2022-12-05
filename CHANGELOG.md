@@ -1,3 +1,7 @@
+## 0.2.1 (WIP)
+
+* Add a `-first` modifier class to the first visible entry of a table-of-contents element
+
 ## 0.2.0 (2022-11-02)
 
 * Use `al-` prefix for all custom elements

@@ -255,7 +255,7 @@ TableOfContents.setProperty(function entries() {
  *
  * @author   Jelle De Loecker   <jelle@elevenways.be>
  * @since    0.1.2
- * @version  0.1.2
+ * @version  0.2.1
  */
 TableOfContents.setMethod(async function introduced() {
 
@@ -263,7 +263,8 @@ TableOfContents.setMethod(async function introduced() {
 
 	const observer = new IntersectionObserver(entries => {
 
-		let class_name = this.intersection_class || 'visible';
+		let class_name = this.intersection_class || 'visible',
+		    first_name = class_name + '-first';
 
 		for (let entry of entries) {
 			const id = entry.target.getAttribute('id');
@@ -281,6 +282,28 @@ TableOfContents.setMethod(async function introduced() {
 				element.classList.remove(class_name);
 			}
 		};
+
+		let is_visible,
+		    all_marked = this.querySelectorAll('.' + class_name + ', .' + first_name),
+		    element,
+			seen = 0,
+		    i;
+		
+		for (i = 0; i < all_marked.length; i++) {
+			element = all_marked[i];
+			is_visible = element.classList.contains(class_name);
+
+			if (is_visible && seen == 0) {
+				element.classList.add(first_name);
+			} else {
+				element.classList.remove(first_name);
+			}
+
+			if (is_visible) {
+				seen++;
+			}
+		}
+		
 	});
 
 	for (let entry of this.entries) {
