@@ -1,4 +1,3 @@
-const EDITOR = Symbol('editor');
 
 /**
  * The Widget HTML class
@@ -34,8 +33,8 @@ Html.constitute(function prepareSchema() {
  */
 Html.setMethod(async function _startEditor() {
 
-	if (this[EDITOR]) {
-		this[EDITOR].destroy();
+	if (this.ckeditor) {
+		this.ckeditor.destroy();
 	}
 
 	let ckeditor_path = hawkejs.scene.exposed.ckeditor_path;
@@ -49,14 +48,16 @@ Html.setMethod(async function _startEditor() {
 	const options = {
 		toolbar: hawkejs.scene.exposed.ckeditor_toolbar,
 		updateSourceElementOnDestroy: true,
+		removePlugins: ['Markdown'],
 		simpleUpload: {
-			uploadUrl: '/api/block/upload',
+			uploadUrl: alchemy.routeUrl('AlchemyWidgets#uploadImage'),
 			withCredentials: true,
 		},
 	};
 
 	let editor = await InlineEditor.create(this.widget, options);
-	this[EDITOR] = editor;
+
+	this.ckeditor = editor;
 });
 
 /**
@@ -67,9 +68,9 @@ Html.setMethod(async function _startEditor() {
  * @version  0.2.1
  */
 Html.setMethod(function _stopEditor() {
-	if (this[EDITOR]) {
-		this[EDITOR].destroy();
-		this[EDITOR] = null;
+	if (this.ckeditor) {
+		this.ckeditor.destroy();
+		this.ckeditor = null;
 	}
 });
 

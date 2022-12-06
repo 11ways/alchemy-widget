@@ -185,3 +185,67 @@ AlchemyWidgets.setAction(async function save(conduit) {
 
 	conduit.end(result);
 });
+
+/**
+ * Handle an image upload from within CKeditor
+ *
+ * @author   Jelle De Loecker   <jelle@elevenways.be>
+ * @since    0.2.1
+ * @version  0.2.1
+ */
+AlchemyWidgets.setAction(async function uploadImage(conduit) {
+
+	let file = conduit.files.upload;
+
+	const MediaFile = this.getModel('MediaFile');
+
+	let name = file.name.split('.');
+
+	// Remove the last piece if there are more than 1
+	if (name.length > 1) {
+		name.pop();
+	}
+
+	// Join them again
+	name = name.join('.');
+
+	const options = {
+		move     : true,
+		filename : file.name,
+		name     : name,
+	};
+
+	MediaFile.addFile(file.path, options, (err, result) => {
+
+		if (err) {
+			return conduit.error(err);
+		}
+
+		const params = {
+			id : result._id,
+		};
+
+		let default_path = alchemy.routeUrl('Media::image', params);
+		let url = RURL.parse(default_path);
+
+		let path_800 = url.clone();
+		path_800.param('width', '800');
+
+		let path_1024 = url.clone();
+		path_1024.param('height', '1024');
+
+		let path_1920 = url.clone();
+		path_1920.param('width', '1920');
+
+		let response = {
+			urls: {
+				default : default_path,
+				'800'   : path_800+'',
+				'1024'  : path_1024+'',
+				'1920'  : path_1920+''
+			}
+		};
+
+		conduit.end(response);
+	});
+});
