@@ -624,7 +624,7 @@ Widget.setMethod(async function startEditor() {
  *
  * @author   Jelle De Loecker   <jelle@elevenways.be>
  * @since    0.1.0
- * @version  0.1.0
+ * @version  0.2.1
  */
 Widget.setMethod(function stopEditor() {
 
@@ -638,6 +638,10 @@ Widget.setMethod(function stopEditor() {
 
 	if (typeof this._stopEditor == 'function') {
 		this._stopEditor();
+
+		// Remove the editing class again
+		// (some editors will try to restore the original classes)
+		this.widget.classList.remove('aw-editing');
 	}
 });
 
