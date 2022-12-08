@@ -59,14 +59,12 @@ Container.setMethod(function populateWidget() {
 
 	const widgets = this.config.widgets;
 
-	if (!widgets || !widgets.length) {
-		return;
-	}
+	if (widgets?.length) {
+		let widget;
 
-	let widget;
-
-	for (widget of widgets) {
-		this.widget.addWidget(widget.type, widget.config);
+		for (widget of widgets) {
+			this.widget.addWidget(widget.type, widget.config);
+		}
 	}
 
 	populateWidget.super.call(this);

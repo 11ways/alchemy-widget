@@ -62,21 +62,22 @@ AlchemyWidgets.setAssignedProperty('context_variables', function getContextData(
  *
  * @author   Jelle De Loecker   <jelle@elevenways.be>
  * @since    0.1.0
- * @version  0.1.0
+ * @version  0.2.1
  */
 AlchemyWidgets.setProperty(function value() {
 
-	let widgets = this.getWidgetsConfig(),
+	let config = this.instance.config,
+	    widgets = this.getWidgetsConfig(),
 	    result;
+	
+	config = Object.assign({}, config, {widgets});
 
 	if (this.nodeName == 'AL-WIDGETS') {
-		result = {widgets};
+		result = config;
 	} else {
 		result = {
 			type   : this.instance.constructor.type_name,
-			config : {
-				widgets : widgets
-			}
+			config : config,
 		};
 	}
 
