@@ -180,6 +180,12 @@ Widget.constitute(function prepareSchema() {
 		default     : false,
 	});
 
+	this.schema.addField('language', 'String', {
+		title       : 'Language override',
+		description : 'If the content of this widget is in a different language, set it here', 
+		widget_config_editable : true,
+	});
+
 	// Add the "copy to clipboard" action
 	let copy = this.createAction('copy', 'Copy to clipboard');
 
@@ -652,16 +658,24 @@ Widget.setMethod(function _createPopulatedWidgetElement() {
  */
 Widget.setMethod(function populateWidget() {
 
-	if (this.config && this.config.wrapper_class_names) {
+	const config = this.config;
+
+	if (config.wrapper_class_names) {
 		let name,
 		    i;
 
-		let class_names = Array.cast(this.config.wrapper_class_names);
+		let class_names = Array.cast(config.wrapper_class_names);
 
 		for (i = 0; i < class_names.length; i++) {
 			name = class_names[i];
 			this.widget.classList.add(name);
 		}
+	}
+
+	if (config.language) {
+		this.widget.setAttribute('lang', config.language);
+	} else {
+		this.widget.removeAttribute('lang');
 	}
 
 	let child_classes = this.widget.child_class;

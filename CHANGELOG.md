@@ -6,6 +6,7 @@
 * Move `Container` widget init logic from the custom-element to the main widget instance
 * Disable most `backdrop-filter` properties, they caused too many FPS issues
 * Add the ability to hide widgets from the public
+* Allow overriding the language (`lang` attribute) of a widget
 
 ## 0.2.0 (2022-11-02)
 
