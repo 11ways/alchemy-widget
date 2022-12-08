@@ -4,6 +4,7 @@
 * Make HTML widget editable
 * Also store and retrieve copied widget config from localStorage
 * Move `Container` widget init logic from the custom-element to the main widget instance
+* Disable most `backdrop-filter` properties, they caused too many FPS issues
 
 ## 0.2.0 (2022-11-02)
 

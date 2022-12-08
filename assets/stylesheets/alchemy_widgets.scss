@@ -127,7 +127,7 @@ al-widget {
 			background: white;
 			border: 2px dashed rgba(0, 0, 0, 0.4);
 			pointer-events: none;
-			backdrop-filter: invert(80%);
+			//backdrop-filter: invert(80%);
 			clip-path: polygon(0% 0%, 0% 100%, 2px 100%, 2px 2px, calc(100% - 2px) 2px, calc(100% - 2px) calc(100% - 2px), 0 calc(100% - 2px), 0 100%, 100% 100%, 100% 0)
 		}
 	}
@@ -291,8 +291,8 @@ al-widget {
 		&:hover {
 			background: rgba(60, 60, 120, 0.2);
 
-			// This actually causes some glitches on Firefox :/
-			backdrop-filter: blur(4px);
+			// This actually causes some glitches on Firefox and chrome too :/
+			//backdrop-filter: blur(4px);
 		}
 	}
 
