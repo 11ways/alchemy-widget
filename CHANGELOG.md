@@ -3,6 +3,7 @@
 * Add a `-first` modifier class to the first visible entry of a table-of-contents element
 * Make HTML widget editable
 * Also store and retrieve copied widget config from localStorage
+* Move `Container` widget init logic from the custom-element to the main widget instance
 
 ## 0.2.0 (2022-11-02)
 

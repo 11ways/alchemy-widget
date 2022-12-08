@@ -47,6 +47,32 @@ Container.setMethod(function initContainer() {
 });
 
 /**
+ * Populate the widget
+ *
+ * @author   Jelle De Loecker   <jelle@elevenways.be>
+ * @since    0.2.1
+ * @version  0.2.1
+ *
+ * @return   {HTMLElement}
+ */
+Container.setMethod(function populateWidget() {
+
+	const widgets = this.config.widgets;
+
+	if (!widgets || !widgets.length) {
+		return;
+	}
+
+	let widget;
+
+	for (widget of widgets) {
+		this.widget.addWidget(widget.type, widget.config);
+	}
+
+	populateWidget.super.call(this);
+});
+
+/**
  * Create an instance of the HTML element representing this widget
  *
  * @author   Jelle De Loecker   <jelle@elevenways.be>

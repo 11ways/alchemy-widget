@@ -91,7 +91,7 @@ AlchemyWidgets.setProperty(function value() {
  *
  * @author   Jelle De Loecker   <jelle@elevenways.be>
  * @since    0.1.5
- * @version  0.1.5
+ * @version  0.2.1
  */
 AlchemyWidgets.setMethod(function applyValue(value) {
 
@@ -119,24 +119,18 @@ AlchemyWidgets.setMethod(function applyValue(value) {
 		if (config.class_names) {
 			Hawkejs.addClasses(this, config.class_names);
 		}
+	} else {
+		config = this.instance?.config || {};
 	}
 
 	if (!this.instance) {
 		return;
 	}
 
+	config.widgets = widgets;
+
 	this.instance.config = config;
 	this.instance.initContainer();
-
-	if (!widgets || !widgets.length) {
-		return;
-	}
-
-	let widget;
-
-	for (widget of widgets) {
-		this.addWidget(widget.type, widget.config);
-	}
 });
 
 /**

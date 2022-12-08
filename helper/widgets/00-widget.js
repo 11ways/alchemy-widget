@@ -5,14 +5,18 @@
  *
  * @author   Jelle De Loecker <jelle@elevenways.be>
  * @since    0.1.0
- * @version  0.1.0
+ * @version  0.2.1
  *
  * @param    {Object}   config
  */
 const Widget = Function.inherits('Alchemy.Base', 'Alchemy.Widget', function Widget(config) {
 
 	// The configuration of this widget
-	this.config = config || {};
+	if (config) {
+		this.config = config;
+	}
+
+	this.originalconfig = this.config;
 
 	// Are we currently editing?
 	this.editing = false;
@@ -70,6 +74,24 @@ Widget.setProperty(function element() {
 	return this.widget;
 }, function setElement(element) {
 	return this.widget = element;
+});
+
+/**
+ * The config object
+ *
+ * @author   Jelle De Loecker   <jelle@elevenways.be>
+ * @since    0.2.1
+ * @version  0.2.1
+ *
+ * @type     {Object}
+ */
+Widget.enforceProperty(function config(new_value) {
+
+	if (!new_value) {
+		new_value = {};
+	}
+
+	return new_value;
 });
 
 /**
