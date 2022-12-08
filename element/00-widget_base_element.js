@@ -364,7 +364,7 @@ Base.setMethod(async function save() {
  *
  * @author   Jelle De Loecker   <jelle@elevenways.be>
  * @since    0.2.0
- * @version  0.2.0
+ * @version  0.2.1
  */
 Base.setMethod(async function copyConfigToClipboard() {
 
@@ -377,11 +377,15 @@ Base.setMethod(async function copyConfigToClipboard() {
 	value._altype = 'widget';
 	value.type = this.type;
 
+	let dried = JSON.dry(value, null, '\t');
+
 	try {
-		await navigator.clipboard.writeText(JSON.dry(value, null, '\t'));
+		await navigator.clipboard.writeText(dried);
 	} catch (err) {
 		console.error('Failed to copy:', err);
 	}
+
+	localStorage._copied_widget_config = dried;
 });
 
 /**
@@ -389,7 +393,7 @@ Base.setMethod(async function copyConfigToClipboard() {
  *
  * @author   Jelle De Loecker   <jelle@elevenways.be>
  * @since    0.2.0
- * @version  0.2.0
+ * @version  0.2.1
  */
 Base.setMethod(async function getConfigFromClipboard() {
 
@@ -398,7 +402,12 @@ Base.setMethod(async function getConfigFromClipboard() {
 	try {
 		result = await navigator.clipboard.readText();
 	} catch (err) {
-		return false;
+
+		if (!localStorage._copied_widget_config) {
+			return false;
+		} else {
+			result = localStorage._copied_widget_config;
+		}
 	}
 
 	if (result) {
