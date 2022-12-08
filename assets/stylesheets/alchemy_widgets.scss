@@ -2,6 +2,10 @@
 	al-widget-toolbar {
 		display: none;
 	}
+
+	[hidden] {
+		display: none !important;
+	}
 }
 
 html.logged-in {
