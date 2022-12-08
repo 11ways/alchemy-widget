@@ -119,11 +119,36 @@ Widget.enforceProperty(function hawkejs_renderer(new_value) {
 });
 
 /**
+ * Visibility of the widget
+ *
+ * @author   Jelle De Loecker   <jelle@elevenways.be>
+ * @since    0.2.1
+ * @version  0.2.1
+ *
+ * @type     {Boolean}
+ */
+Widget.enforceProperty(function is_hidden(new_value) {
+
+	if (new_value == null) {
+		new_value = this.config.hidden;
+
+		if (new_value == null) {
+			new_value = false;
+		}
+	} else {
+		this.config.hidden = new_value;
+		this.queueVisibilityUpdate();
+	}
+
+	return new_value;
+});
+
+/**
  * Prepare the schema & actions
  *
  * @author   Jelle De Loecker   <jelle@elevenways.be>
  * @since    0.1.0
- * @version  0.2.0
+ * @version  0.2.1
  */
 Widget.constitute(function prepareSchema() {
 
@@ -146,6 +171,13 @@ Widget.constitute(function prepareSchema() {
 		title       : 'Main CSS classes',
 		description : 'Configure extra CSS classes for the main inserted element', 
 		array: true,
+	});
+
+	// Should this widget be hidden?
+	this.schema.addField('hidden', 'Boolean', {
+		title       : 'Should this widget be hidden?',
+		description : 'Hidden widgets are only visible during editing', 
+		default     : false,
 	});
 
 	// Add the "copy to clipboard" action
@@ -188,6 +220,36 @@ Widget.constitute(function prepareSchema() {
 	});
 
 	save.setIcon('floppy-disk');
+
+	// Add the hide action
+	let hide = this.createAction('hide', 'Hide');
+
+	hide.close_actionbar = true;
+
+	hide.setHandler(function hideAction(widget_el, handle) {
+		widget_el.instance.is_hidden = true;
+	});
+
+	hide.setTester(function hideTester(widget_el, handle) {
+		return !widget_el.instance.is_hidden;
+	});
+
+	hide.setIcon('eye-slash');
+
+	// Add the show action
+	let show = this.createAction('show', 'Show');
+
+	show.close_actionbar = true;
+
+	show.setHandler(function showAction(widget_el, handle) {
+		widget_el.instance.is_hidden = false;
+	});
+
+	show.setTester(function showTester(widget_el, handle) {
+		return widget_el.instance.is_hidden;
+	});
+
+	show.setIcon('eye');
 
 	// Add the remove action
 	let remove = this.createAction('remove', 'Remove');
@@ -586,7 +648,7 @@ Widget.setMethod(function _createPopulatedWidgetElement() {
  *
  * @author   Jelle De Loecker   <jelle@elevenways.be>
  * @since    0.1.0
- * @version  0.1.6
+ * @version  0.2.1
  */
 Widget.setMethod(function populateWidget() {
 
@@ -612,6 +674,52 @@ Widget.setMethod(function populateWidget() {
 			Hawkejs.addClasses(children[i], child_classes);
 		}
 	}
+
+	this.checkVisibility();
+});
+
+/**
+ * Queue a widget element visibility update
+ *
+ * @author   Jelle De Loecker   <jelle@elevenways.be>
+ * @since    0.2.1
+ * @version  0.2.1
+ */
+Widget.setMethod(function queueVisibilityUpdate() {
+
+	if (this._visibility_update_queue) {
+		clearTimeout(this._visibility_update_queue);
+	}
+
+	this._visibility_update_queue = setTimeout(() => {
+		this.checkVisibility();
+		this._visibility_update_queue = null;
+	}, 50);
+});
+
+/**
+ * Check the widget element visibility
+ *
+ * @author   Jelle De Loecker   <jelle@elevenways.be>
+ * @since    0.2.1
+ * @version  0.2.1
+ */
+Widget.setMethod(function checkVisibility() {
+
+	let should_be_hidden = this.is_hidden;
+
+	if (this.editing) {
+		this.widget.hidden = false;
+	} else {
+		this.widget.hidden = should_be_hidden;
+	}
+
+	if (should_be_hidden) {
+		this.widget.classList.add('aw-hidden');
+	} else {
+		this.widget.classList.remove('aw-hidden');
+	}
+
 });
 
 /**
@@ -619,7 +727,7 @@ Widget.setMethod(function populateWidget() {
  *
  * @author   Jelle De Loecker   <jelle@elevenways.be>
  * @since    0.1.0
- * @version  0.1.6
+ * @version  0.2.1
  */
 Widget.setMethod(async function startEditor() {
 
@@ -639,6 +747,8 @@ Widget.setMethod(async function startEditor() {
 	if (typeof this._startEditor == 'function') {
 		this._startEditor();
 	}
+
+	this.checkVisibility();
 });
 
 /**
@@ -665,6 +775,8 @@ Widget.setMethod(function stopEditor() {
 		// (some editors will try to restore the original classes)
 		this.widget.classList.remove('aw-editing');
 	}
+
+	this.checkVisibility();
 });
 
 /**
