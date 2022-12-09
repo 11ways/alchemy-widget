@@ -80,6 +80,15 @@ Widget.setAssignedProperty('filter_value');
 Widget.setAttribute('child-class');
 
 /**
+ * A role to give to each child widgets
+ *
+ * @author   Jelle De Loecker   <jelle@elevenways.be>
+ * @since    0.2.1
+ * @version  0.2.1
+ */
+Widget.setAttribute('child-role');
+
+/**
  * Is this widget being edited?
  *
  * @author   Jelle De Loecker   <jelle@elevenways.be>

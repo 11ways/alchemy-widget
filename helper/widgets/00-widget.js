@@ -689,6 +689,22 @@ Widget.setMethod(function populateWidget() {
 		}
 	}
 
+	let child_roles = this.widget.child_role;
+
+	if (child_roles) {
+		let children = this.widget.children,
+		    child,
+		    i;
+		
+		for (i = 0; i < children.length; i++) {
+			child = children[i];
+
+			if (!child.hasAttribute('role')) {
+				child.setAttribute('role', child_roles);
+			}
+		}
+	}
+
 	this.checkVisibility();
 });
 

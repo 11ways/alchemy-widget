@@ -9,6 +9,7 @@
 * Allow overriding the language (`lang` attribute) of a widget
 * Fix config of container widgets not being saved
 * Only add minium dimensions when editing
+* Add `child-role` attribute & use it to set the default role of child widgets
 
 ## 0.2.0 (2022-11-02)
 
