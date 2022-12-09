@@ -8,6 +8,7 @@
 * Add the ability to hide widgets from the public
 * Allow overriding the language (`lang` attribute) of a widget
 * Fix config of container widgets not being saved
+* Only add minium dimensions when editing
 
 ## 0.2.0 (2022-11-02)
 

@@ -114,6 +114,7 @@ al-widgets-column {
 	&.aw-editing {
 		position: relative;
 		min-height: 3rem;
+		min-width: 10rem;
 	}
 
 	> * {
@@ -161,11 +162,6 @@ al-widgets-column {
 		left: 50%;
 		transform: translateX(-50%);
 	}
-}
-
-al-widgets {
-	min-width: 10rem;
-	min-height: 10rem;
 }
 
 al-widgets-row {
@@ -291,6 +287,7 @@ al-widget {
 
 	&.aw-editing {
 		min-height: 2rem;
+		min-width: 2rem;
 
 		&:hover {
 			background: rgba(60, 60, 120, 0.2);
