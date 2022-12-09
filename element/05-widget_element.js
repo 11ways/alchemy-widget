@@ -269,13 +269,11 @@ Widget.setMethod(function syncConfig() {
  *
  * @author   Jelle De Loecker   <jelle@elevenways.be>
  * @since    0.1.0
- * @version  0.1.0
+ * @version  0.2.1
  */
 Widget.setMethod(function startEditor() {
 
-	if (!this.instance) {
-		throw new Error('Unable to start the editor: this widget element has no accompanying instance');
-	}
+	this.assertWidgetInstance();
 
 	this.instance.startEditor();
 	this.addEditEventListeners();
@@ -286,17 +284,31 @@ Widget.setMethod(function startEditor() {
  *
  * @author   Jelle De Loecker   <jelle@elevenways.be>
  * @since    0.1.0
- * @version  0.1.5
+ * @version  0.2.1
  */
 Widget.setMethod(function stopEditor() {
 
-	if (!this.instance) {
-		throw new Error('Unable to stop the editor: this widget element has no accompanying instance');
-	}
+	this.assertWidgetInstance();
 
 	this.unselectWidget();
 	this.instance.stopEditor();
 	this.removeEditEventListeners();
+});
+
+/**
+ * Make sure there is an instance
+ *
+ * @author   Jelle De Loecker   <jelle@elevenways.be>
+ * @since    0.2.1
+ * @version  0.2.1
+ */
+Widget.setMethod(function assertWidgetInstance() {
+
+	if (!this.instance) {
+		console.error('Problem with widget element:', this);
+		throw new Error('Unable to stop the editor: this ' + this.tagName + ' element has no accompanying instance');
+	}
+
 });
 
 /**
