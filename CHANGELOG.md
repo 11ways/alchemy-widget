@@ -10,6 +10,7 @@
 * Fix config of container widgets not being saved
 * Only add minium dimensions when editing
 * Add `child-role` attribute & use it to set the default role of child widgets
+* Add the `toc-has-content` or `toc-is-empty` class to `al-toc` elements
 
 ## 0.2.0 (2022-11-02)
 

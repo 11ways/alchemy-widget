@@ -1,3 +1,5 @@
+<% all_entries = self.entries %>
+
 {% macro printEntries %}
 	<ol>
 		{% each entries as entry %}
@@ -20,4 +22,12 @@
 	</li>
 {% /macro %}
 
-{% run printEntries entries=self.entries}
+{% run printEntries entries=all_entries %}
+
+{% if all_entries %}
+	<% self.classList.add('toc-has-content') %>
+{% else %}
+	<% self.classList.add('toc-is-empty') %>
+{% /if %}
+
+<% all_entries = null %>
