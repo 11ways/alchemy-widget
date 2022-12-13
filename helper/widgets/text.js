@@ -57,13 +57,16 @@ Text.setMethod(function populateWidget() {
  *
  * @author   Jelle De Loecker   <jelle@elevenways.be>
  * @since    0.1.0
- * @version  0.1.0
+ * @version  0.2.1
  */
 Text.setMethod(function _startEditor() {
 
-	let child = this.widget.children[0];
+	let child,
+	    i;
 
-	if (child) {
+	for (i = 0; i < this.widget.children.length; i++) {
+		child = this.widget.children[i];
+
 		child.setAttribute('contenteditable', true);
 	}
 });
@@ -73,13 +76,16 @@ Text.setMethod(function _startEditor() {
  *
  * @author   Jelle De Loecker   <jelle@elevenways.be>
  * @since    0.1.0
- * @version  0.1.0
+ * @version  0.2.1
  */
 Text.setMethod(function _stopEditor() {
 
-	let child = this.widget.children[0];
+	let child,
+	    i;
 
-	if (child) {
+	for (i = 0; i < this.widget.children.length; i++) {
+		child = this.widget.children[i];
+
 		child.removeAttribute('contenteditable');
 	}
 });
@@ -89,17 +95,13 @@ Text.setMethod(function _stopEditor() {
  *
  * @author   Jelle De Loecker   <jelle@elevenways.be>
  * @since    0.1.0
- * @version  0.1.0
+ * @version  0.2.1
  *
  * @return   {Object}
  */
 Text.setMethod(function syncConfig() {
 
-	let child = this.widget.children[0];
-
-	if (child) {
-		this.config.content = child.textContent;
-	}
+	this.config.content = this.widget?.textContent;
 
 	return this.config;
 });
