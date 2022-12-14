@@ -13,6 +13,7 @@
 * Add the `toc-has-content` or `toc-is-empty` class to `al-toc` elements
 * Fix issue where `Text` widget would break when edited with LanguageTool extension
 * Do not truncate titles in table-of-contents automatically
+* Fix nesting levels in `al-toc`
 
 ## 0.2.0 (2022-11-02)
 

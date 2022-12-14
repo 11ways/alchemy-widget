@@ -147,7 +147,7 @@ TableOfContents.setProperty(function entries() {
 
 			let title_element,
 			    starts_level,
-				ends_level;
+			    ends_level;
 
 			if (this.title_selector) {
 				title_element = element.querySelector(this.title_selector);
@@ -164,7 +164,10 @@ TableOfContents.setProperty(function entries() {
 					current_level = heading_level;
 				} else if (heading_level > current_level) {
 					current_level++;
-					starts_level = true;
+
+					if (last_entry) {
+						last_entry.starts_level = true;
+					}
 				} else if (heading_level == current_level && last_entry) {
 					last_entry.starts_level = false;
 				} else if (heading_level < current_level) {
@@ -202,7 +205,7 @@ TableOfContents.setProperty(function entries() {
 		let ended_level = false,
 		    entries = result,
 		    current_branch,
-			current_nodes = [];
+		    current_nodes = [];
 
 		result = current_nodes;
 		last_entry = null;
