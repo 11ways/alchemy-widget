@@ -89,11 +89,20 @@ TableOfContents.setAttribute('title-selector');
 TableOfContents.setAttribute('intersection-class');
 
 /**
+ * Should titles be truncated?
+ *
+ * @author   Jelle De Loecker   <jelle@elevenways.be>
+ * @since    0.2.1
+ * @version  0.2.1
+ */
+TableOfContents.setAttribute('truncate-length', {type: 'number'});
+
+/**
  * Get the entries
  *
  * @author   Jelle De Loecker   <jelle@elevenways.be>
  * @since    0.1.2
- * @version  0.2.0
+ * @version  0.2.1
  */
 TableOfContents.setProperty(function entries() {
 
@@ -169,7 +178,9 @@ TableOfContents.setProperty(function entries() {
 
 			title = (title_element.toc_title || title_element.textContent || '').trim();
 
-			title = title.truncate(30);
+			if (this.truncate_length) {
+				title = title.truncate(this.truncate_length);
+			}
 
 			// Don't add empty titles
 			if (!title) {

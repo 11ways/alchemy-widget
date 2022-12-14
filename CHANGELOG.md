@@ -12,6 +12,7 @@
 * Add `child-role` attribute & use it to set the default role of child widgets
 * Add the `toc-has-content` or `toc-is-empty` class to `al-toc` elements
 * Fix issue where `Text` widget would break when edited with LanguageTool extension
+* Do not truncate titles in table-of-contents automatically
 
 ## 0.2.0 (2022-11-02)
 
