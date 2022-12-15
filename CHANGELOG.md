@@ -14,6 +14,7 @@
 * Fix issue where `Text` widget would break when edited with LanguageTool extension
 * Do not truncate titles in table-of-contents automatically
 * Fix nesting levels in `al-toc`
+* Only allow text inside header widgets
 
 ## 0.2.0 (2022-11-02)
 

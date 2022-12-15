@@ -78,18 +78,18 @@ Header.constitute(function addActions() {
  *
  * @author   Jelle De Loecker   <jelle@elevenways.be>
  * @since    0.1.0
- * @version  0.1.0
+ * @version  0.2.1
  *
  * @return   {Object}
  */
 Header.setMethod(function syncConfig() {
 
-	let header = this.widget.children[0],
+	let header = this.widget.querySelector('h1, h2, h3, h4, h5'),
 	    content = '',
 	    level = 1;
 
 	if (header) {
-		content = header.innerHTML;
+		content = header.textContent;
 		level = parseInt(header.tagName[1]);
 	}
 
@@ -104,7 +104,7 @@ Header.setMethod(function syncConfig() {
  *
  * @author   Jelle De Loecker   <jelle@elevenways.be>
  * @since    0.1.0
- * @version  0.1.0
+ * @version  0.2.1
  *
  * @param    {HTMLElement}   widget
  */
@@ -113,7 +113,7 @@ Header.setMethod(function populateWidget() {
 	let level = this.config.level || 1;
 
 	let header = this.createElement('h' + level);
-	header.innerHTML = this.config.content || 'header level ' + level;
+	header.textContent = this.config.content || 'header level ' + level;
 
 	this.widget.append(header);
 
