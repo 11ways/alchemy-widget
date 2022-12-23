@@ -1,4 +1,4 @@
-## 0.2.1 (WIP)
+## 0.2.1 (2022-12-23)
 
 * Add a `-first` modifier class to the first visible entry of a table-of-contents element
 * Make HTML widget editable
