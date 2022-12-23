@@ -37,13 +37,11 @@ Sourcecode.setProperty('sourcecode_field', 'sourcecode');
  *
  * @author   Jelle De Loecker   <jelle@elevenways.be>
  * @since    0.1.0
- * @version  0.1.0
+ * @version  0.2.1
  *
  * @param    {HTMLElement}   widget
  */
 Sourcecode.setMethod(function populateWidget() {
-
-	populateWidget.super.call(this);
 
 	let source = this.config[this.sourcecode_field] || '';
 

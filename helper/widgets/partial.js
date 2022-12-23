@@ -67,7 +67,7 @@ Partial.constitute(function prepareSchema() {
  *
  * @author   Jelle De Loecker   <jelle@elevenways.be>
  * @since    0.1.6
- * @version  0.1.6
+ * @version  0.2.1
  *
  * @param    {HTMLElement}   widget
  */
@@ -105,8 +105,6 @@ Partial.setMethod(async function populateWidget() {
 
 		this.widget.append(placeholder);
 	}
-
-	populateWidget.super.call(this);
 });
 
 /**

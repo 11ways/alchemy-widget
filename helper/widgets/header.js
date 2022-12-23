@@ -116,8 +116,6 @@ Header.setMethod(function populateWidget() {
 	header.textContent = this.config.content || 'header level ' + level;
 
 	this.widget.append(header);
-
-	populateWidget.super.call(this);
 });
 
 /**

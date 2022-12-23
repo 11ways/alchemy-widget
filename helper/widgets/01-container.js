@@ -66,8 +66,6 @@ Container.setMethod(function populateWidget() {
 			this.widget.addWidget(widget.type, widget.config);
 		}
 	}
-
-	populateWidget.super.call(this);
 });
 
 /**

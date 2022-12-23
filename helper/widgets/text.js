@@ -28,15 +28,13 @@ Text.constitute(function prepareSchema() {
  *
  * @author   Jelle De Loecker   <jelle@elevenways.be>
  * @since    0.1.0
- * @version  0.1.6
+ * @version  0.2.1
  *
  * @param    {HTMLElement}   widget
  */
 Text.setMethod(function populateWidget() {
 
 	let tag_name;
-
-	populateWidget.super.call(this);
 
 	if (this.widget.dataset.textElementTag) {
 		tag_name = this.widget.dataset.textElementTag;

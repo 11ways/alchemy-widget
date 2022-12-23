@@ -15,6 +15,7 @@
 * Do not truncate titles in table-of-contents automatically
 * Fix nesting levels in `al-toc`
 * Only allow text inside header widgets
+* Move default `Widget#populateWidget()` code to `Widget#finalizePopulatedWidget()`
 
 ## 0.2.0 (2022-11-02)
 

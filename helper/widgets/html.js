@@ -79,13 +79,12 @@ Html.setMethod(function _stopEditor() {
  *
  * @author   Jelle De Loecker   <jelle@elevenways.be>
  * @since    0.1.0
- * @version  0.1.0
+ * @version  0.2.1
  *
  * @param    {HTMLElement}   widget
  */
 Html.setMethod(function populateWidget() {
 	this.widget.innerHTML = this.config.html;
-	populateWidget.super.call(this);
 });
 
 /**

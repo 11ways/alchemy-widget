@@ -133,8 +133,6 @@ Tabs.setMethod(function populateWidget() {
 	}
 
 	Hawkejs.replaceChildren(this.widget, wrapper);
-
-	return populateWidget.super.call(this);
 });
 
 /**

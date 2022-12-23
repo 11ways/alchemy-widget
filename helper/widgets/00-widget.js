@@ -649,6 +649,18 @@ Widget.setMethod(function _createPopulatedWidgetElement() {
 	return element;
 });
 
+
+/**
+ * Populate the actual widget
+ *
+ * @author   Jelle De Loecker   <jelle@elevenways.be>
+ * @since    0.2.1
+ * @version  0.2.1
+ */
+Widget.setMethod(function populateWidget() {
+	// Does nothing on its own
+});
+
 /**
  * Populate the contents of the widget
  *
@@ -656,7 +668,7 @@ Widget.setMethod(function _createPopulatedWidgetElement() {
  * @since    0.1.0
  * @version  0.2.1
  */
-Widget.setMethod(function populateWidget() {
+Widget.setMethod(function finalizePopulatedWidget() {
 
 	const config = this.config;
 
@@ -814,13 +826,14 @@ Widget.setMethod(function stopEditor() {
  *
  * @author   Jelle De Loecker   <jelle@elevenways.be>
  * @since    0.1.0
- * @version  0.1.6
+ * @version  0.2.1
  */
 Widget.setMethod(async function rerender() {
 
 	Hawkejs.removeChildren(this.widget);
 
 	await this.populateWidget();
+	await this.finalizePopulatedWidget();
 
 	if (this.editing) {
 		this.startEditor();
