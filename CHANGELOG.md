@@ -16,6 +16,7 @@
 * Fix nesting levels in `al-toc`
 * Only allow text inside header widgets
 * Move default `Widget#populateWidget()` code to `Widget#finalizePopulatedWidget()`
+* Add `HawkejsTemplate` widget
 
 ## 0.2.0 (2022-11-02)
 
