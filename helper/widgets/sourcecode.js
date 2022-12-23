@@ -80,13 +80,13 @@ Sourcecode.setMethod(function _startEditor() {
  *
  * @author   Jelle De Loecker   <jelle@elevenways.be>
  * @since    0.1.0
- * @version  0.1.0
+ * @version  0.2.2
  */
 Sourcecode.setMethod(function _stopEditor() {
 
 	Hawkejs.removeChildren(this.widget);
 
-	this.populateWidget();
+	return this.loadWidget();
 });
 
 /**

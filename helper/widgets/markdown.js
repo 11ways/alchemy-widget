@@ -74,14 +74,14 @@ Markdown.setMethod(async function _startEditor() {
  *
  * @author   Jelle De Loecker   <jelle@elevenways.be>
  * @since    0.1.0
- * @version  0.1.0
+ * @version  0.2.2
  */
 Markdown.setMethod(function _stopEditor() {
 
 	Hawkejs.removeChildren(this.widget);
 	this.easy_mde = null;
 
-	this.populateWidget();
+	return this.loadWidget();
 });
 
 /**

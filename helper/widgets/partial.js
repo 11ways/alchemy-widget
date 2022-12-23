@@ -161,7 +161,7 @@ Partial.setMethod(function _startEditor() {
  *
  * @author   Jelle De Loecker   <jelle@elevenways.be>
  * @since    0.1.6
- * @version  0.1.6
+ * @version  0.2.2
  */
 Partial.setMethod(function _stopEditor() {
 
@@ -172,7 +172,7 @@ Partial.setMethod(function _stopEditor() {
 		sub_widget.stopEditor();
 	}
 
-	this.populateWidget();
+	return this.loadWidget();
 });
 
 /**

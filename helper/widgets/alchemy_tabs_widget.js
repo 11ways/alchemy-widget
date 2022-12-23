@@ -178,7 +178,7 @@ Tabs.setMethod(function _startEditor() {
  *
  * @author   Jelle De Loecker   <jelle@elevenways.be>
  * @since    0.2.0
- * @version  0.2.0
+ * @version  0.2.2
  */
 Tabs.setMethod(function _stopEditor() {
 
@@ -189,5 +189,5 @@ Tabs.setMethod(function _stopEditor() {
 		sub_widget.stopEditor();
 	}
 
-	this.populateWidget();
+	this.loadWidget();
 });

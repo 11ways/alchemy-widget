@@ -1,3 +1,7 @@
+## 0.2.2 (2022-12-23)
+
+* Fix widgets not being populated properly
+
 ## 0.2.1 (2022-12-23)
 
 * Add a `-first` modifier class to the first visible entry of a table-of-contents element

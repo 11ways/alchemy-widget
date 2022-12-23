@@ -38,12 +38,10 @@ Container.constitute(function prepareSchema() {
  *
  * @author   Jelle De Loecker   <jelle@elevenways.be>
  * @since    0.1.0
- * @version  0.1.0
- *
- * @return   {HTMLElement}
+ * @version  0.2.2
  */
 Container.setMethod(function initContainer() {
-	this.populateWidget();
+	return this.loadWidget();
 });
 
 /**

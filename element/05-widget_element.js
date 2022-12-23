@@ -215,7 +215,7 @@ Widget.setMethod(function getValueFromRecord(record) {
  *
  * @author   Jelle De Loecker   <jelle@elevenways.be>
  * @since    0.1.5
- * @version  0.1.6
+ * @version  0.2.1
  */
 Widget.setMethod(function applyValue(value) {
 
@@ -255,7 +255,7 @@ Widget.setMethod(function applyValue(value) {
 	}
 
 	this.instance.config = config;
-	let promise = this.instance.populateWidget();
+	let promise = this.instance.loadWidget();
 
 	if (promise) {
 		this.delayAssemble(promise);
