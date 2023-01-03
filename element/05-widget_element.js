@@ -390,6 +390,22 @@ Widget.setMethod(function getContextButton() {
 });
 
 /**
+ * Get a list of elements that could be child widgets
+ *
+ * @author   Jelle De Loecker   <jelle@elevenways.be>
+ * @since    0.2.3
+ * @version  0.2.3
+ */
+Widget.setMethod(function getPossibleWidgetChildren() {
+
+	if (this.instance && typeof this.instance.getPossibleWidgetChildren == 'function') {
+		return this.instance.getPossibleWidgetChildren();
+	}
+
+	return this.children;
+});
+
+/**
  * Show the config button
  *
  * @author   Jelle De Loecker   <jelle@elevenways.be>

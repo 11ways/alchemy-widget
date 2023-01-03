@@ -139,19 +139,20 @@ AlchemyWidgets.setMethod(function applyValue(value) {
  *
  * @author   Jelle De Loecker   <jelle@elevenways.be>
  * @since    0.1.0
- * @version  0.1.0
+ * @version  0.2.3
  *
  * @return   {Array}
  */
 AlchemyWidgets.setMethod(function getWidgetsConfig() {
 
-	let widgets = [],
+	let children = this.getPossibleWidgetChildren(),
+	    widgets = [],
 	    child,
 	    temp,
 	    i;
 
-	for (i = 0; i < this.children.length; i++) {
-		child = this.children[i];
+	for (i = 0; i < children.length; i++) {
+		child = children[i];
 
 		if (child instanceof Classes.Alchemy.Element.Widget.Base) {
 			temp = child.value;

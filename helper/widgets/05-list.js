@@ -12,6 +12,18 @@
 const List = Function.inherits('Alchemy.Widget.Container', 'List');
 
 /**
+ * Get a list of elements that could be child widgets
+ *
+ * @author   Jelle De Loecker   <jelle@elevenways.be>
+ * @since    0.2.3
+ * @version  0.2.3
+ */
+List.setMethod(function getPossibleWidgetChildren() {
+	let children = this.widget.querySelectorAll(':scope > ul > li > *');
+	return children;
+});
+
+/**
  * Dummy populate method
  *
  * @author   Jelle De Loecker   <jelle@elevenways.be>
