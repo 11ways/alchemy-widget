@@ -53,3 +53,25 @@ WidgetField.setMethod(function cast(value, to_datasource) {
 
 	return value;
 });
+
+/**
+ * Convert to JSON
+ *
+ * @author   Jelle De Loecker   <jelle@elevenways.be>
+ * @since    0.2.3
+ * @version  0.2.3
+ *
+ * @return   {Object}
+ */
+WidgetField.setMethod(function toDry() {
+
+	let {schema, ...options} = this.options;
+
+	let value = {
+		schema  : this.schema,
+		name    : this.name,
+		options : options,
+	};
+
+	return {value};
+});

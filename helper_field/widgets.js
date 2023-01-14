@@ -23,3 +23,17 @@ const WidgetsField = Function.inherits('Alchemy.Field.Schema', function Widgets(
 
 	Widgets.super.call(this, schema, name, options);
 });
+
+/**
+ * Get the client-side options
+ *
+ * @author   Jelle De Loecker   <jelle@develry.be>
+ * @since    0.2.3
+ * @version  0.2.3
+ *
+ * @return   {Object}
+ */
+WidgetsField.setMethod(function getOptionsForDrying() {
+	let {schema, ...options} = this.options;
+	return options;
+});

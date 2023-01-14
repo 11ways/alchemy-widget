@@ -57,7 +57,7 @@ Partial.constitute(function prepareSchema() {
 	let contents = this.createSchema();
 
 	contents.addField('name', 'String');
-	contents.addField('content', 'Widgets');
+	contents.addField('contents', 'Widgets');
 
 	this.schema.addField('contents', contents, {array: true});
 });
@@ -87,7 +87,26 @@ Partial.setMethod(async function populateWidget() {
 
 		if (this.config?.contents?.length) {
 			for (let entry of this.config.contents) {
-				variables[entry.name] = entry.contents;
+
+				let actual_contents;
+
+				if (entry.contents) {
+					if (entry.contents.config) {
+						actual_contents = entry.contents.config;
+					} else if (entry.contents.widgets) {
+						actual_contents = entry.contents.widgets;
+
+						let type = actual_contents?.[0]?.type;
+
+						if (type == 'container' || type == 'row') {
+							actual_contents = actual_contents[0].config?.widgets;
+						} else {
+							actual_contents = actual_contents[0];
+						}
+					}
+				}
+
+				variables[entry.name] = actual_contents;
 			}
 		}
 
@@ -180,7 +199,7 @@ Partial.setMethod(function _stopEditor() {
  *
  * @author   Jelle De Loecker   <jelle@elevenways.be>
  * @since    0.1.6
- * @version  0.1.6
+ * @version  0.2.3
  *
  * @return   {Object}
  */
@@ -206,7 +225,23 @@ Partial.setMethod(function syncConfig() {
 			contents.push(widget_config);
 		}
 
-		widget_config.contents = sub_widget.value;
+		let value = sub_widget.value,
+		    widget_contents;
+
+		if (value?.widgets) {
+			widget_contents = {
+				widgets : [{
+					type : 'row',
+					config : value,
+				}]
+			};
+		} else {
+			widget_contents = {
+				widgets: Array.cast(value)
+			};
+		}
+
+		widget_config.contents = widget_contents;
 	}
 
 	return this.config;

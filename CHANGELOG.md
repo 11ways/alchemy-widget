@@ -1,6 +1,7 @@
 ## 0.2.3 (WIP)
 
 * Fix `List` widgets not having their content saved
+* Fix more issues with saving to the database
 
 ## 0.2.2 (2022-12-23)
 
