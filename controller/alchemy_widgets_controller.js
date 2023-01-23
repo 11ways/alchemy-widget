@@ -225,7 +225,7 @@ AlchemyWidgets.setAction(async function uploadImage(conduit) {
 			id : result._id,
 		};
 
-		let default_path = alchemy.routeUrl('Media::image', params);
+		let default_path = alchemy.routeUrl('MediaFile#image', params);
 		let url = RURL.parse(default_path);
 
 		let path_800 = url.clone();
