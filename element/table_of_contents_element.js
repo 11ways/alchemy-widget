@@ -1,4 +1,5 @@
-const RELATED_HEADING = Symbol('related_heading');
+const RELATED_HEADING = Symbol('related_heading'),
+      RELATED_SIBLINGS = Symbol('related_siblings');
 
 /**
  * The table-of-contents element
@@ -180,7 +181,6 @@ TableOfContents.setProperty(function entries() {
 				level    : heading_level,
 				title    : title,
 				element  : heading,
-				children : [],
 			};
 
 			nodes.push(node);
@@ -219,22 +219,51 @@ TableOfContents.setMethod(async function introduced() {
 		let class_name = this.intersection_class || 'visible',
 		    first_name = class_name + '-first';
 
+		let intersect_map = new Map();
+
 		for (let entry of entries) {
-			const id = entry.target.getAttribute('id');
+			const heading = entry.target[RELATED_HEADING] || entry.target;
+			const id = heading.getAttribute('id');
+
+			if (!id) {
+				continue;
+			}
 
 			let query = `a[href="#${id}"]`,
 			    element = this.querySelector(query);
-			
+
 			if (!element) {
-				return;
+				continue;
 			}
 
+			let value = intersect_map.get(element) || 0;
+
 			if (entry.intersectionRatio > 0) {
+				value++;
+			} else {
+				let siblings = heading[RELATED_SIBLINGS];
+
+				if (siblings?.length) {
+					for (let sibling of siblings) {
+						if (sibling.isVisible(-150)) {
+							value++;
+							break;
+						}
+					}
+				}
+			}
+
+			intersect_map.set(element, value);
+		};
+
+		for (let [element, value] of intersect_map) {
+
+			if (value > 0) {
 				element.classList.add(class_name);
 			} else {
 				element.classList.remove(class_name);
 			}
-		};
+		}
 
 		let is_visible,
 		    all_marked = this.querySelectorAll('.' + class_name + ', .' + first_name),
@@ -258,9 +287,29 @@ TableOfContents.setMethod(async function introduced() {
 		}
 	});
 
-	let entries = this.entries;
+	let entries = this.entries,
+	    elements = [];
 
 	for (let entry of entries) {
 		observer.observe(entry.element);
+		elements.push(entry.element);
+	}
+
+	for (let element of elements) {
+
+		element[RELATED_SIBLINGS] = [];
+		let sibling = element.nextElementSibling;
+
+		while (sibling) {
+
+			if (elements.includes(sibling)) {
+				break;
+			}
+
+			element[RELATED_SIBLINGS].push(sibling);
+			sibling[RELATED_HEADING] = element;
+			observer.observe(sibling);
+			sibling = sibling.nextElementSibling;
+		}
 	}
 });
