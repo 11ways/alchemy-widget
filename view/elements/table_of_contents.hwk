@@ -1,4 +1,4 @@
-<% all_entries = self.entries %>
+<% all_entries = self.tree %>
 
 {% macro printEntries %}
 	<ol>

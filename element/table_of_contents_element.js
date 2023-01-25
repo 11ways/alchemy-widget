@@ -1,3 +1,5 @@
+const RELATED_HEADING = Symbol('related_heading');
+
 /**
  * The table-of-contents element
  *
@@ -184,10 +186,21 @@ TableOfContents.setProperty(function entries() {
 			nodes.push(node);
 		}
 
-		result = Blast.listToTree(nodes);
+		result = nodes;
 	}
 
 	return result;
+});
+
+/**
+ * Get the entries tree
+ *
+ * @author   Jelle De Loecker   <jelle@elevenways.be>
+ * @since    0.2.4
+ * @version  0.2.4
+ */
+TableOfContents.setProperty(function tree() {
+	return Blast.listToTree(this.entries);
 });
 
 /**
@@ -195,7 +208,7 @@ TableOfContents.setProperty(function entries() {
  *
  * @author   Jelle De Loecker   <jelle@elevenways.be>
  * @since    0.1.2
- * @version  0.2.1
+ * @version  0.2.4
  */
 TableOfContents.setMethod(async function introduced() {
 
@@ -243,10 +256,11 @@ TableOfContents.setMethod(async function introduced() {
 				seen++;
 			}
 		}
-		
 	});
 
-	for (let entry of this.entries) {
+	let entries = this.entries;
+
+	for (let entry of entries) {
 		observer.observe(entry.element);
 	}
 });

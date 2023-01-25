@@ -1,6 +1,7 @@
 ## 0.2.4 (WIP)
 
 * Fix the tree structure generation of the `al-toc` element
+* Make `TableOfContents#entries` return a flat list and `TableOfContents#tree` a tree structure
 
 ## 0.2.3 (2023-01-23)
 
