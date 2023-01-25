@@ -102,7 +102,7 @@ TableOfContents.setAttribute('truncate-length', {type: 'number'});
  *
  * @author   Jelle De Loecker   <jelle@elevenways.be>
  * @since    0.1.2
- * @version  0.2.1
+ * @version  0.2.4
  */
 TableOfContents.setProperty(function entries() {
 
@@ -124,59 +124,42 @@ TableOfContents.setProperty(function entries() {
 
 	if (wrapper) {
 
-		let current_level = null,
-		    last_entry,
-		    elements = wrapper.querySelectorAll(this.elements_selector || 'h1,h2'),
-			element,
-			title,
-			i;
+		let heading_level = 0,
+		    heading,
+		    i;
 
-		for (i = 0; i < elements.length; i++) {
-			element = elements[i];
+		let headings = wrapper.querySelectorAll(this.elements_selector || 'h1, h2, h3, h4, h5, h6'),
+		    nodes = [];
 
-			if (!element.id) {
+		for (i = 0; i < headings.length; i++) {
+			heading = headings[i];
 
-				if (element.hawkejs_id) {
-					element.id = element.hawkejs_id;
+			if (!heading.id) {
+
+				if (heading.hawkejs_id) {
+					heading.id = heading.hawkejs_id;
 				}
 
-				if (!element.id) {
+				if (!heading.id) {
 					continue;
 				}
 			}
 
 			let title_element,
-			    starts_level,
-			    ends_level;
+			    title;
 
 			if (this.title_selector) {
-				title_element = element.querySelector(this.title_selector);
+				title_element = heading.querySelector(this.title_selector);
 			}
 
 			if (!title_element) {
-				title_element = element;
+				title_element = heading;
 			}
 
-			if (element.nodeName[0] == 'H' && isFinite(element.nodeName[1])) {
-				let heading_level = +element.nodeName[1];
-
-				if (current_level == null) {
-					current_level = heading_level;
-				} else if (heading_level > current_level) {
-					current_level++;
-
-					if (last_entry) {
-						last_entry.starts_level = true;
-					}
-				} else if (heading_level == current_level && last_entry) {
-					last_entry.starts_level = false;
-				} else if (heading_level < current_level) {
-					current_level--;
-
-					if (last_entry) {
-						last_entry.ends_level = true;
-					}
-				}
+			if (title_element.nodeName[0] == 'H' && isFinite(title_element.nodeName[1])) {
+				heading_level = +title_element.nodeName[1];
+			} else if (!heading_level) {
+				heading_level = 1;
 			}
 
 			title = (title_element.toc_title || title_element.textContent || '').trim();
@@ -190,75 +173,18 @@ TableOfContents.setProperty(function entries() {
 				continue;
 			}
 
-			last_entry = {
-				id           : element.id,
-				level        : current_level,
-				title        : title,
-				element      : element,
-				starts_level : starts_level,
-				ends_level   : ends_level,
+			let node = {
+				id       : heading.id,
+				level    : heading_level,
+				title    : title,
+				element  : heading,
+				children : [],
 			};
 
-			result.push(last_entry);
+			nodes.push(node);
 		}
 
-		let ended_level = false,
-		    entries = result,
-		    current_branch,
-		    current_nodes = [];
-
-		result = current_nodes;
-		last_entry = null;
-
-		for (let entry of entries) {
-
-			if (ended_level) {
-
-				while (entry.level >= current_branch.level) {
-					current_branch = current_branch.parent;
-					current_nodes = current_branch?.children || result;
-
-					if (!current_branch) {
-						current_branch = result[result.length - 1];
-						break;
-					}
-				}
-
-				ended_level = false;
-			}
-
-			if (!current_branch) {
-				current_branch = entry;
-			} else {
-				entry.parent = current_branch;
-			}
-
-			if (entry.starts_level) {
-
-				current_branch = last_entry;
-
-				if (!current_branch.children) {
-					current_branch.children = [];
-				}
-
-				current_nodes = current_branch.children;
-			}
-			
-			current_nodes.push(entry);
-
-			if (entry.ends_level) {
-				ended_level = true;
-				current_branch = entry.parent;
-				current_nodes = current_branch.children || result;
-
-				if (!current_branch) {
-					current_branch = result[result.length - 1];
-					break;
-				}
-			}
-
-			last_entry = entry;
-		}
+		result = Blast.listToTree(nodes);
 	}
 
 	return result;

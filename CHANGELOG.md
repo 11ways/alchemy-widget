@@ -1,3 +1,7 @@
+## 0.2.4 (WIP)
+
+* Fix the tree structure generation of the `al-toc` element
+
 ## 0.2.3 (2023-01-23)
 
 * Fix `List` widgets not having their content saved
