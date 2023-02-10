@@ -1,3 +1,7 @@
+## 0.2.5 (WIP)
+
+* Add `code_type` field to the `Sourcecode` widget
+
 ## 0.2.4 (2023-01-30)
 
 * Fix the tree structure generation of the `al-toc` element

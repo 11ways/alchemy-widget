@@ -16,11 +16,18 @@ const Sourcecode = Function.inherits('Alchemy.Widget', 'Sourcecode');
  *
  * @author   Jelle De Loecker   <jelle@elevenways.be>
  * @since    0.1.0
- * @version  0.1.0
+ * @version  0.2.5
  */
 Sourcecode.constitute(function prepareSchema() {
 	// The actual sourcecode contents
 	this.schema.addField('sourcecode', 'Text');
+
+	// The type of sourcecode
+	this.schema.addField('code_type', 'String', {
+		title                  : 'Code type',
+		description            : 'The type of sourcecode',
+		widget_config_editable : true,
+	});
 });
 
 /**
@@ -37,7 +44,7 @@ Sourcecode.setProperty('sourcecode_field', 'sourcecode');
  *
  * @author   Jelle De Loecker   <jelle@elevenways.be>
  * @since    0.1.0
- * @version  0.2.1
+ * @version  0.2.5
  *
  * @param    {HTMLElement}   widget
  */
@@ -53,7 +60,12 @@ Sourcecode.setMethod(function populateWidget() {
 	    pre = this.createElement('pre');
 
 	pre.append(code);
-	code.innerText = source;
+	code.textContent = source;
+
+	if (this.config.code_type) {
+		code.classList.add('language-' + this.config.code_type);
+		pre.classList.add('language-' + this.config.code_type);
+	}
 
 	this.widget.append(pre);
 });
