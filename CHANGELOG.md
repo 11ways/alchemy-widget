@@ -1,6 +1,7 @@
 ## 0.2.5 (WIP)
 
 * Add `code_type` field to the `Sourcecode` widget
+* Allow setting the source of an `HTML` widget via its config dialog
 
 ## 0.2.4 (2023-01-30)
 

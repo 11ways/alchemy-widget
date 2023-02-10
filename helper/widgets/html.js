@@ -17,11 +17,15 @@ const Html = Function.inherits('Alchemy.Widget', 'Html');
  *
  * @author   Jelle De Loecker   <jelle@elevenways.be>
  * @since    0.1.0
- * @version  0.1.0
+ * @version  0.2.5
  */
 Html.constitute(function prepareSchema() {
 	// The actual HTML contents
-	this.schema.addField('html', 'Html');
+	this.schema.addField('html', 'Html', {
+		title                  : 'HTML',
+		description            : 'The HTML sourcecode',
+		widget_config_editable : true,
+	});
 });
 
 /**
@@ -79,12 +83,24 @@ Html.setMethod(function _stopEditor() {
  *
  * @author   Jelle De Loecker   <jelle@elevenways.be>
  * @since    0.1.0
- * @version  0.2.1
+ * @version  0.2.5
  *
  * @param    {HTMLElement}   widget
  */
 Html.setMethod(function populateWidget() {
-	this.widget.innerHTML = this.config.html;
+
+	let html = this.config.html;
+
+	if (html == null) {
+		html = '';
+	}
+
+	if (this.ckeditor) {
+		
+		this.ckeditor.setData(html);
+	} else {
+		this.widget.innerHTML = html;
+	}
 });
 
 /**
