@@ -1,4 +1,4 @@
-## 0.2.5 (WIP)
+## 0.2.5 (2023-02-11)
 
 * Add `code_type` field to the `Sourcecode` widget
 * Allow setting the source of an `HTML` widget via its config dialog
