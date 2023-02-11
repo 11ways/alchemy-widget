@@ -364,7 +364,7 @@ Base.setMethod(async function save() {
  *
  * @author   Jelle De Loecker   <jelle@elevenways.be>
  * @since    0.2.0
- * @version  0.2.1
+ * @version  0.2.5
  */
 Base.setMethod(async function copyConfigToClipboard() {
 
@@ -375,7 +375,10 @@ Base.setMethod(async function copyConfigToClipboard() {
 	}
 
 	value._altype = 'widget';
-	value.type = this.type;
+
+	if (this.type) {
+		value.type = this.type;
+	}
 
 	let dried = JSON.dry(value, null, '\t');
 
@@ -389,11 +392,11 @@ Base.setMethod(async function copyConfigToClipboard() {
 });
 
 /**
- * Get configuration from the clipboard and return it if it's valid
+ * Get any current configuration from the clipboard
  *
  * @author   Jelle De Loecker   <jelle@elevenways.be>
  * @since    0.2.0
- * @version  0.2.1
+ * @version  0.2.5
  */
 Base.setMethod(async function getConfigFromClipboard() {
 
@@ -428,7 +431,35 @@ Base.setMethod(async function getConfigFromClipboard() {
 		return false;
 	}
 
-	if (result.type != this.type && !this.can_be_removed) {
+	return result;
+});
+
+/**
+ * Get configuration from the clipboard and return it if it's valid
+ *
+ * @author   Jelle De Loecker   <jelle@elevenways.be>
+ * @since    0.2.5
+ * @version  0.2.5
+ */
+Base.setMethod(async function getReplaceableConfigFromClipboard() {
+
+	let result = await this.getConfigFromClipboard();
+
+	if (result.type == this.type) {
+		return result;
+	}
+
+	if (result.type == 'container') {
+		return false;
+	}
+
+	if (!this.can_be_removed) {
+		return false;
+	}
+
+	let parent_widget = this.parent_container;
+
+	if (!parent_widget || !parent_widget.editing || !parent_widget.addWidget) {
 		return false;
 	}
 
@@ -440,13 +471,46 @@ Base.setMethod(async function getConfigFromClipboard() {
  *
  * @author   Jelle De Loecker   <jelle@elevenways.be>
  * @since    0.2.0
- * @version  0.2.0
+ * @version  0.2.5
  */
 Base.setMethod(async function pasteConfigFromClipboard() {
 
-	let result = await this.getConfigFromClipboard();
+	let result = await this.getReplaceableConfigFromClipboard();
 
 	if (result) {
-		this.value = result;
+		this.replaceWithConfig(config);
+	}
+});
+
+/**
+ * Apply the given config
+ *
+ * @author   Jelle De Loecker   <jelle@elevenways.be>
+ * @since    0.2.0
+ * @version  0.2.5
+ */
+Base.setMethod(async function replaceWithConfig(config) {
+
+	if (!config?.type) {
+		throw new Error('Unable to replace, config type is empty');
+	}
+
+	if (this.type == config.type) {
+		this.value = config;
+		return true;
+	}
+
+	let parent_widget = this.parent_container;
+
+	// If this isn't in an editable widget, it can't be replaced.
+	// (Might be a hard-coded widget type)
+	if (!parent_widget || !parent_widget.editing || !parent_widget.addWidget) {
+		return false;
+	}
+
+	let new_widget = parent_widget.addWidget(config.type, config.config);
+
+	if (new_widget) {
+		this.replaceWith(new_widget);
 	}
 });

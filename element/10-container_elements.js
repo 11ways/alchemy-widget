@@ -199,6 +199,8 @@ AlchemyWidgets.setMethod(function clear() {
  *
  * @param    {String}   type
  * @param    {Object}   config
+ *
+ * @return   {HTMLElement}
  */
 AlchemyWidgets.setMethod(function addWidget(type, config) {
 
@@ -229,6 +231,8 @@ AlchemyWidgets.setMethod(function addWidget(type, config) {
 	if (this.editing) {
 		element.startEditor();
 	}
+
+	return element;
 });
 
 /**

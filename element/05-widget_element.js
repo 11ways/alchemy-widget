@@ -12,9 +12,16 @@ let Widget = Function.inherits('Alchemy.Element.Widget.Base', 'Widget');
  *
  * @author   Jelle De Loecker   <jelle@elevenways.be>
  * @since    0.1.0
- * @version  0.1.0
+ * @version  0.2.5
  */
-Widget.setAttribute('type');
+Widget.setAttribute('type', function getType(type) {
+
+	if (!type) {
+		type = this.instance.constructor.type_name;
+	}
+
+	return type;
+});
 
 /**
  * Mark this as a widget

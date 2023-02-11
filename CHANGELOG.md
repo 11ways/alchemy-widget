@@ -2,6 +2,8 @@
 
 * Add `code_type` field to the `Sourcecode` widget
 * Allow setting the source of an `HTML` widget via its config dialog
+* Make `paste` widget action only append copied widgets to a container
+* Add `replace` widget action to replace a widget with anything in the current clipboard
 
 ## 0.2.4 (2023-01-30)
 

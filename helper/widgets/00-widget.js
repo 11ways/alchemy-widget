@@ -148,7 +148,7 @@ Widget.enforceProperty(function is_hidden(new_value) {
  *
  * @author   Jelle De Loecker   <jelle@elevenways.be>
  * @since    0.1.0
- * @version  0.2.1
+ * @version  0.2.5
  */
 Widget.constitute(function prepareSchema() {
 
@@ -197,18 +197,57 @@ Widget.constitute(function prepareSchema() {
 		return true;
 	});
 
-	copy.setIcon('clipboard');
+	copy.setIcon('copy');
 	copy.close_actionbar = true;
 
-	// Add the "paste from clipboard" action
-	let paste = this.createAction('paste', 'Replace from clipboard');
+	// Add the "replace from clipboard" action
+	let replace = this.createAction('replace', 'Replace from clipboard');
 
-	paste.setHandler(function pasteAction(widget_el, handle) {
-		return widget_el.pasteConfigFromClipboard();
+	replace.setHandler(async function replaceAction(widget_el, handle) {
+
+		let config = await widget_el.getReplaceableConfigFromClipboard();
+
+		if (!config) {
+			return false;
+		}
+
+		widget_el.replaceWithConfig(config);
 	});
 
-	paste.setTester(function pasteAction(widget_el, handle) {
-		return widget_el.getConfigFromClipboard();
+	replace.setTester(function replaceActionTester(widget_el, handle) {
+		return widget_el.getReplaceableConfigFromClipboard();
+	});
+
+	replace.setIcon('repeat');
+	replace.close_actionbar = true;
+
+	// Add the "paste from clipboard" action
+	let paste = this.createAction('paste', 'Paste from clipboard');
+
+	paste.setHandler(async function pasteAction(widget_el, handle) {
+
+		let config = await widget_el.getConfigFromClipboard();
+
+		if (!config) {
+			return false;
+		}
+
+		widget_el.addWidget(config.type, config.config);
+	});
+
+	paste.setTester(async function pasteActionTester(widget_el, handle) {
+
+		if (!widget_el.addWidget) {
+			return false;
+		}
+
+		let config = await widget_el.getConfigFromClipboard();
+
+		if (!config || config.type == 'container') {
+			return false;
+		}
+
+		return true;
 	});
 
 	paste.setIcon('paste');
