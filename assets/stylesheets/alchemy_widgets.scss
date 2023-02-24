@@ -429,3 +429,19 @@ al-toc {
 .aw-hidden {
 	opacity: 0.8;
 }
+
+al-widget[type="markdown"] {
+	.markdown-editor-container {
+		background: white;
+	}
+
+	.ProseMirror {
+		font-size: 1.1rem;
+		--default-font-family: "Roboto", sans-serif;
+		font-family: var(--font-family, var(--default-font-family));
+	}
+
+	.toastui-editor-toolbar .toastui-editor-md-tab-container .toastui-editor-tabs {
+		display: none;
+	}
+}

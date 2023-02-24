@@ -52,21 +52,35 @@ Markdown.setMethod(function populateWidget() {
  *
  * @author   Jelle De Loecker   <jelle@elevenways.be>
  * @since    0.1.0
- * @version  0.2.0
+ * @version  0.2.6
  */
 Markdown.setMethod(async function _startEditor() {
 
 	Hawkejs.removeChildren(this.widget);
 
-	hawkejs.scene.enableStyle('https://unpkg.com/easymde/dist/easymde.min.css');
-	await hawkejs.require('https://unpkg.com/easymde/dist/easymde.min.js');
+	hawkejs.scene.enableStyle('https://uicdn.toast.com/editor/latest/toastui-editor.min.css');
+	await hawkejs.require('https://uicdn.toast.com/editor/latest/toastui-editor-all.min.js');
 
-	let element = this.createElement('textarea');
+	const Editor = toastui.Editor
+
+	let element = this.createElement('div');
+	element.classList.add('markdown-editor-container');
 	this.widget.append(element);
-	element.value = this.config.markdown || '';
 
-	const easyMDE = new EasyMDE({element});
-	this.easy_mde = easyMDE;
+	const editor = new Editor({
+		el                 : element,
+		height             : '900px',
+		initialEditType    : 'markdown',
+		previewStyle       : 'vertical',
+		usageStatistics    : false,
+		autofocus          : false,
+		previewStyle       : 'global',
+		hideModeSwitch     : true,
+		initialEditType    : 'markdown',
+	});
+
+	this.toast_editor = editor;
+	editor.setMarkdown(this.config.markdown || '');
 });
 
 /**
@@ -74,12 +88,19 @@ Markdown.setMethod(async function _startEditor() {
  *
  * @author   Jelle De Loecker   <jelle@elevenways.be>
  * @since    0.1.0
- * @version  0.2.2
+ * @version  0.2.6
  */
 Markdown.setMethod(function _stopEditor() {
 
 	Hawkejs.removeChildren(this.widget);
-	this.easy_mde = null;
+
+	if (this.toast_editor) {
+		try {
+			this.toast_editor.destroy();
+		} catch (err) {}
+	}
+
+	this.toast_editor = null;
 
 	return this.loadWidget();
 });
@@ -89,7 +110,7 @@ Markdown.setMethod(function _stopEditor() {
  *
  * @author   Jelle De Loecker   <jelle@elevenways.be>
  * @since    0.1.0
- * @version  0.2.0
+ * @version  0.2.6
  *
  * @return   {Object}
  */
@@ -97,8 +118,8 @@ Markdown.setMethod(function syncConfig() {
 
 	let value = '';
 
-	if (this.easy_mde) {
-		value = this.easy_mde.value();
+	if (this.toast_editor) {
+		value = this.toast_editor.getMarkdown();
 	}
 
 	this.config.markdown = value;

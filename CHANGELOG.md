@@ -1,3 +1,7 @@
+## 0.2.6 (WIP)
+
+* Replace *EasyMDE* markdown editor with *Toast editor*
+
 ## 0.2.5 (2023-02-11)
 
 * Add `code_type` field to the `Sourcecode` widget
