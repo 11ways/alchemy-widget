@@ -1,6 +1,7 @@
 ## 0.2.6 (WIP)
 
 * Replace *EasyMDE* markdown editor with *Toast editor*
+* Implement the `valueHasContent` method
 
 ## 0.2.5 (2023-02-11)
 

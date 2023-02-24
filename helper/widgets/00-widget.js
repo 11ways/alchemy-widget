@@ -1009,3 +1009,40 @@ Widget.setMethod(function getHandle() {
 
 	return element;
 });
+
+/**
+ * See if the given value is considered not-empty for this widget
+ *
+ * @author   Jelle De Loecker   <jelle@elevenways.be>
+ * @since    0.2.6
+ * @version  0.2.6
+ *
+ * @return   {Boolean}
+ */
+Widget.setMethod(function valueHasContent(value) {
+
+	if (!value || typeof value != 'object') {
+		return false;
+	}
+
+	let entry,
+	    key;
+
+	for (key in value) {
+		entry = value[key];
+
+		if (entry) {
+			if (Array.isArray(entry) && entry.length) {
+				return true;
+			}
+
+			if (entry === '') {
+				continue;
+			}
+
+			return true;
+		}
+	}
+
+	return false;
+});

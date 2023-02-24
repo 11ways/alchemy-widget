@@ -37,3 +37,27 @@ WidgetsField.setMethod(function getOptionsForDrying() {
 	let {schema, ...options} = this.options;
 	return options;
 });
+
+/**
+ * See if the given value is considered not-empty for this field
+ *
+ * @author   Jelle De Loecker   <jelle@elevenways.be>
+ * @since    0.2.6
+ * @version  0.2.6
+ *
+ * @param    {Mixed}   value
+ *
+ * @return   {Boolean}
+ */
+WidgetsField.setMethod(function valueHasContent(value) {
+
+	if (!value) {
+		return false;
+	}
+
+	if (!value.widgets?.length) {
+		return false;
+	}
+
+	return true;
+});
