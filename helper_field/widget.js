@@ -120,6 +120,8 @@ WidgetField.setMethod(function valueHasContent(value) {
 		return true;
 	}
 
+	value = this.cast(value);
+
 	let instance = new constructor();
 
 	return instance.valueHasContent(value);
