@@ -2,6 +2,7 @@
 
 * Replace *EasyMDE* markdown editor with *Toast editor*
 * Implement the `valueHasContent` method
+* Make sure widgets keep a link to the `conduit` instance
 
 ## 0.2.5 (2023-02-11)
 

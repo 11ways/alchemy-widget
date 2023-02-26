@@ -528,7 +528,7 @@ Widget.setStatic(function unDry(obj, custom_method, whenDone) {
  *
  * @author   Jelle De Loecker   <jelle@elevenways.be>
  * @since    0.1.0
- * @version  0.1.0
+ * @version  0.2.6
  *
  * @param    {String}   type     The typeof widget to create
  * @param    {Object}   config   The optional config object
@@ -545,6 +545,10 @@ Widget.setMethod(function createChildWidget(type, config) {
 
 	// Create the instance
 	let instance = new WidgetClass(config);
+
+	if (this.conduit) {
+		instance.conduit = this.conduit;
+	}
 
 	// Set the parent instance!
 	instance.parent_instance = this;
@@ -582,11 +586,15 @@ Widget.setMethod(function toDry() {
  *
  * @author   Jelle De Loecker   <jelle@elevenways.be>
  * @since    0.1.0
- * @version  0.2.0
+ * @version  0.2.6
  *
  * @return   {Array}
  */
 Widget.setMethod(async function getActionbarActions() {
+
+	if (!this.constructor.actions) {
+		return [];
+	}
 
 	let sorted = this.constructor.actions.getSorted(),
 	    result = [],
