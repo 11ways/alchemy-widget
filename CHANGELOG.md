@@ -1,4 +1,4 @@
-## 0.2.6 (WIP)
+## 0.2.6 (2023-02-26)
 
 * Replace *EasyMDE* markdown editor with *Toast editor*
 * Implement the `valueHasContent` method
