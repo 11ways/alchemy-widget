@@ -818,16 +818,16 @@ Widget.setMethod(function queueVisibilityUpdate() {
  *
  * @author   Jelle De Loecker   <jelle@elevenways.be>
  * @since    0.2.1
- * @version  0.2.1
+ * @version  0.2.7
  */
 Widget.setMethod(function checkVisibility() {
 
 	let should_be_hidden = this.is_hidden;
 
 	if (this.editing) {
-		this.widget.hidden = false;
+		this.widget.hideForEveryone(false);
 	} else {
-		this.widget.hidden = should_be_hidden;
+		this.widget.hideForEveryone(should_be_hidden);
 	}
 
 	if (should_be_hidden) {

@@ -1,3 +1,7 @@
+## 0.2.7 (WIP)
+
+* Use `Element#hideForEveryone()` when hiding widgets
+
 ## 0.2.6 (2023-02-26)
 
 * Replace *EasyMDE* markdown editor with *Toast editor*

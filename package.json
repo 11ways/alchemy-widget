@@ -1,7 +1,7 @@
 {
 	"name": "alchemy-widget",
 	"description": "The widget plugin for the AlchemyMVC",
-	"version": "0.2.6",
+	"version": "0.2.7-alpha",
 	"author": "Jelle De Loecker <jelle@elevenways.be>",
 	"keywords": [
 		"alchemy",
