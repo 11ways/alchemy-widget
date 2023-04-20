@@ -97,6 +97,36 @@ al-widget-toolbar {
 			background-color: rgb(53, 53, 53);
 		}
 	}
+
+	.watchers:empty {
+		display: none;
+	}
+
+	.watchers {
+		margin: 0 4rem;
+	}
+
+	al-user-avatar {
+		.bubble-representation {
+			width: 4.5rem;
+			height: 4.5rem;
+			font-size: 3.5rem;
+			line-height: 4.5rem;
+		}
+	}
+
+	[data-area="buttons"] {
+		display: flex;
+		gap: 1rem;
+
+		a {
+			text-decoration: none;
+
+			micro-copy {
+				text-decoration: underline;
+			}
+		}
+	}
 }
 
 al-widgets,
@@ -443,5 +473,47 @@ al-widget[type="markdown"] {
 
 	.toastui-editor-toolbar .toastui-editor-md-tab-container .toastui-editor-tabs {
 		display: none;
+	}
+}
+
+al-user-avatar-group {
+	display: flex;
+
+	// Let all the al-user-avatar elements overlap a little.
+	> * {
+		position: relative;
+		z-index: 10;
+		margin-left: -0.5rem;
+	}
+
+	// The first element should not be overlapped
+	> :first-child {
+		margin-left: 0;
+	}
+
+	> *:hover {
+		z-index: 101;
+	}
+}
+
+al-user-avatar {
+	display: block;
+	cursor: default;
+	user-select: none;
+
+	.bubble-representation {
+		display: block;
+		width: 2rem;
+		height: 2rem;
+		border-radius: 50%;
+		background-color: var(--avatar-bg-color, #388ae5);
+		color: white;
+		font-size: 1.2rem;
+		font-weight: bold;
+		text-align: center;
+		line-height: 2rem;
+
+		// Add a shadow
+		box-shadow: 0 0 0 1px rgba(0, 0, 0, 0.1), 0 1px 2px rgba(0, 0, 0, 0.2);
 	}
 }

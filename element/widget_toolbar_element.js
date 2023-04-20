@@ -5,25 +5,7 @@
  * @since    0.2.0
  * @version  0.2.0
  */
-let Toolbar = Function.inherits('Alchemy.Element.Form.Stateful', 'Alchemy.Element.Widget', 'WidgetToolbar');
-
-/**
- * The stylesheet to load for this element
- *
- * @author   Jelle De Loecker <jelle@elevenways.be>
- * @since    0.2.0
- * @version  0.2.0
- */
-Toolbar.setStylesheetFile('alchemy_widgets');
-
-/**
- * Set the custom element prefix
- *
- * @author   Jelle De Loecker   <jelle@elevenways.be>
- * @since    0.2.0
- * @version  0.2.0
- */
-Toolbar.setStatic('custom_element_prefix', 'al');
+let Toolbar = Function.inherits('Alchemy.Element.Widget.BaseToolbar', 'WidgetToolbar');
 
 /**
  * The template to use for the content of this element
@@ -287,6 +269,28 @@ Toolbar.setMethod(async function saveAllAndUpdateButtonStates(before_stop) {
  */
 Toolbar.setMethod(function introduced() {
 
+	let set_manager_id = null;
+
+	const setManager = (manager) => {
+
+		if (set_manager_id) {
+			clearTimeout(set_manager_id);
+		}
+
+		set_manager_id = setTimeout(() => {
+			this.prepareToolbarManager(manager);
+		}, 250);
+	};
+
+	if (this.toolbar_manager) {
+		this.prepareToolbarManager(this.toolbar_manager);
+	} else {
+		let manager = hawkejs.scene.exposed.toolbar_manager;
+		if (manager) {
+			this.prepareToolbarManager(manager);
+		}
+	}
+
 	this.button_start.addEventListener('activate', async e => {
 		this.startEditing();
 	});
@@ -307,8 +311,24 @@ Toolbar.setMethod(function introduced() {
 		}
 	});
 
-	hawkejs.scene.on('opening_url', e => {
+	hawkejs.scene.on('rendered', (variables, renderer) => {
+		if (variables.toolbar_manager) {
+			setManager(variables.toolbar_manager);
+		}
+	})
+
+	hawkejs.scene.on('opening_url', (href, options) => {
+
+		// Ignore segments & other renders
+		if (options?.history === false) {
+			return;
+		}
+
 		this.stopEditing();
+
+		if (this.toolbar_manager) {
+			this.toolbar_manager.queueClearDocumentWatcher(500);
+		}
 	});
 });
 

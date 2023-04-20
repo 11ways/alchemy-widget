@@ -1,0 +1,5 @@
+<div class="bubble-representation">
+	<span class="first-letter">
+		{{ self.first_letter }}
+	</span>
+</div>

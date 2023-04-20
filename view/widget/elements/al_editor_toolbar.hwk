@@ -1,0 +1,3 @@
+<div data-he-slot="left"></div>
+<div data-he-slot="center"></div>
+<div data-he-slot="right"></div>

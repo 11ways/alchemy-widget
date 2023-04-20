@@ -47,3 +47,9 @@
 		{%t "go-to-backend" %}
 	</a>
 {% /if %}
+
+<al-user-avatar-group
+	class="watchers"
+></al-user-avatar-group>
+
+<div data-area="buttons"></div>

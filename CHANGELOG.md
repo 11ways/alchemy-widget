@@ -1,6 +1,7 @@
 ## 0.2.7 (WIP)
 
 * Use `Element#hideForEveryone()` when hiding widgets
+* Add the `al-editor-toolbar` and accompanying elements
 
 ## 0.2.6 (2023-02-26)
 
