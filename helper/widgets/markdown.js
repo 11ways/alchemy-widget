@@ -52,11 +52,67 @@ Markdown.setMethod(function populateWidget() {
  *
  * @author   Jelle De Loecker   <jelle@elevenways.be>
  * @since    0.1.0
- * @version  0.2.6
+ * @version  0.2.7
  */
 Markdown.setMethod(async function _startEditor() {
 
 	Hawkejs.removeChildren(this.widget);
+
+	if (this.use_toast) {
+		this._startToastEditor();
+	} else {
+		this._startCodeEditor();
+	}
+});
+
+/**
+ * Stop the editor
+ *
+ * @author   Jelle De Loecker   <jelle@elevenways.be>
+ * @since    0.1.0
+ * @version  0.2.7
+ */
+Markdown.setMethod(function _stopEditor() {
+
+	Hawkejs.removeChildren(this.widget);
+
+	if (this.use_toast) {
+		this._startToastEditor();
+	}
+
+	return this.loadWidget();
+});
+
+/**
+ * Start the code editor
+ *
+ * @author   Jelle De Loecker   <jelle@elevenways.be>
+ * @since    0.2.7
+ * @version  0.2.7
+ */
+Markdown.setMethod(async function _startCodeEditor() {
+
+	let element = this.createElement('div');
+	element.classList.add('markdown-editor-container');
+	this.widget.append(element);
+
+	let code_input = this.createElement('al-code-input');
+	code_input.show_line_numbers = false;
+	element.append(code_input);
+
+	code_input.value = this.config.markdown || '';
+
+	this.code_input = code_input;
+});
+
+/**
+ * Start the toast editor
+ *
+ * @author   Jelle De Loecker   <jelle@elevenways.be>
+ * @since    0.2.7
+ * @version  0.2.7
+ */
+Markdown.setMethod(async function _startToastEditor() {
 
 	hawkejs.scene.enableStyle('https://uicdn.toast.com/editor/latest/toastui-editor.min.css');
 	await hawkejs.require('https://uicdn.toast.com/editor/latest/toastui-editor-all.min.js');
@@ -69,7 +125,7 @@ Markdown.setMethod(async function _startEditor() {
 
 	const editor = new Editor({
 		el                 : element,
-		height             : '900px',
+		height             : '600px',
 		initialEditType    : 'markdown',
 		previewStyle       : 'vertical',
 		usageStatistics    : false,
@@ -84,15 +140,13 @@ Markdown.setMethod(async function _startEditor() {
 });
 
 /**
- * Stop the editor
+ * Stop the toast editor
  *
  * @author   Jelle De Loecker   <jelle@elevenways.be>
- * @since    0.1.0
- * @version  0.2.6
+ * @since    0.2.7
+ * @version  0.2.7
  */
-Markdown.setMethod(function _stopEditor() {
-
-	Hawkejs.removeChildren(this.widget);
+Markdown.setMethod(function _stopToastEditor() {
 
 	if (this.toast_editor) {
 		try {
@@ -101,8 +155,6 @@ Markdown.setMethod(function _stopEditor() {
 	}
 
 	this.toast_editor = null;
-
-	return this.loadWidget();
 });
 
 /**
@@ -110,7 +162,7 @@ Markdown.setMethod(function _stopEditor() {
  *
  * @author   Jelle De Loecker   <jelle@elevenways.be>
  * @since    0.1.0
- * @version  0.2.6
+ * @version  0.2.7
  *
  * @return   {Object}
  */
@@ -120,6 +172,8 @@ Markdown.setMethod(function syncConfig() {
 
 	if (this.toast_editor) {
 		value = this.toast_editor.getMarkdown();
+	} else if (this.code_input) {
+		value = this.code_input.value;
 	}
 
 	this.config.markdown = value;

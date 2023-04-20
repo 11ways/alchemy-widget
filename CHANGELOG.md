@@ -2,6 +2,7 @@
 
 * Use `Element#hideForEveryone()` when hiding widgets
 * Add the `al-editor-toolbar` and accompanying elements
+* Use the `al-code-input` element again for editing markdown widgets
 
 ## 0.2.6 (2023-02-26)
 
