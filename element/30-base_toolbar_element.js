@@ -73,7 +73,7 @@ Toolbar.setMethod(function onToolbarManagerAssignment(manager, old_manager) {
  *
  * @author   Jelle De Loecker   <jelle@elevenways.be>
  * @since    0.2.7
- * @version  0.2.7
+ * @version  0.2.8
  */
 Toolbar.setMethod(function prepareToolbarManager(manager, old_manager) {
 
@@ -123,7 +123,7 @@ Toolbar.setMethod(function prepareToolbarManager(manager, old_manager) {
 		let area_element = this.getAreaElement(area);
 
 		if (area_element) {
-			hawkejs.renderToElements(template, variables, (err, elements) => {
+			let renderer = hawkejs.renderToElements(template, variables, (err, elements) => {
 
 				if (current_clear_count != clear_counts[area]) {
 					// The area has been cleared in the meantime
@@ -135,7 +135,12 @@ Toolbar.setMethod(function prepareToolbarManager(manager, old_manager) {
 					return;
 				}
 
-				area_element.append(...elements);
+				for (let i = 0; i < elements.length; i++) {
+					area_element.appendChild(elements[i]);
+				}
+
+				hawkejs.scene.handleRendererScripts(renderer);
+				hawkejs.scene.handleRendererStyles(renderer);
 			});
 		}
 	});

@@ -1,3 +1,7 @@
+## 0.2.8 (WIP)
+
+* Make the widget toolbar render area contents correctly + load scripts & styles
+
 ## 0.2.7 (2023-04-20)
 
 * Use `Element#hideForEveryone()` when hiding widgets
