@@ -1,4 +1,4 @@
-## 0.2.8 (WIP)
+## 0.2.8 (2023-06-17)
 
 * Make the widget toolbar render area contents correctly + load scripts & styles
 
