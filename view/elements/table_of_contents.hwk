@@ -1,25 +1,24 @@
 <% all_entries = self.tree %>
 
 {% macro printEntries %}
-	<ol>
+	<% this.printElement(self.container_element) %>
+		<% if (is_child) $0.classList.add('toc-is-child') %>
 		{% each entries as entry %}
 			{% run printEntry entry=entry %}
-			
-			{% if entry.children %}
-				<li>
-					{% run printEntries entries=entry.children %}
-				</li>
-			{% /if %}
 		{% /each %}
-	</ol>
+	<% this.closeElement(self.container_element) %>
 {% /macro %}
 
 {% macro printEntry %}
-	<li>
+	<% this.printElement(self.entry_element) %>
 		<a href="#{% entry.id %}">
 			{{ entry.title }}
 		</a>
-	</li>
+
+		{% if entry.children %}
+			{% run printEntries entries=entry.children is_child=true %}
+		{% /if %}
+	<% this.closeElement(self.entry_element) %>
 {% /macro %}
 
 {% run printEntries entries=all_entries %}

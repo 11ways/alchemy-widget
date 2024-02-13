@@ -47,6 +47,28 @@ TableOfContents.setAssignedProperty('content');
 TableOfContents.setRole('navigation');
 
 /**
+ * The element to use for the containers
+ *
+ * @author   Jelle De Loecker   <jelle@elevenways.be>
+ * @since    0.3.0
+ * @version  0.3.0
+ */
+TableOfContents.setAttribute('container-element', function getValue(value) {
+	return value || 'ol';
+});
+
+/**
+ * The element to use for the entries
+ *
+ * @author   Jelle De Loecker   <jelle@elevenways.be>
+ * @since    0.3.0
+ * @version  0.3.0
+ */
+TableOfContents.setAttribute('entry-element', function getValue(value) {
+	return value || 'li';
+});
+
+/**
  * The parent query
  *
  * @author   Jelle De Loecker   <jelle@elevenways.be>
@@ -105,7 +127,7 @@ TableOfContents.setAttribute('truncate-length', {type: 'number'});
  *
  * @author   Jelle De Loecker   <jelle@elevenways.be>
  * @since    0.1.2
- * @version  0.2.4
+ * @version  0.3.0
  */
 TableOfContents.setProperty(function entries() {
 
@@ -159,7 +181,9 @@ TableOfContents.setProperty(function entries() {
 				title_element = heading;
 			}
 
-			if (title_element.nodeName[0] == 'H' && isFinite(title_element.nodeName[1])) {
+			if (title_element.dataset.toc_level > 0) {
+				heading_level = +title_element.dataset.toc_level;
+			} else if (title_element.nodeName[0] == 'H' && isFinite(title_element.nodeName[1])) {
 				heading_level = +title_element.nodeName[1];
 			} else if (!heading_level) {
 				heading_level = 1;
