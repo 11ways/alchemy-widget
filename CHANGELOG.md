@@ -1,3 +1,7 @@
+## 0.3.0 (WIP)
+
+* Upgrade to Alchemy v1.4.0
+
 ## 0.2.8 (2023-06-17)
 
 * Make the widget toolbar render area contents correctly + load scripts & styles

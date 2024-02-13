@@ -146,7 +146,7 @@ EditorToolbarManager.setMethod(function queueModelFallback(model_name) {
  *
  * @author   Jelle De Loecker   <jelle@elevenways.be>
  * @since    0.2.7
- * @version  0.2.7
+ * @version  0.3.0
  *
  * @param    {String}   model_name
  */
@@ -164,7 +164,7 @@ EditorToolbarManager.setTypedMethod([Types.String.optional().nullable()], functi
 
 	if (Blast.isNode && model_name) {
 		this.addTemplateToRender('buttons', 'chimera/toolbar/create_button', {
-			model_name: model_name.underscore(),
+			model_name: Blast.parseClassPath(model_name).map(entry => entry.underscore()).join('.'),
 		});
 	}
 });
