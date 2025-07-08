@@ -1,3 +1,7 @@
+## 0.3.0-alpha.2
+
+* Make `main_class_names` widget config add classes to the first child of the wrapper
+
 ## 0.3.0-alpha.1 (2024-02-15)
 
 * Upgrade to Alchemy v1.4.0

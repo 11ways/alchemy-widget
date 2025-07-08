@@ -740,7 +740,7 @@ Widget.setMethod(function populateWidget() {
  *
  * @author   Jelle De Loecker   <jelle@elevenways.be>
  * @since    0.1.0
- * @version  0.2.1
+ * @version  0.3.0
  */
 Widget.setMethod(function finalizePopulatedWidget() {
 
@@ -755,6 +755,22 @@ Widget.setMethod(function finalizePopulatedWidget() {
 		for (i = 0; i < class_names.length; i++) {
 			name = class_names[i];
 			this.widget.classList.add(name);
+		}
+	}
+
+	if (config.main_class_names) {
+		let main = this.widget?.children?.[0];
+
+		if (main) {
+			let name,
+				i;
+
+			let class_names = Array.cast(config.main_class_names);
+
+			for (i = 0; i < class_names.length; i++) {
+				name = class_names[i];
+				main.classList.add(name);
+			}
 		}
 	}
 
