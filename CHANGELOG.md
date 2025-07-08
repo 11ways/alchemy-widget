@@ -1,6 +1,7 @@
 ## 0.3.0-alpha.2
 
 * Make `main_class_names` widget config add classes to the first child of the wrapper
+* Add `li_class_names` config to List widgets
 
 ## 0.3.0-alpha.1 (2024-02-15)
 
