@@ -57,7 +57,7 @@ Toolbar.addElementGetter('button_save_all', 'al-button.save-all');
  *
  * @author   Jelle De Loecker   <jelle@elevenways.be>
  * @since    0.2.0
- * @version  0.2.0
+ * @version  0.3.0
  */
 Toolbar.setStatic(function show() {
 
@@ -68,6 +68,11 @@ Toolbar.setStatic(function show() {
 	let toolbar = document.querySelector('al-widget-toolbar');
 
 	if (toolbar) {
+		return;
+	}
+
+	// Don't show if an al-editor-toolbar exists (e.g., in Chimera)
+	if (document.querySelector('al-editor-toolbar')) {
 		return;
 	}
 
@@ -106,26 +111,26 @@ Toolbar.setMethod(function getAllRootWidgets() {
 });
 
 /**
+ * Get the target widgets (all root widgets for this toolbar)
+ *
+ * @author   Jelle De Loecker   <jelle@elevenways.be>
+ * @since    0.3.0
+ * @version  0.3.0
+ */
+Toolbar.setMethod(function getTargetWidgets() {
+	return this.getAllRootWidgets();
+});
+
+/**
  * Start editing all the widgets
  *
  * @author   Jelle De Loecker   <jelle@elevenways.be>
  * @since    0.2.0
- * @version  0.2.0
+ * @version  0.3.0
  */
 Toolbar.setMethod(function startEditing() {
-
-	let i;
-
 	Blast.editing = true;
-	document.body.classList.add('editing-blocks');
-
-	let elements = this.getAllRootWidgets();
-
-	for (i = 0; i < elements.length; i++) {
-		elements[i].startEditor();
-	}
-
-	this.setState('editing');
+	startEditing.super.call(this);
 });
 
 /**
@@ -133,7 +138,7 @@ Toolbar.setMethod(function startEditing() {
  *
  * @author   Jelle De Loecker   <jelle@elevenways.be>
  * @since    0.2.0
- * @version  0.2.0
+ * @version  0.3.0
  */
 Toolbar.setMethod(function stopEditing() {
 
@@ -141,123 +146,8 @@ Toolbar.setMethod(function stopEditing() {
 		return;
 	}
 
-	let i;
-
 	Blast.editing = false;
-	document.body.classList.remove('editing-blocks');
-
-	let elements = this.getAllRootWidgets();
-
-	for (i = 0; i < elements.length; i++) {
-		elements[i].stopEditor();
-	}
-
-	this.setState('ready');
-});
-
-/**
- * Save all the widgets
- *
- * @author   Jelle De Loecker   <jelle@elevenways.be>
- * @since    0.2.0
- * @version  0.2.0
- */
-Toolbar.setMethod(async function saveAll() {
-
-	if (this._saving) {
-		try {
-			await this._saving;
-		} catch (err) {
-			// Ignore;
-		}
-	}
-
-	this._saving = null;
-
-	let elements = this.getAllRootWidgets();
-	let widget_data = [];
-	let pledge;
-
-	for (let element of elements) {
-		let entry = element.gatherSaveData();
-
-		if (entry) {
-			widget_data.push(entry);
-		}
-	}
-
-	if (widget_data.length) {
-		let config = {
-			href : alchemy.routeUrl('AlchemyWidgets#save'),
-			post : {
-				widgets: widget_data
-			}
-		};
-
-		pledge = alchemy.fetch(config);
-		this._saving = pledge;
-	}
-
-	return pledge;
-});
-
-/**
- * Save all and update the states
- *
- * @author   Jelle De Loecker   <jelle@elevenways.be>
- * @since    0.2.0
- * @version  0.2.0
- *
- * @param    {Boolean}   before_stop
- */
-Toolbar.setMethod(async function saveAllAndUpdateButtonStates(before_stop) {
-
-	let state = 'saving',
-	    button;
-
-	if (before_stop) {
-		button = this.button_stop_and_save;
-		state += '-before-stop';
-	} else {
-		button = this.button_save_all;
-	}
-
-	this.setState(state);
-	button.setState(state);
-
-	let save_error = null;
-
-	let restore_toolbar_state = this.wrapForCurrentState(() => {
-		if (save_error) {
-			this.setState('error');
-		} else {
-			this.setState('editing')
-		}
-	});
-
-	let restore_button_state = button.wrapForCurrentState(() => {
-
-		if (save_error) {
-			button.setState('error');
-		} else {
-			button.setState('saved', 2500, 'ready');
-		}
-	});
-
-	try {
-		await this.saveAll();
-	} catch (err) {
-		save_error = err;
-	}
-
-	restore_toolbar_state();
-	restore_button_state();
-
-	if (save_error) {
-		return false;
-	}
-
-	return true;
+	stopEditing.super.call(this);
 });
 
 /**

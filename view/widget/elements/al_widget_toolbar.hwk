@@ -41,7 +41,7 @@
 	</al-state>
 </al-button>
 
-{% if Router.routeConfig('Chimera.Editor#index') %}
+{% if Router.routeConfig('Chimera.Editor#index') && (not toolbar_manager or toolbar_manager.scenario neq 'chimera') %}
 	<a href="/chimera/" data-he-link="false">
 		<al-icon icon-style="duotone" icon-name="display-code"></al-icon>
 		{%t "go-to-backend" %}

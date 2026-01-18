@@ -229,3 +229,169 @@ Toolbar.setMethod(function getAreaElement(area) {
 
 	return this.querySelector('[data-area="' + area + '"]');
 });
+
+/**
+ * Get the widget containers to edit.
+ * Child classes should override this.
+ *
+ * @author   Jelle De Loecker   <jelle@elevenways.be>
+ * @since    0.3.0
+ * @version  0.3.0
+ *
+ * @returns  {Array}   Array of widget elements
+ */
+Toolbar.setMethod(function getTargetWidgets() {
+	return [];
+});
+
+/**
+ * Start editing the target widgets
+ *
+ * @author   Jelle De Loecker   <jelle@elevenways.be>
+ * @since    0.3.0
+ * @version  0.3.0
+ */
+Toolbar.setMethod(function startEditing() {
+
+	let elements = this.getTargetWidgets();
+
+	if (!elements.length) {
+		return;
+	}
+
+	document.body.classList.add('editing-blocks');
+
+	for (let element of elements) {
+		element.startEditor();
+	}
+
+	this.setState('editing');
+});
+
+/**
+ * Stop editing the target widgets
+ *
+ * @author   Jelle De Loecker   <jelle@elevenways.be>
+ * @since    0.3.0
+ * @version  0.3.0
+ */
+Toolbar.setMethod(function stopEditing() {
+
+	let elements = this.getTargetWidgets();
+
+	document.body.classList.remove('editing-blocks');
+
+	for (let element of elements) {
+		element.stopEditor();
+	}
+
+	this.setState('ready');
+});
+
+/**
+ * Save all the target widgets
+ *
+ * @author   Jelle De Loecker   <jelle@elevenways.be>
+ * @since    0.3.0
+ * @version  0.3.0
+ */
+Toolbar.setMethod(async function saveAll() {
+
+	if (this._saving) {
+		try {
+			await this._saving;
+		} catch (err) {
+			// Ignore
+		}
+	}
+
+	this._saving = null;
+
+	let elements = this.getTargetWidgets();
+	let widget_data = [];
+	let pledge;
+
+	for (let element of elements) {
+		let entry = element.gatherSaveData();
+		if (entry) {
+			widget_data.push(entry);
+		}
+	}
+
+	if (widget_data.length) {
+		let config = {
+			href: alchemy.routeUrl('AlchemyWidgets#save'),
+			post: {
+				widgets: widget_data
+			}
+		};
+
+		pledge = alchemy.fetch(config);
+		this._saving = pledge;
+	}
+
+	return pledge;
+});
+
+/**
+ * Save all and update button states
+ *
+ * @author   Jelle De Loecker   <jelle@elevenways.be>
+ * @since    0.3.0
+ * @version  0.3.0
+ *
+ * @param    {Boolean}   before_stop   Whether this is before stopping editing
+ */
+Toolbar.setMethod(async function saveAllAndUpdateButtonStates(before_stop) {
+
+	let state = 'saving',
+	    button;
+
+	if (before_stop) {
+		button = this.button_stop_and_save;
+		state += '-before-stop';
+	} else {
+		button = this.button_save_all;
+	}
+
+	if (!button) {
+		// No button available, just save
+		return this.saveAll();
+	}
+
+	this.setState(state);
+	button.setState(state);
+
+	let save_error = null;
+
+	let restore_toolbar_state = this.wrapForCurrentState(() => {
+		if (save_error) {
+			this.setState('error');
+		} else {
+			this.setState('editing');
+		}
+	});
+
+	let restore_button_state = button.wrapForCurrentState(() => {
+		if (save_error) {
+			button.setState('error');
+		} else {
+			button.setState('saved', 2500, 'ready');
+		}
+	});
+
+	try {
+		await this.saveAll();
+	} catch (err) {
+		save_error = err;
+	}
+
+	restore_toolbar_state();
+	restore_button_state();
+
+	if (save_error) {
+		return false;
+	}
+
+	return true;
+});
