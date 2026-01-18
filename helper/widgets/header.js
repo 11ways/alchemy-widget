@@ -11,6 +11,10 @@
  */
 const Header = Function.inherits('Alchemy.Widget', 'Header');
 
+// Widget metadata
+Header.setCategory('text');
+Header.setIcon('heading');
+
 /**
  * Prepare the schema
  *

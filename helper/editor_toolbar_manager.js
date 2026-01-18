@@ -15,6 +15,62 @@ const EditorToolbarManager = Function.inherits('Alchemy.Syncable', 'Alchemy.Widg
 	EditorToolbarManager.super.call(this, 'editor_toolbar_manager');
 });
 
+/**
+ * Storage for document button providers
+ *
+ * @author   Jelle De Loecker   <jelle@elevenways.be>
+ * @since    0.3.0
+ * @version  0.3.0
+ */
+EditorToolbarManager.setStatic('document_button_providers', []);
+
+/**
+ * Storage for model button providers
+ *
+ * @author   Jelle De Loecker   <jelle@elevenways.be>
+ * @since    0.3.0
+ * @version  0.3.0
+ */
+EditorToolbarManager.setStatic('model_button_providers', []);
+
+/**
+ * Register a callback that can add toolbar buttons when a document is set.
+ * This allows plugins to add their own buttons without modifying this file.
+ *
+ * @author   Jelle De Loecker   <jelle@elevenways.be>
+ * @since    0.3.0
+ * @version  0.3.0
+ *
+ * @param    {Function}   callback   Function(manager, doc, model, model_name, pk_val)
+ */
+EditorToolbarManager.setStatic(function registerDocumentButtonProvider(callback) {
+
+	if (typeof callback !== 'function') {
+		throw new Error('Button provider must be a function');
+	}
+
+	this.document_button_providers.push(callback);
+});
+
+/**
+ * Register a callback that can add toolbar buttons when a model is set.
+ * This allows plugins to add their own buttons without modifying this file.
+ *
+ * @author   Jelle De Loecker   <jelle@elevenways.be>
+ * @since    0.3.0
+ * @version  0.3.0
+ *
+ * @param    {Function}   callback   Function(manager, model_name)
+ */
+EditorToolbarManager.setStatic(function registerModelButtonProvider(callback) {
+
+	if (typeof callback !== 'function') {
+		throw new Error('Button provider must be a function');
+	}
+
+	this.model_button_providers.push(callback);
+});
+
 if (Blast.isNode) {
 	/**
 	 * Create a manager for the given conduit
@@ -100,6 +156,24 @@ EditorToolbarManager.setStateProperty('title', {allow_client_set: false});
 EditorToolbarManager.setStateProperty('scenario');
 
 /**
+ * Whether this is a user-specific dashboard
+ *
+ * @author   Jelle De Loecker   <jelle@elevenways.be>
+ * @since    0.3.0
+ * @version  0.3.0
+ */
+EditorToolbarManager.setStateProperty('is_user_dashboard', {allow_client_set: false});
+
+/**
+ * Whether the user has an ID (is logged in)
+ *
+ * @author   Jelle De Loecker   <jelle@elevenways.be>
+ * @since    0.3.0
+ * @version  0.3.0
+ */
+EditorToolbarManager.setStateProperty('has_user_id', {allow_client_set: false});
+
+/**
  * Clear the model fallback
  *
  * @author   Jelle De Loecker   <jelle@elevenways.be>
@@ -162,10 +236,11 @@ EditorToolbarManager.setTypedMethod([Types.String.optional().nullable()], functi
 		this.emitPropertyChange('model_name');
 	}
 
+	// Call registered model button providers
 	if (Blast.isNode && model_name) {
-		this.addTemplateToRender('buttons', 'chimera/toolbar/create_button', {
-			model_name: Blast.parseClassPath(model_name).map(entry => entry.underscore()).join('.'),
-		});
+		for (let provider of this.constructor.model_button_providers) {
+			provider(this, model_name);
+		}
 	}
 });
 
@@ -200,20 +275,9 @@ EditorToolbarManager.setMethod(function setDocument(doc) {
 
 	this.setDocumentWatcher(document_watcher);
 
-	if (this.scenario != 'chimera') {
-		this.addTemplateToRender('buttons', 'chimera/toolbar/edit_in_chimera_button', {
-			model_name: model_name.underscore(),
-			record_pk: pk_val,
-		});
-	}
-
-	if (model.chimera.record_preview) {
-		if (this.scenario == 'chimera') {
-			this.addTemplateToRender('buttons', 'chimera/toolbar/preview_button', {
-				model_name: model_name.underscore(),
-				record_pk: pk_val,
-			});
-		}
+	// Call registered document button providers
+	for (let provider of this.constructor.document_button_providers) {
+		provider(this, doc, model, model_name, pk_val);
 	}
 
 	return document_watcher;

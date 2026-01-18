@@ -11,6 +11,10 @@
  */
 const Template = Function.inherits('Alchemy.Widget.Sourcecode', 'HawkejsTemplate');
 
+// Widget metadata
+Template.setCategory('advanced');
+Template.setIcon('file-lines');
+
 /**
  * Populate the widget
  *

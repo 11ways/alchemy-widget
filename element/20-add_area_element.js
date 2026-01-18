@@ -20,15 +20,13 @@ let AddArea = Function.inherits('Alchemy.Element.Widget.Base', function WidgetAd
 });
 
 /**
- * Show the types to add
+ * Show the widget picker dialog
  *
  * @author   Jelle De Loecker   <jelle@elevenways.be>
  * @since    0.1.0
- * @version  0.2.0
+ * @version  0.3.0
  */
-AddArea.setMethod(function showTypes(event) {
-
-	let that = this;
+AddArea.setMethod(async function showTypes(event) {
 
 	let context_button = document.querySelector('al-widget-context');
 
@@ -36,25 +34,25 @@ AddArea.setMethod(function showTypes(event) {
 		context_button.forceUnselection();
 	}
 
-	let context = this.createElement('he-context-menu');
+	// Create the widget picker element
+	let picker = this.createElement('al-widget-picker');
+	picker.target_container = this.parentElement;
+	picker.addEventListener('select', (e) => {
+		this.parentElement.addWidget(e.detail.type_name);
+	});
 
-	let widgets = Object.values(alchemy.getClassGroup('widgets')).sortByPath(1, 'title');
+	// Create the dialog
+	let dialog = this.createElement('he-dialog');
+	dialog.setAttribute('dialog-title', 'Add Widget');
+	dialog.classList.add('widget-picker-dialog');
 
-	for (let widget of widgets) {
+	// Wrap picker in a slot container
+	let slot = document.createElement('div');
+	slot.setAttribute('slot', 'main');
+	slot.append(picker);
+	dialog.append(slot);
 
-		if (!widget.canBeAdded(that.parentElement)) {
-			continue;
-		}
-
-		context.addEntry({
-			title : widget.title,
-			icon  : null,
-		}, e => {
-			that.parentElement.addWidget(widget.type_name);
-		});
-	}
-
-	context.show(event);
+	document.body.append(dialog);
 });
 
 /**

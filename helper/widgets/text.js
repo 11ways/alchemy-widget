@@ -11,6 +11,10 @@
  */
 const Text = Function.inherits('Alchemy.Widget', 'Text');
 
+// Widget metadata
+Text.setCategory('text');
+Text.setIcon('align-left');
+
 /**
  * Prepare the schema
  *

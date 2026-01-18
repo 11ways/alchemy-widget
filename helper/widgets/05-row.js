@@ -10,3 +10,7 @@
  * @param    {Object}   data
  */
 const Row = Function.inherits('Alchemy.Widget.Container', 'Row');
+
+// Widget metadata
+Row.setCategory('layout');
+Row.setIcon('grip-lines');

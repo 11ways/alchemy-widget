@@ -11,6 +11,10 @@
  */
 const Sourcecode = Function.inherits('Alchemy.Widget', 'Sourcecode');
 
+// Widget metadata
+Sourcecode.setCategory('advanced');
+Sourcecode.setIcon('file-code');
+
 /**
  * Prepare the schema
  *

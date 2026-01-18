@@ -11,6 +11,10 @@
  */
 const Toc = Function.inherits('Alchemy.Widget', 'TableOfContents');
 
+// Widget metadata
+Toc.setCategory('navigation');
+Toc.setIcon('list-ol');
+
 /**
  * Populate the widget
  *

@@ -12,6 +12,10 @@
  */
 const Html = Function.inherits('Alchemy.Widget', 'Html');
 
+// Widget metadata
+Html.setCategory('advanced');
+Html.setIcon('code');
+
 /**
  * Prepare the schema
  *

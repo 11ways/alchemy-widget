@@ -1,0 +1,55 @@
+{# Widget picker dialog - using flat widgets list to avoid nested loop issues #}
+<div class="widget-picker">
+	<div class="widget-picker-header">
+		<input
+			type="search" 
+			class="widget-picker-search" 
+			placeholder={% __d('widget-picker-search-placeholder') %}
+			autocomplete="off"
+		>
+	</div>
+	
+	<div class="widget-picker-body">
+		<aside class="widget-picker-categories">
+			<button class="category-btn active" data-category="">
+				<al-icon icon-name="grid-2"></al-icon>
+				<span>{%t 'widget-picker-all-categories' %}</span>
+			</button>
+			{% each categories as category %}
+			<button
+				class="category-btn"
+				data-category={% category.name %}
+			>
+				<al-icon icon-name={% category.icon %}></al-icon>
+				<span>{%t category.name widget=true category=true %}</span>
+			</button>
+			{% /each %}
+		</aside>
+		
+		<main class="widget-picker-list">
+			{% each widgets as widget %}
+			<button class="widget-item" 
+					data-type={% widget.type_name %}
+					data-category={% widget.category %}
+					tabindex="0">
+				<div class="widget-item-icon">
+					<al-icon icon-name={% widget.icon %}></al-icon>
+				</div>
+				<div class="widget-item-content">
+					<span class="widget-item-title">{{ widget.title }}</span>
+					{% if widget.description %}
+						<span class="widget-item-description">{{ widget.description }}</span>
+					{% else %}
+						<span class="widget-item-description">{%t widget.description_key widget=true %}</span>
+					{% /if %}
+				</div>
+			</button>
+			{% /each %}
+			
+			<div class="widget-picker-empty" hidden>
+				<al-icon icon-name="search"></al-icon>
+				<p>{%t 'widget-picker-no-results' %}</p>
+			</div>
+		</main>
+	</div>
+</div>

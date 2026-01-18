@@ -11,6 +11,11 @@
  */
 const AlchemyField = Function.inherits('Alchemy.Widget', 'AlchemyField');
 
+// Widget metadata
+AlchemyField.setTitle('Form Field');
+AlchemyField.setCategory('data');
+AlchemyField.setIcon('i-cursor');
+
 /**
  * Prepare the schema
  *

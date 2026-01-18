@@ -36,6 +36,245 @@ Widget.makeAbstractClass();
 Widget.startNewGroup('widgets');
 
 /**
+ * Standard widget categories.
+ * These are the universal categories available in all projects.
+ * Projects can register their own categories using Widget.registerCategory()
+ *
+ * Translation keys are derived automatically from the category name:
+ * - Title: category.name (e.g., "layout")
+ * - Description: "widget-category-{name}-description" (e.g., "widget-category-layout-description")
+ *
+ * Templates should pass filter parameters: widget=true category=true
+ */
+Widget.CATEGORIES = {
+	LAYOUT: {
+		name: 'layout',
+		icon: 'table-columns',
+		order: 10
+	},
+	TEXT: {
+		name: 'text',
+		icon: 'font',
+		order: 20
+	},
+	MEDIA: {
+		name: 'media',
+		icon: 'image',
+		order: 30
+	},
+	DATA: {
+		name: 'data',
+		icon: 'database',
+		order: 40
+	},
+	NAVIGATION: {
+		name: 'navigation',
+		icon: 'compass',
+		order: 50
+	},
+	INTERACTIVE: {
+		name: 'interactive',
+		icon: 'hand-pointer',
+		order: 60
+	},
+	ADVANCED: {
+		name: 'advanced',
+		icon: 'code',
+		order: 100
+	}
+};
+
+/**
+ * Storage for dynamically registered categories.
+ * Use Widget.registerCategory() to add new categories.
+ */
+Widget.REGISTERED_CATEGORIES = {};
+
+/**
+ * Register a new widget category.
+ * This allows projects to add their own categories without modifying the core.
+ *
+ * Translation keys are derived automatically from the category name:
+ * - Title: category.name (e.g., "monitoring")
+ * - Description: "widget-category-{name}-description" (e.g., "widget-category-monitoring-description")
+ *
+ * @author   Jelle De Loecker   <jelle@elevenways.be>
+ * @since    0.3.0
+ * @version  0.3.0
+ *
+ * @param    {string}   key              The category key (e.g., 'MONITORING')
+ * @param    {Object}   config           Category configuration
+ * @param    {string}   config.name      Internal name (e.g., 'monitoring')
+ * @param    {string}   config.icon      FontAwesome icon name
+ * @param    {number}   [config.order]   Sort order (lower = earlier, default: 90)
+ */
+Widget.setStatic(function registerCategory(key, config) {
+
+	if (!key || typeof key !== 'string') {
+		throw new Error('Category key must be a non-empty string');
+	}
+
+	if (!config || typeof config !== 'object') {
+		throw new Error('Category config must be an object');
+	}
+
+	if (!config.name || typeof config.name !== 'string') {
+		throw new Error('Category config.name must be a non-empty string');
+	}
+
+	if (!config.icon || typeof config.icon !== 'string') {
+		throw new Error('Category config.icon must be a non-empty string');
+	}
+
+	// Normalize the key to uppercase
+	key = key.toUpperCase();
+
+	// Create the category config with defaults
+	let category = {
+		name  : config.name,
+		icon  : config.icon,
+		order : config.order ?? 90
+	};
+
+	// Store in registered categories
+	this.REGISTERED_CATEGORIES[key] = category;
+
+	// Also add to CATEGORIES for backwards compatibility and easy access
+	this.CATEGORIES[key] = category;
+});
+
+/**
+ * Set the widget category
+ *
+ * @author   Jelle De Loecker   <jelle@elevenways.be>
+ * @since    0.3.0
+ * @version  0.3.0
+ *
+ * @param    {String}   category   The category name (use CATEGORIES.*.name or custom string)
+ */
+Widget.setStatic(function setCategory(category) {
+	this.category = category;
+});
+
+/**
+ * Set the widget description
+ *
+ * @author   Jelle De Loecker   <jelle@elevenways.be>
+ * @since    0.3.0
+ * @version  0.3.0
+ *
+ * @param    {String}   description   A short description of what the widget does
+ */
+Widget.setStatic(function setDescription(description) {
+	this.description = description;
+});
+
+/**
+ * Set the widget icon (FontAwesome icon name)
+ *
+ * @author   Jelle De Loecker   <jelle@elevenways.be>
+ * @since    0.3.0
+ * @version  0.3.0
+ *
+ * @param    {String}   icon   The icon name (e.g., 'table', 'font', 'image')
+ */
+Widget.setStatic(function setIcon(icon) {
+	this.icon = icon;
+});
+
+/**
+ * Override the auto-generated title
+ *
+ * @author   Jelle De Loecker   <jelle@elevenways.be>
+ * @since    0.3.0
+ * @version  0.3.0
+ *
+ * @param    {String}   title   The display title for the widget
+ */
+Widget.setStatic(function setTitle(title) {
+	this.title = title;
+});
+
+/**
+ * Get category info for a given category name.
+ * Supports built-in categories, registered categories, and custom strings.
+ * Falls back to ADVANCED category if no category is specified.
+ *
+ * Translation keys are derived from the category name at render time:
+ * - Title: category.name (e.g., "layout")
+ * - Description: "widget-category-{name}-description"
+ *
+ * @author   Jelle De Loecker   <jelle@elevenways.be>
+ * @since    0.3.0
+ * @version  0.3.0
+ *
+ * @param    {String}   category   The category name
+ *
+ * @return   {Object}   Category info with name, icon, order
+ */
+Widget.setStatic(function getCategoryInfo(category) {
+
+	// Default to 'advanced' if no category specified
+	if (!category) {
+		return this.CATEGORIES.ADVANCED;
+	}
+
+	// Check built-in categories (includes registered ones added via registerCategory)
+	for (let key in this.CATEGORIES) {
+		if (this.CATEGORIES[key].name === category) {
+			return this.CATEGORIES[key];
+		}
+	}
+
+	// Return a default structure for unknown/custom categories
+	// These are categories set via widget.category = 'custom' without registerCategory()
+	return {
+		name  : category,
+		icon  : 'puzzle-piece',
+		order : 90
+	};
+});
+
+/**
+ * Get all available categories.
+ * Returns built-in categories, registered categories, and any custom categories
+ * discovered from widgets that set their category to a custom string.
+ *
+ * @author   Jelle De Loecker   <jelle@elevenways.be>
+ * @since    0.3.0
+ * @version  0.3.0
+ *
+ * @return   {Array}   Array of category info objects, sorted by order
+ */
+Widget.setStatic(function getAllCategories() {
+
+	let categories = new Map();
+
+	// Add built-in categories (includes registered ones added via registerCategory)
+	for (let key in this.CATEGORIES) {
+		let cat = this.CATEGORIES[key];
+		categories.set(cat.name, cat);
+	}
+
+	// Check all registered widgets for custom categories
+	// (widgets that set category to a custom string without using registerCategory)
+	let widgets = alchemy.getClassGroup('widgets');
+
+	if (widgets) {
+		for (let widget of Object.values(widgets)) {
+			let category = widget.category;
+
+			if (category && !categories.has(category)) {
+				categories.set(category, this.getCategoryInfo(category));
+			}
+		}
+	}
+
+	// Convert to array and sort by order
+	return Array.from(categories.values()).sortByPath(1, 'order');
+});
+
+/**
  * Return the class-wide schema
  *
  * @author   Jelle De Loecker   <jelle@elevenways.be>

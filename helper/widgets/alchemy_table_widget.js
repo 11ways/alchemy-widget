@@ -11,6 +11,10 @@
  */
 const AlchemyTable = Function.inherits('Alchemy.Widget', 'AlchemyTable');
 
+// Widget metadata
+AlchemyTable.setCategory('data');
+AlchemyTable.setIcon('table');
+
 /**
  * Prepare the schema
  *

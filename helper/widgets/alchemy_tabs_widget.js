@@ -11,6 +11,11 @@
  */
 const Tabs = Function.inherits('Alchemy.Widget', 'AlchemyTabs');
 
+// Widget metadata
+Tabs.setTitle('Tabs');
+Tabs.setCategory('layout');
+Tabs.setIcon('folder');
+
 /**
  * Prepare the schema
  *

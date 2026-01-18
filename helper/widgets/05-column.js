@@ -10,3 +10,7 @@
  * @param    {Object}   data
  */
 const Column = Function.inherits('Alchemy.Widget.Container', 'Column');
+
+// Widget metadata
+Column.setCategory('layout');
+Column.setIcon('grip-lines-vertical');

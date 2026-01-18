@@ -11,6 +11,10 @@
  */
 const List = Function.inherits('Alchemy.Widget.Container', 'List');
 
+// Widget metadata
+List.setCategory('layout');
+List.setIcon('list');
+
 /**
  * Prepare the schema
  *

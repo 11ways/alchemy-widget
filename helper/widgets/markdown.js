@@ -11,6 +11,10 @@
  */
 const Markdown = Function.inherits('Alchemy.Widget', 'Markdown');
 
+// Widget metadata
+Markdown.setCategory('text');
+Markdown.setIcon('file-code');
+
 /**
  * Prepare the schema
  *
