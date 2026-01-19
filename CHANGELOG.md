@@ -1,6 +1,12 @@
 ## 0.3.0-alpha.3 (WIP)
 
 * Add widget picker
+* Add `recreate()` method to `EditorToolbarManager` and `DocumentWatcher` for automatic recovery after server restart
+* Update `EditorToolbarManager` and `DocumentWatcher` to inherit from `Alchemy.Syncable.Specialized` for automatic type derivation and recreation support
+* Add `replaced` event handler to `BaseToolbarElement` to automatically switch to new manager instance after server restart
+* Add error handling in `attachDocumentWatcher()` for broken WebSocket connections
+* Add null check in `UserAvatarGroup.setUsers()` to handle missing user info gracefully
+* Fix `DocumentWatcher.addWatcher(conduit)` not awaiting the async `addWatcher(user_id, scene_id)` call, which caused viewer avatars to not appear on first edit after server restart
 
 ## 0.3.0-alpha.2 (2025-07-10)
 

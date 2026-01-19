@@ -133,6 +133,13 @@ Toolbar.setMethod(async function introduced() {
 		});
 	}
 
+	// Handle new toolbar manager from server during client-side navigation
+	hawkejs.scene.on('rendered', (variables, renderer) => {
+		if (variables.toolbar_manager) {
+			this.prepareToolbarManager(variables.toolbar_manager, this.toolbar_manager);
+		}
+	});
+
 	// Handle navigation - stop editing when leaving the page
 	hawkejs.scene.on('opening_url', (href, options) => {
 		if (options?.history === false) {

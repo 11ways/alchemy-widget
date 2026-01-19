@@ -174,11 +174,6 @@ Toolbar.setMethod(function introduced() {
 
 	if (this.toolbar_manager) {
 		this.prepareToolbarManager(this.toolbar_manager);
-	} else {
-		let manager = hawkejs.scene.exposed.toolbar_manager;
-		if (manager) {
-			this.prepareToolbarManager(manager);
-		}
 	}
 
 	this.button_start.addEventListener('activate', async e => {

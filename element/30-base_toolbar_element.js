@@ -65,6 +65,10 @@ Toolbar.addElementGetter('watchers_element', '.watchers');
 Toolbar.setMethod(function onToolbarManagerAssignment(manager, old_manager) {
 	if (manager != old_manager) {
 		this.prepareToolbarManager(manager, old_manager);
+	} else if (manager) {
+		// Same instance re-assigned - state may have changed
+		// Re-attach the document watcher to pick up any new viewers
+		this.attachDocumentWatcher(manager.state?.document_watcher);
 	}
 });
 
@@ -96,6 +100,15 @@ Toolbar.setMethod(function prepareToolbarManager(manager, old_manager) {
 	if (!manager) {
 		return;
 	}
+
+	// Listen for the manager being replaced (e.g., after server restart and reconnection)
+	manager.on('replaced', (new_manager) => {
+		if (new_manager && new_manager !== manager) {
+			// Clear the PREPARED flag so the new manager can be prepared
+			new_manager[PREPARED] = false;
+			this.prepareToolbarManager(new_manager, manager);
+		}
+	});
 
 	let clear_counts = {};
 
@@ -195,10 +208,18 @@ Toolbar.setMethod(function attachDocumentWatcher(watcher) {
 
 						if (!viewer.info) {
 							// The info isn't always set due to race conditions
-							viewer.info = await watcher.getUserInfo(viewer.user_id);
+							try {
+								viewer.info = await watcher.getUserInfo(viewer.user_id);
+							} catch (err) {
+								// getUserInfo might fail if WebSocket is disconnected
+								continue;
+							}
 						}
 
-						users.push(viewer.info);
+						// Only push if we have valid info
+						if (viewer.info) {
+							users.push(viewer.info);
+						}
 					}
 				}
 

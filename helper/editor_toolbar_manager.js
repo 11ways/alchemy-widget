@@ -9,11 +9,9 @@ const SCENE_MAP = new Map(),
  *
  * @author   Jelle De Loecker   <jelle@elevenways.be>
  * @since    0.2.7
- * @version  0.2.7
+ * @version  0.3.0
  */
-const EditorToolbarManager = Function.inherits('Alchemy.Syncable', 'Alchemy.Widget', function EditorToolbarManager() {
-	EditorToolbarManager.super.call(this, 'editor_toolbar_manager');
-});
+const EditorToolbarManager = Function.inherits('Alchemy.Syncable.Specialized', 'Alchemy.Widget', 'EditorToolbarManager');
 
 /**
  * Storage for document button providers
@@ -116,6 +114,36 @@ if (Blast.isNode) {
 		}
 
 		return manager;
+	});
+
+	/**
+	 * Recreate a manager after server restart.
+	 * Called by Syncable.tryRecreate() when client reconnects.
+	 *
+	 * @author   Jelle De Loecker   <jelle@elevenways.be>
+	 * @since    0.3.0
+	 * @version  0.3.0
+	 *
+	 * @param    {Conduit}   conduit
+	 * @param    {Object}    config    Contains type, id, and version from the client
+	 *
+	 * @return   {EditorToolbarManager}
+	 */
+	EditorToolbarManager.setStatic(async function recreate(conduit, config) {
+
+		// The config.id is the scene_id from the client.
+		// Set it on the conduit if not already set, so create() can use it.
+		if (!conduit.scene_id) {
+			conduit.scene_id = config.id;
+		} else if (conduit.scene_id !== config.id) {
+			// Scene ID mismatch - this shouldn't happen but log if it does
+			log.warning('EditorToolbarManager recreate: scene_id mismatch', {
+				conduit_scene_id : conduit.scene_id,
+				config_id        : config.id,
+			});
+		}
+
+		return this.create(conduit);
 	});
 }
 

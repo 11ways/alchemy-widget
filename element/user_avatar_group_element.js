@@ -70,6 +70,11 @@ UserAvatarGroup.setMethod(function setUsers(users) {
 	for (let i = 0; i < users.length; i++) {
 		user = users[i];
 
+		// Skip null/undefined users
+		if (!user) {
+			continue;
+		}
+
 		updated = false;
 
 		for (let j = 0; j < existing_avatars.length; j++) {

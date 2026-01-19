@@ -24,11 +24,9 @@ const COLOURS = [
  *
  * @author   Jelle De Loecker   <jelle@elevenways.be>
  * @since    0.2.7
- * @version  0.2.7
+ * @version  0.3.0
  */
-const DocumentWatcher = Function.inherits('Alchemy.Syncable', 'Alchemy.Widget', function DocumentWatcher() {
-	DocumentWatcher.super.call(this, 'document_watcher');
-});
+const DocumentWatcher = Function.inherits('Alchemy.Syncable.Specialized', 'Alchemy.Widget', 'DocumentWatcher');
 
 /**
  * Create a watcher for the given document
@@ -61,6 +59,42 @@ DocumentWatcher.setStatic(function create(model, pk) {
 if (Blast.isNode) {
 
 	/**
+	 * Recreate a watcher after server restart.
+	 * Called by Syncable.tryRecreate() when client reconnects.
+	 *
+	 * @author   Jelle De Loecker   <jelle@elevenways.be>
+	 * @since    0.3.0
+	 * @version  0.3.0
+	 *
+	 * @param    {Conduit}   conduit
+	 * @param    {Object}    config    Contains type, id, and version from the client
+	 *
+	 * @return   {DocumentWatcher}
+	 */
+	DocumentWatcher.setStatic(async function recreate(conduit, config) {
+
+		// The config.id follows the pattern "Model:pk"
+		let parts = config.id.split(':');
+
+		if (parts.length < 2) {
+			return null;
+		}
+
+		let model = parts[0],
+		    pk = parts.slice(1).join(':'); // Handle pks with colons
+
+		// Use the existing create method which handles caching
+		let watcher = this.create(model, pk);
+
+		if (watcher) {
+			// Re-add this conduit as a watcher
+			await watcher.addWatcher(conduit);
+		}
+
+		return watcher;
+	});
+
+	/**
 	 * Add a viewer based on the conduit
 	 *
 	 * @author   Jelle De Loecker   <jelle@elevenways.be>
@@ -69,12 +103,13 @@ if (Blast.isNode) {
 	 *
 	 * @param    {Alchemy.Conduit}   conduit
 	 */
-	DocumentWatcher.setTypedMethod([Types.Alchemy.Conduit], function addWatcher(conduit) {
+	DocumentWatcher.setTypedMethod([Types.Alchemy.Conduit], async function addWatcher(conduit) {
 
 		let user_id = '' + conduit.getUserId(),
 		    scene_id = conduit.scene_id;
 
-		this.addWatcher(user_id, scene_id);
+		// IMPORTANT: await the async addWatcher method!
+		await this.addWatcher(user_id, scene_id);
 
 		// Watchers should also be registered as a client
 		this.registerClient(conduit);
