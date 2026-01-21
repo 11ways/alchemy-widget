@@ -1,4 +1,4 @@
-## 0.3.0-alpha.3 (WIP)
+## 0.3.0 (2026-01-21)
 
 * Add widget picker
 * Add `recreate()` method to `EditorToolbarManager` and `DocumentWatcher` for automatic recovery after server restart
